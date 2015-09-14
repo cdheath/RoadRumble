@@ -78,7 +78,7 @@ public class GameMechanics : MonoBehaviour {
 		}
 		//turn the sun off
 		GameObject sun = GameObject.Find("Sunlight");
-		sun.SetActive(false);
+	//	sun.SetActive(false);
 	}
 	
 	// Update is called once per frame
