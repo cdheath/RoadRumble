@@ -24,7 +24,7 @@ public class GyroCapture : MonoBehaviour {
 		
 		float sum = UpdateBuffer (gyro);
 		
-		Debug.Log (gyro);
+		//Debug.Log (gyro);
 		if (sum > (bufferSize * 1.0f) ) 
 		{
 			Debug.Log ("Gyroevent Triggered");
