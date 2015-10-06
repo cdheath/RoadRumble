@@ -15,6 +15,7 @@ public class Menus : MonoBehaviour {
 	Rect page;
 	public GUISkin skin;
 	GameObject toChange;
+	GUIStyle buttonStyle = new GUIStyle ();
 
 	enum menu {gameModes,twoPlayer,main,options,highScores, title, levels, credits, victory, instructions};
 	menu currentMenu = menu.title;
@@ -34,7 +35,7 @@ public class Menus : MonoBehaviour {
 		page.y = 0;
 
 		carPos = 0;
-		PlayerPrefs.SetInt("night",1);
+
 	}
 	
 	// Update is called once per frame
