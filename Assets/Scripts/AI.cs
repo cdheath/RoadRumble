@@ -14,16 +14,21 @@ public class AI : MonoBehaviour {
 	bool turning = false;
 	string currentRoadDir;
 	turnOption turnDir;
-	//Vector3 startPos;
-	//Quaternion startRot;
+	Vector3 startPos;
+	Quaternion startRot;
+	Vector3 prevPos;
+	int counter;
+	public GameObject explosionAnimation;
+
+	bool checkAICarMoving = true;
 
 	public GameObject passRay;
 	public GameObject driverRay;
 
 	// Use this for initialization
 	void Start () {
-		//startPos = this.transform.position;
-		//startRot = this.transform.rotation;
+		startPos = this.transform.position;
+		startRot = this.transform.rotation;
 		moveSpeed = Random.Range(.1f, maxSpeedRange);
 		Vector3 down = new Vector3(0,-90,0);
 		RaycastHit leftHit;
@@ -38,6 +43,11 @@ public class AI : MonoBehaviour {
 	void Update () {
 	
 		Vector3 front;
+
+		if (checkAICarMoving) {
+			DestroyIfNotMoving();
+				}
+
 		switch (currentRoadDir)
 		{  
 			case "EB-Road":
@@ -190,6 +200,7 @@ public class AI : MonoBehaviour {
 		}
 		catch(System.Exception ex)
 		{
+			Respawn();
 			Debug.Log(string.Format("Exception Occurred: {0}", ex.Message));
 		}
 	}
@@ -371,5 +382,58 @@ public class AI : MonoBehaviour {
 	public void StopAIVehicle()
 	{
 		moveSpeed = 0;
+	}
+
+	public void DestroyIfNotMoving()
+	{
+		if (this.transform.position == prevPos) {
+			counter++;
+			if(counter > 25)
+			{
+				counter = 0;
+				Respawn();
+			}
+			else
+			{
+				counter++;
+			}
+				}
+
+		prevPos = this.transform.position;
+//		return null;
+	}
+
+	public void SetAIMovingCheckTrue()
+	{
+		checkAICarMoving = true;
+	}
+
+	public void SetAIMovingCheckFalse()
+	{
+		checkAICarMoving = false;
+	}
+
+	void Respawn()
+	{
+		Debug.Log ("Respawning AI Car");
+		StartCoroutine(Explosion());
+		this.transform.position = startPos;
+		this.transform.rotation = startRot;
+		moveSpeed = Random.Range(.1f, maxSpeedRange);
+		Vector3 down = new Vector3(0,-90,0);
+		RaycastHit leftHit;
+		Vector3 leftWheelRaySource = driverRay.transform.position;
+		Physics.Raycast(leftWheelRaySource ,down,out leftHit);
+		
+		currentRoadDir = leftHit.collider.gameObject.name;
+		turnDir = turnOption.Straight;
+
+	}
+
+	IEnumerator Explosion()
+	{
+		var explosionObject = Instantiate(explosionAnimation, this.transform.position, this.transform.rotation);
+		yield return new WaitForSeconds(1.0f);
+		Destroy(explosionObject); 
 	}
 }
