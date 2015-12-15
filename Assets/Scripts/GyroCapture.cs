@@ -10,11 +10,19 @@ public class GyroCapture : MonoBehaviour {
 	public bool test;
 	public string testLevelChoice;
 	private float speed = 0.5f;
+	private string levelName;
+	private GameObject frozenLake;
 
 	// Use this for initialization
 	void Start () {
 		bufferPtr = 0;
 		LoadBuffer ();
+
+		levelName = GetLevelName ();
+		if (levelName.Equals ("HORRORLAKE")) {
+			frozenLake = GameObject.FindGameObjectWithTag ("FrozenLake");
+			frozenLake.SetActive(false);
+		}
 	}
 	
 	// Update is called once per frame
@@ -76,19 +84,13 @@ public class GyroCapture : MonoBehaviour {
 	
 	void GyroEvent()
 	{
-		string levelChoice;
-		if (test) { levelChoice = testLevelChoice.ToUpper();}
-		else
-		{
-		Debug.Log (string.Format("Triggered event for level: {0}", PlayerPrefs.GetString("LevelChoice")));
-			levelChoice = PlayerPrefs.GetString("LevelChoice").ToUpper();
-		}
-
-		switch (levelChoice) 
+		switch (levelName) 
 		{
 		case "REGULARSVILLE": StopAllNonPlayerCars();
 			break;
 		case "TEMPE": CreateHaboob();
+			break;
+		case "HORRORLAKE": FreezeLake();
 			break;
 		}
 	}
@@ -127,5 +129,23 @@ public class GyroCapture : MonoBehaviour {
 			yield return new WaitForSeconds (speed);
 		}
 
+	}
+
+	void FreezeLake()
+	{
+		var lake = GameObject.FindGameObjectWithTag ("Lake");
+
+		if (lake != null && lake.activeSelf == true) {
+				lake.SetActive (false);
+				}
+			frozenLake.SetActive(true);
+	}
+
+	string GetLevelName()
+	{		
+		if (test) { return testLevelChoice.ToUpper();}
+
+		Debug.Log (string.Format("Triggered event for level: {0}", PlayerPrefs.GetString("LevelChoice")));
+		return PlayerPrefs.GetString("LevelChoice").ToUpper();
 	}
 }
