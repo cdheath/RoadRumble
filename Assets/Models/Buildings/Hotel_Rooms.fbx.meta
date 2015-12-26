@@ -20,6 +20,9 @@ ModelImporter:
     4300000: Roof
     4300002: Interior
     4300004: Main_Building
+    6400000: Interior
+    6400002: Main_Building
+    6400004: Roof
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -42,10 +45,10 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: .00999999978
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
-    swapUVChannels: 0
-    generateSecondaryUV: 0
+    swapUVChannels: 1
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     weldVertices: 1
