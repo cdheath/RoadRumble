@@ -12,6 +12,7 @@ public class GyroCapture : MonoBehaviour {
 	private float speed = 0.5f;
 	private string levelName;
 	private GameObject frozenLake;
+	private GameObject implosionCloud;
 
 	// Use this for initialization
 	void Start () {
@@ -92,6 +93,8 @@ public class GyroCapture : MonoBehaviour {
 			break;
 		case "HORRORLAKE": FreezeLake();
 			break;
+		case "LOSPRADOS": ImplodeRandomCasino();
+			break;
 		}
 	}
 
@@ -147,5 +150,27 @@ public class GyroCapture : MonoBehaviour {
 
 		Debug.Log (string.Format("Triggered event for level: {0}", PlayerPrefs.GetString("LevelChoice")));
 		return PlayerPrefs.GetString("LevelChoice").ToUpper();
+	}
+
+	void ImplodeRandomCasino()
+	{
+		GBImplosion ();
+	}
+
+	void GBImplosion()
+	{
+		implosionCloud = GameObject.Find ("GB Cloud");
+		implosionCloud.particleSystem.Play ();
+		Debug.Log("Implode Casino.");
+
+		StartCoroutine (DelayCasinoDestroy("Gold Bar Casino", 5.0f));
+
+	}
+
+	IEnumerator DelayCasinoDestroy(string casinoName, float seconds)
+	{
+		yield return new WaitForSeconds (seconds);
+		var gbCasino = GameObject.Find (casinoName);
+		Destroy (gbCasino);
 	}
 }
