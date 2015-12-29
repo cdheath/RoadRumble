@@ -161,6 +161,7 @@ public class GyroCapture : MonoBehaviour {
 	{
 		implosionCloud = GameObject.Find ("GB Cloud");
 		implosionCloud.particleSystem.Play ();
+		PlayAllByTag ("gbExplosion");
 		Debug.Log("Implode Casino.");
 
 		StartCoroutine (DelayCasinoDestroy("Gold Bar Casino", 5.0f));
@@ -171,6 +172,15 @@ public class GyroCapture : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (seconds);
 		var gbCasino = GameObject.Find (casinoName);
+		implosionCloud.audio.Play();
 		Destroy (gbCasino);
+	}
+
+	void PlayAllByTag(string tag)
+	{
+		var particleSysObjects = GameObject.FindGameObjectsWithTag (tag);
+		foreach (var obj in particleSysObjects) {
+			obj.particleSystem.Play ();
+				}
 	}
 }
