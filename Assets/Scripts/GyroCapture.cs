@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class GyroCapture : MonoBehaviour {
 	private WiiUGamePad gamePad;
@@ -12,7 +13,13 @@ public class GyroCapture : MonoBehaviour {
 	private float speed = 0.5f;
 	private string levelName;
 	private GameObject frozenLake;
+
+	#region LosPradosVariables
 	private GameObject implosionCloud;
+	ArrayList casinoNames = new ArrayList(new[] {"Gold Bar Casino", "Pilgrim Club", "Ras Roost","Mr Snrubs","Los Prados Club"});
+	bool allowCasinoDestroy = true;
+	GameObject[] debrisPlanes;
+	#endregion
 
 	// Use this for initialization
 	void Start () {
@@ -21,8 +28,16 @@ public class GyroCapture : MonoBehaviour {
 
 		levelName = GetLevelName ();
 		if (levelName.Equals ("HORRORLAKE")) {
-			frozenLake = GameObject.FindGameObjectWithTag ("FrozenLake");
-			frozenLake.SetActive(false);
+						frozenLake = GameObject.FindGameObjectWithTag ("FrozenLake");
+						frozenLake.SetActive (false);
+				}
+
+		if(levelName.Equals("LOSPRADOS")){
+			debrisPlanes = GameObject.FindGameObjectsWithTag("debris");
+			foreach(GameObject obj in debrisPlanes)
+			{
+				obj.SetActive(false);
+			}
 		}
 	}
 	
@@ -154,26 +169,66 @@ public class GyroCapture : MonoBehaviour {
 
 	void ImplodeRandomCasino()
 	{
-		GBImplosion ();
+		if (allowCasinoDestroy) 
+		{
+				string selectedCasino = SelectCasinoToDestroy ();
+				switch (selectedCasino) {
+				case "Gold Bar Casino":
+						CasinoImplosion ("GB", "Gold Bar Casino", "gbExplosion", 5.0f);
+						break;
+				case "Pilgrim Club":
+						CasinoImplosion ("PC", "Pilgrim Club", "pcExplosion", 5.0f);
+						break;
+				case "Ras Roost":
+						CasinoImplosion ("RR", "Ra\'s Roost Hotel & Casino", "rrExplosion", 5.0f);
+						break;
+				case "Mr Snrubs":
+						CasinoImplosion ("MS", "Mr Snrub\'s Casino", "msExplosion", 5.0f);
+						break;
+				case "Los Prados Club":
+						CasinoImplosion ("LP", "Los Prados Club", "lpExplosion", 5.0f);
+						break;
+				}
+
+				allowCasinoDestroy = false;
+				StartCoroutine(DelayNextCasinoDestroy (3.0f));
+		}
 	}
 
-	void GBImplosion()
+	string SelectCasinoToDestroy()
 	{
-		implosionCloud = GameObject.Find ("GB Cloud");
-		implosionCloud.particleSystem.Play ();
-		PlayAllByTag ("gbExplosion");
-		Debug.Log("Implode Casino.");
-
-		StartCoroutine (DelayCasinoDestroy("Gold Bar Casino", 5.0f));
-
+		var selectedCasinoName = "none";
+		if (casinoNames.Count > 0) 
+		{
+			var selectedPos = Random.Range(0, casinoNames.Count-1);
+			selectedCasinoName = casinoNames[selectedPos].ToString();
+			casinoNames.RemoveAt(selectedPos);
+		}
+		return selectedCasinoName;
 	}
 
-	IEnumerator DelayCasinoDestroy(string casinoName, float seconds)
+	void CasinoImplosion(string prefix, string casinoName, string explosionTag, float explosionDelay)
+	{
+		implosionCloud = GameObject.Find (prefix +" Cloud");
+		implosionCloud.particleSystem.Play ();
+		PlayAllByTag (explosionTag);
+
+		StartCoroutine (DelayCasinoDestroy(prefix, casinoName, explosionDelay));
+	}
+
+	IEnumerator DelayCasinoDestroy(string prefix, string casinoName, float seconds)
 	{
 		yield return new WaitForSeconds (seconds);
 		var gbCasino = GameObject.Find (casinoName);
 		implosionCloud.audio.Play();
 		Destroy (gbCasino);
+		debrisPlanes.Where(t => t.name.Equals(prefix +" Debris")).Single().SetActive(true);
+	}
+
+	IEnumerator DelayNextCasinoDestroy(float seconds)
+	{
+		yield return new WaitForSeconds (seconds);
+		allowCasinoDestroy = true;
 	}
 
 	void PlayAllByTag(string tag)
