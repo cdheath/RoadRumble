@@ -23,6 +23,7 @@ public class Menus : MonoBehaviour {
 	string gameMode = "Timed";
 	int numPlayers = 1;
 	string levelChoice ="1";
+	bool nightOn = false;
 
 	private bool pressedButtonB = false;
 	//private Vector2 touchPosition = new Vector2(-1f,-1f);	// x,y coords on gamePad for touch
@@ -46,7 +47,7 @@ public class Menus : MonoBehaviour {
 	//constantly being called
 	void OnGUI()
 	{ 
-		GUI.DrawTexture (page, screenToShow);
+		//GUI.DrawTexture (page, screenToShow);
 
 		WiiUGamePad gamePad = WiiUInput.GetGamePad ();
 
@@ -187,23 +188,29 @@ public class Menus : MonoBehaviour {
 	void toggleLevels()
 	{
 		currentMenu = menu.levels;
-		int x = -100;
-		int y = 50;
+		int x = -150;
+		int y = 75;
+		skin.label.fontSize = 18;
+		nightOn = GUI.Toggle(new Rect(page.width-100,20, 50, 50),nightOn, "Night", skin.GetStyle("Toggle"));
+
 		foreach(Texture level in levels)
 		{
-			x+=150;
-			if(x > (Screen.width - 50))
+			x+=200;
+			if(x > (Screen.width - 150))
 			{
 				x = 50;
-				y += 200;
+				y += 175;
 			}
 			//GUI.DrawTexture (new Rect (x, y, 100, 100), level);
-			if (GUI.Button(new Rect(x,y, 100, 100), level)) 
+			if (GUI.Button(new Rect(x,y, 175, 175), level)) 
 			{
 				levelChoice = level.name;
 				loadGame();
 			}
+			GUI.Label(new Rect(x,y+125, 175, 125), level.name, skin.GetStyle("Label"));
 		}
+		skin.label.fontSize = 20;
+
 	}
 
 	void toggleCredits()
@@ -260,6 +267,7 @@ public class Menus : MonoBehaviour {
 		//input scene load here
 		PlayerPrefs.SetString ("Mode", gameMode);
 		PlayerPrefs.SetInt ("Players", numPlayers);
+		PlayerPrefs.SetString("Night", nightOn.ToString());
 		Application.LoadLevel(levelChoice);
 	}
 

@@ -56,13 +56,13 @@ public class GameMechanics : MonoBehaviour {
 
 
 		GameObject[] lights = GameObject.FindGameObjectsWithTag("LightSource");
-		//The night int functions as a bool, 0 = false, 1 = true
-		int night = PlayerPrefs.GetInt("Night");
+
+		bool night = PlayerPrefs.GetString("Night") == "True";
 		int on_off;
 		foreach(GameObject light in lights)
 		{
 			//if night is true, only disable some lights
-			if(night == 1)
+			if(night)
 			{
 				on_off = Random.Range(0,100);
 
@@ -77,8 +77,11 @@ public class GameMechanics : MonoBehaviour {
 			}
 		}
 		//turn the sun off
-		GameObject sun = GameObject.Find("Sunlight");
-	//	sun.SetActive(false);
+		if(night)
+		{
+			GameObject sun = GameObject.Find("Directional light");
+		  	sun.SetActive(false);
+		}
 	}
 	
 	// Update is called once per frame

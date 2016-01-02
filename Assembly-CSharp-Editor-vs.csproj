@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{FD0FD544-99C8-EA7E-ADAE-261E44BDD92D}</ProjectGuid>
+	<ProjectGuid>{D2102D45-A26A-8D90-1D8C-01935718EE54}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>D:/Unity WiiU/Editor/Data/PlaybackEngines/WiiUPlayer/Tools/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity WiiU/Editor/Data/PlaybackEngines/WiiUPlayer/Tools/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>D:/Unity WiiU/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity WiiU/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -64,17 +64,17 @@
      <Compile Include="Assets\Draw Call Minimizer\Scripts\OLD\Editor\TextureExporter.cs" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
  <Reference Include="UnityEditor.Graphs">
- <HintPath>D:\Unity WiiU\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+ <HintPath>C:\Program Files (x86)\Unity WiiU\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.WiiU.Extensions">
- <HintPath>D:\Unity WiiU\Editor\Data\PlaybackEngines\WiiUPlayer\EditorExtensions\UnityEditor.WiiU.Extensions.dll</HintPath>
+ <HintPath>C:\Program Files (x86)\Unity WiiU\Editor\Data\PlaybackEngines\WiiUPlayer\EditorExtensions\UnityEditor.WiiU.Extensions.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{5DD67616-C584-4076-084C-9053A576FB52}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
+      <Project>{BEEC1F0E-8E4D-4D61-2463-8260697F8DDE}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp-vs.csproj">
-      <Project>{E4827015-5812-9B0F-8F70-FABDDD8F64BD}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
+      <Project>{B7EFE40E-DBF9-8196-459F-DAF4A59BFCB2}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
