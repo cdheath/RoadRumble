@@ -15,7 +15,7 @@ public class Menus : MonoBehaviour {
 	Rect page;
 	public GUISkin skin;
 	GameObject toChange;
-	GUIStyle buttonStyle = new GUIStyle ();
+	//GUIStyle buttonStyle = new GUIStyle ();
 
 	enum menu {gameModes,twoPlayer,main,options,highScores, title, levels, credits, victory, instructions};
 	menu currentMenu = menu.title;
@@ -190,8 +190,10 @@ public class Menus : MonoBehaviour {
 		currentMenu = menu.levels;
 		int x = -150;
 		int y = 75;
+		nightOn = GUI.Toggle(new Rect(page.width-100,20, 40, 50),nightOn, "Night", skin.GetStyle("Toggle"));
+		GUI.Label(new Rect(page.width-170,30, 75, 75), "Time:", skin.GetStyle("Label"));
+
 		skin.label.fontSize = 18;
-		nightOn = GUI.Toggle(new Rect(page.width-100,20, 50, 50),nightOn, "Night", skin.GetStyle("Toggle"));
 
 		foreach(Texture level in levels)
 		{
