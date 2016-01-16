@@ -14,6 +14,12 @@ public class GyroCapture : MonoBehaviour {
 	private string levelName;
 	private GameObject frozenLake;
 
+	public GUISkin skin;
+	private string tickerMessage = "";
+	bool eventHappening=false;
+	int tickPosition;
+	public AudioClip newsSound;
+
 	#region LosPradosVariables
 	private GameObject implosionCloud;
 	ArrayList casinoNames = new ArrayList(new[] {"Gold Bar Casino", "Pilgrim Club", "Ras Roost","Mr Snrubs","Los Prados Club"});
@@ -62,6 +68,15 @@ public class GyroCapture : MonoBehaviour {
 			GyroEvent();
 		}
 	}
+
+	void OnGUI()
+	{
+		if(eventHappening)
+		{
+			tickPosition -= 1;
+			newsTicker(tickPosition);
+		}
+	}
 	
 	float UpdateBuffer(float gyroMag)
 	{
@@ -100,15 +115,23 @@ public class GyroCapture : MonoBehaviour {
 	
 	void GyroEvent()
 	{
+		eventHappening = true;
+		tickPosition = Screen.width;
+		AudioSource.PlayClipAtPoint(newsSound, Camera.main.transform.position);
+
 		switch (levelName) 
 		{
 		case "REGULARSVILLE": StopAllNonPlayerCars();
+			tickerMessage = "Regularsville residents declare sun racist as solar flare stalls all white cars!";
 			break;
 		case "TEMPE": CreateHaboob();
+			tickerMessage = "Massive haboob strikes Hayden's Ferry!";
 			break;
 		case "HORRORLAKE": FreezeLake();
+			tickerMessage = "Lake freezes over amidst severe cold snap!";
 			break;
 		case "LOSPRADOS": ImplodeRandomCasino();
+			tickerMessage = "Los Prados casino torn down to make way for a store that sells designer mousepads! Residents create line for grand opening.";
 			break;
 		}
 	}
@@ -237,5 +260,11 @@ public class GyroCapture : MonoBehaviour {
 		foreach (var obj in particleSysObjects) {
 			obj.particleSystem.Play ();
 				}
+	}
+
+	void newsTicker(int position)
+	{
+		//TODO: Determine a universal width to use.
+		GUI.Box(new Rect(position, Screen.height-50, Screen.width + 200, 35), tickerMessage, skin.box);
 	}
 }
