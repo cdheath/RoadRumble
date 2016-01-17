@@ -27,6 +27,11 @@ public class GyroCapture : MonoBehaviour {
 	GameObject[] debrisPlanes;
 	#endregion
 
+	#region CragsburyVariables
+	ArrayList brokenBridgeIndex;
+	GameObject[] brokenBridges;
+	#endregion
+
 	// Use this for initialization
 	void Start () {
 		bufferPtr = 0;
@@ -41,6 +46,19 @@ public class GyroCapture : MonoBehaviour {
 		if(levelName.Equals("LOSPRADOS")){
 			debrisPlanes = GameObject.FindGameObjectsWithTag("debris");
 			foreach(GameObject obj in debrisPlanes)
+			{
+				obj.SetActive(false);
+			}
+		}
+
+		if(levelName.Equals("CRAGSBURY")){
+			brokenBridgeIndex = new ArrayList(new[] {0,1,2});
+			brokenBridges = new GameObject[3];
+			brokenBridges[0] = GameObject.FindGameObjectWithTag("brokenBridge0");
+			brokenBridges[1] = GameObject.FindGameObjectWithTag("brokenBridge1");
+			brokenBridges[2] = GameObject.FindGameObjectWithTag("brokenBridge2");
+
+			foreach(var obj in brokenBridges)
 			{
 				obj.SetActive(false);
 			}
@@ -117,7 +135,7 @@ public class GyroCapture : MonoBehaviour {
 	{
 		eventHappening = true;
 		tickPosition = Screen.width;
-		AudioSource.PlayClipAtPoint(newsSound, Camera.main.transform.position);
+//		AudioSource.PlayClipAtPoint(newsSound, Camera.main.transform.position);
 
 		switch (levelName) 
 		{
@@ -132,6 +150,9 @@ public class GyroCapture : MonoBehaviour {
 			break;
 		case "LOSPRADOS": ImplodeRandomCasino();
 			tickerMessage = "Los Prados casino torn down to make way for a store that sells designer mousepads! Residents create line for grand opening.";
+			break;
+		case "CRAGSBURY" : CollapseRandomBridge();
+			tickerMessage = "Bridge designed by local elementary school collapses into the canyon.";
 			break;
 		}
 	}
@@ -266,5 +287,24 @@ public class GyroCapture : MonoBehaviour {
 	{
 		//TODO: Determine a universal width to use.
 		GUI.Box(new Rect(position, Screen.height-50, Screen.width + 200, 35), tickerMessage, skin.box);
+	}
+
+	void CollapseRandomBridge()
+	{
+		int indexPos = -1;
+
+		if (brokenBridgeIndex.Count > 0) 
+		{
+			int selectedPos = Random.Range(0, brokenBridgeIndex.Count-1);
+			indexPos = int.Parse(brokenBridgeIndex[selectedPos].ToString());
+			brokenBridgeIndex.RemoveAt(selectedPos);
+		}
+
+		if (indexPos != -1) {
+			var bridgeTag = string.Format("bridge{0}", indexPos);
+			GameObject bridge = GameObject.FindGameObjectWithTag(bridgeTag);
+			bridge.SetActive(false);
+			brokenBridges[indexPos].SetActive(true);
+				}
 	}
 }
