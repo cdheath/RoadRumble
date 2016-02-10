@@ -16,6 +16,7 @@ public class GyroCapture : MonoBehaviour {
 
 	public GUISkin skin;
 	private string tickerMessage = "";
+	private int tickerWidth;
 	bool eventHappening=false;
 	int tickPosition;
 	public AudioClip newsSound;
@@ -30,6 +31,14 @@ public class GyroCapture : MonoBehaviour {
 	#region CragsburyVariables
 	ArrayList brokenBridgeIndex;
 	GameObject[] brokenBridges;
+	#endregion
+
+	#region FloretVariables
+	GameObject flowers;
+	#endregion
+	
+	#region FigwoodVariables
+	GameObject crazyAI;
 	#endregion
 
 	// Use this for initialization
@@ -63,6 +72,16 @@ public class GyroCapture : MonoBehaviour {
 				obj.SetActive(false);
 			}
 		}
+		
+		if(levelName.Equals("FLORETVILLAGE")){
+			flowers = GameObject.Find("Festival_Plants");
+			flowers.SetActive(false);
+		}
+		
+		if(levelName.Equals("FIGWOODSTUDIOS")){
+			crazyAI = GameObject.Find("Crazy AI Car");
+			crazyAI.SetActive(false);
+		}
 	}
 	
 	// Update is called once per frame
@@ -91,7 +110,10 @@ public class GyroCapture : MonoBehaviour {
 	{
 		if(eventHappening)
 		{
-			tickPosition -= 1;
+			//if(tickPosition%2 == 0)
+			//{
+				tickPosition -= 1;
+			//}
 			newsTicker(tickPosition);
 		}
 	}
@@ -154,7 +176,15 @@ public class GyroCapture : MonoBehaviour {
 		case "CRAGSBURY" : CollapseRandomBridge();
 			tickerMessage = "Bridge designed by local elementary school collapses into the canyon.";
 			break;
+		case "FLORETVILLAGE" : flowers.SetActive(true);
+			tickerMessage = "Village blocked to new traffic as Flower Festival begins.";
+			break;
+		case "FIGWOODSTUDIOS" : crazyAI.SetActive(true);
+			tickerMessage = "Crazed celeb begins vehicular rampage after craft services runs out of danishes. Stay tuned to find out who!";
+			break;
 		}
+		//Each character is ~11 pixels, so multiply length by 11 to get necessary ticker size
+		tickerWidth = tickerMessage.Length * 11;
 	}
 
 	void StopAllNonPlayerCars()
@@ -286,7 +316,7 @@ public class GyroCapture : MonoBehaviour {
 	void newsTicker(int position)
 	{
 		//TODO: Determine a universal width to use.
-		GUI.Box(new Rect(position, Screen.height-50, Screen.width + 200, 35), tickerMessage, skin.box);
+		GUI.Box(new Rect(position, Screen.height-50, tickerWidth, 35), tickerMessage, skin.box);
 	}
 
 	void CollapseRandomBridge()
