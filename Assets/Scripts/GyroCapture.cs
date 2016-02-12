@@ -182,6 +182,9 @@ public class GyroCapture : MonoBehaviour {
 		case "FIGWOODSTUDIOS" : crazyAI.SetActive(true);
 			tickerMessage = "Crazed celeb begins vehicular rampage after craft services runs out of danishes. Stay tuned to find out who!";
 			break;
+		case "MARIUSMESA": SwitchScoreZones();
+			tickerMessage = "Something Something Dark Side Something Something The Force.";
+			break;
 		}
 		//Each character is ~11 pixels, so multiply length by 11 to get necessary ticker size
 		tickerWidth = tickerMessage.Length * 11;
@@ -336,5 +339,19 @@ public class GyroCapture : MonoBehaviour {
 			bridge.SetActive(false);
 			brokenBridges[indexPos].SetActive(true);
 				}
+	}
+
+	void SwitchScoreZones()
+	{
+		var scoreZones = GameObject.FindGameObjectsWithTag ("ScoreZone");
+		foreach (var zone in scoreZones) 
+		{
+			try
+			{
+				zone.GetComponent<ScoreZone>().SetNegativeZonesTrue();
+			}
+			catch(System.Exception e)
+			{}
+		}
 	}
 }

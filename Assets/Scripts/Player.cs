@@ -180,7 +180,6 @@ public abstract class Player : MonoBehaviour {
 		return score;
 	}
 
-
 	//abstract methods to implement controls for individual players
 
 	//method to process the car's control inputs
