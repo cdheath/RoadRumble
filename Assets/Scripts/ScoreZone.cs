@@ -31,7 +31,7 @@ public class ScoreZone : MonoBehaviour {
 				yield return new WaitForSeconds(1);
 				//add to score
 				//trigger reset
-				if(negativeZoneMat)
+				if(SetNegativeZones)
 				{
 					collider.gameObject.SendMessage("addPoints", -100);
 				}
