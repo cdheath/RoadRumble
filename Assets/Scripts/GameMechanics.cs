@@ -6,6 +6,7 @@ public class GameMechanics : MonoBehaviour {
 	GameObject[] goalZones;
 	int activeZoneIndex;
 	public float gameTimeLimit = -1;
+	public string levelName;
 	float gameTimeLeft;
 	public float autoTimeout = -1;
 	float timeToTimeout = -1;
@@ -13,7 +14,7 @@ public class GameMechanics : MonoBehaviour {
 	GameObject gamePadDisplay;
 
 	int scoreLimit = 1200;
-
+	int players;
 	int player1Score = 0;
 	int player2Score = 0;
 	private bool pressedButton = false;
@@ -49,7 +50,7 @@ public class GameMechanics : MonoBehaviour {
 			gameTimeLeft = gameTimeLimit;
 		}
 
-		int players = PlayerPrefs.GetInt ("Players");
+		players = PlayerPrefs.GetInt ("Players");
 		if(players == 1)
 		{
 			Debug.Log("looking for p2");
@@ -161,9 +162,18 @@ public class GameMechanics : MonoBehaviour {
 
 	void victoryScreen()
 	{
-		tvDisplay.SendMessage ("triggerVictory");
-		gamePadDisplay.SendMessage ("triggerVictory");
+		if (players == 1) 
+		{
+			tvDisplay.SendMessage ("triggerSinglePlayerVictory", UpdateHighScores(player1Score, levelName));
+			gamePadDisplay.SendMessage ("triggerVictory");
 
+		} 
+		else 
+		{
+			tvDisplay.SendMessage ("triggerMultiPlayerVictory");
+			gamePadDisplay.SendMessage ("triggerVictory");
+
+		}
 		if(pressedButton)
 		{
 			Application.LoadLevel("MainMenu");
@@ -174,5 +184,38 @@ public class GameMechanics : MonoBehaviour {
 	{
 		WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.GamePad);
 		WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.TV);
+	}
+
+	int[] GetHighScores(string levelName)
+	{
+		int[] highScores = new int[10];
+		for (int index = 0; index < 10; index++) 
+		{
+			int tempScore = PlayerPrefs.GetInt(string.Format("{0}{1}", levelName, index + 1));
+//			if(tempScore == null)
+//			{
+//				tempScore = 0;
+//			}
+			highScores[index] = tempScore;
+		}
+		return highScores;
+	}
+
+	int[] UpdateHighScores(int newScore, string levelName)
+	{
+		int[] highScores = GetHighScores (levelName);
+		int scoreToCheck = newScore;
+		for (int index = 0; index < highScores.Length - 1; index++) 
+		{
+			if(highScores[index] < scoreToCheck)
+			{
+				int temp = highScores[index];
+				highScores[index] = scoreToCheck;
+				PlayerPrefs.SetInt(string.Format("{0}{1}",levelName, index), scoreToCheck);
+				scoreToCheck = temp;
+			}
+		}
+		PlayerPrefs.Save ();
+		return highScores;
 	}
 }
