@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HUD : MonoBehaviour {
+public class TV_HUD : MonoBehaviour {
 
 	public GUISkin skin;
 	public Texture popup_background;
 	float gameTimeLeft = -1;
 	int player1Score = 0;
 	int player2Score = 0;
+
+	int tickerPosition;
+	int tickerWidth;
+	string tickerMsg;
 	bool victory = false;
+	bool tickerRunning = false;
+
 
 	// Use this for initialization
 	void Start () 
@@ -49,9 +55,12 @@ public class HUD : MonoBehaviour {
 			
 			GUI.Label(new Rect(0,150, Screen.width/2, 50),"Player 1");
 			GUI.Label(new Rect(0,200, Screen.width/2, 50),player1Score.ToString(), GUI.skin.GetStyle("number"));
-			
-			GUI.Label(new Rect(Screen.width/2,150, Screen.width/2, 50),"Player 2");
-			GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),player2Score.ToString(), GUI.skin.GetStyle("number"));
+
+			if(PlayerPrefs.GetInt("Players") == 2)
+			{
+				GUI.Label(new Rect(Screen.width/2,150, Screen.width/2, 50),"Player 2");
+				GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),player2Score.ToString(), GUI.skin.GetStyle("number"));
+			}
 			
 			GUI.Label(new Rect(0,300, Screen.width, 50),"Press A to continue...");
 		}
@@ -66,7 +75,20 @@ public class HUD : MonoBehaviour {
 			GUI.Label (new Rect (Screen.width - 130, 30, 120, 40), "Player 2");
 			
 			GUI.Label (new Rect (40, 60, 100, 40), player1Score.ToString(), GUI.skin.GetStyle("number"));
-			GUI.Label (new Rect (Screen.width - 80, 60, 100, 40), player2Score.ToString(), GUI.skin.GetStyle("number"));
+			if(PlayerPrefs.GetInt("Players") == 2)
+			{
+				GUI.Label (new Rect (Screen.width - 80, 60, 100, 40), player2Score.ToString(), GUI.skin.GetStyle("number"));
+			}
+			
+			if(tickerRunning)
+			{
+				tickerPosition -= 1;
+				newsTicker();
+				if(tickerPosition < (0 - tickerWidth))
+				{
+					tickerRunning = false;
+				}
+			}
 		}
 
 	}
@@ -92,6 +114,25 @@ public class HUD : MonoBehaviour {
 	void triggerVictory()
 	{
 		victory = true;
+	}
+	
+	void runTicker(string[] args)
+	{
+		if(args.Length < 2)
+		{
+			Debug.LogError("Received ticker message with incorrect args, ignoring.");
+			return;
+		}
+		tickerRunning = true;
+		
+		tickerPosition = Screen.width;//int.Parse(args[0]);
+		tickerWidth = int.Parse(args[0]);
+		tickerMsg = args[1];
+	}
+	
+	void newsTicker()
+	{
+		GUI.Box(new Rect(tickerPosition, Screen.height-50, tickerWidth, 35), tickerMsg, skin.box);
 	}
 
 }

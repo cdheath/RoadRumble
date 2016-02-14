@@ -17,9 +17,11 @@ public class GyroCapture : MonoBehaviour {
 	public GUISkin skin;
 	private string tickerMessage = "";
 	private int tickerWidth;
-	bool eventHappening=false;
+	//bool eventHappening=false;
 	int tickPosition;
 	public AudioClip newsSound;
+	GameObject tvDisplay;
+	GameObject gamepadDisplay;
 
 	#region LosPradosVariables
 	private GameObject implosionCloud;
@@ -82,6 +84,10 @@ public class GyroCapture : MonoBehaviour {
 			crazyAI = GameObject.Find("Crazy AI Car");
 			crazyAI.SetActive(false);
 		}
+
+		//Get the HUD objects for the news ticker
+		tvDisplay = GameObject.Find ("TV Camera");
+		gamepadDisplay = GameObject.Find ("Gamepad Camera");
 	}
 	
 	// Update is called once per frame
@@ -106,17 +112,21 @@ public class GyroCapture : MonoBehaviour {
 		}
 	}
 
-	void OnGUI()
+	/*void OnGUI()
 	{
-		if(eventHappening)
-		{
+		//if(eventHappening)
+		//{
 			//if(tickPosition%2 == 0)
 			//{
-				tickPosition -= 1;
+				//tickPosition -= 1;
+			string[] tickArgs = {tickerWidth.ToString(), tickerMessage};
+			
+			tvDisplay.SendMessage("newsTicker", tickArgs);
+			gamepadDisplay.SendMessage("newsTicker", tickArgs);
 			//}
-			newsTicker(tickPosition);
-		}
-	}
+			//newsTicker(tickPosition);
+		//}
+	}*/
 	
 	float UpdateBuffer(float gyroMag)
 	{
@@ -155,8 +165,8 @@ public class GyroCapture : MonoBehaviour {
 	
 	void GyroEvent()
 	{
-		eventHappening = true;
-		tickPosition = Screen.width;
+		//eventHappening = true;
+		//tickPosition = Screen.width;
 //		AudioSource.PlayClipAtPoint(newsSound, Camera.main.transform.position);
 
 		switch (levelName) 
@@ -185,6 +195,12 @@ public class GyroCapture : MonoBehaviour {
 		}
 		//Each character is ~11 pixels, so multiply length by 11 to get necessary ticker size
 		tickerWidth = tickerMessage.Length * 11;
+
+		
+		string[] tickArgs = {tickerWidth.ToString(), tickerMessage};
+		
+		tvDisplay.SendMessage("runTicker", tickArgs);
+		gamepadDisplay.SendMessage("runTicker", tickArgs);
 	}
 
 	void StopAllNonPlayerCars()
@@ -311,12 +327,6 @@ public class GyroCapture : MonoBehaviour {
 		foreach (var obj in particleSysObjects) {
 			obj.particleSystem.Play ();
 				}
-	}
-
-	void newsTicker(int position)
-	{
-		//TODO: Determine a universal width to use.
-		GUI.Box(new Rect(position, Screen.height-50, tickerWidth, 35), tickerMessage, skin.box);
 	}
 
 	void CollapseRandomBridge()

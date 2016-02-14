@@ -79,7 +79,7 @@ public class Player2 : Player {
 		}
 	}
 
-	[GuiTarget(GuiTarget.Target.GamePad)]
+	/*[GuiTarget(GuiTarget.Target.GamePad)]
 	void OnGUI()
 	{
 		if(skin != null)
@@ -88,8 +88,10 @@ public class Player2 : Player {
 		}
 		Matrix4x4 matrixBackup = GUI.matrix;
 		GUIUtility.RotateAroundPivot(-90, new Vector2(Screen.width/2,Screen.height/2));
-		GUI.Label (new Rect (200, 620, 1000, 40),score.ToString(), GUI.skin.GetStyle("number"));
-		//GUI.Label (new Rect (Screen.width - 80, 60, 100, 40), player2Score.ToString());
+		//Note: Parameters below represent the screen while rotated
+		GUI.Label (new Rect ( Screen.width/2 - 225, Screen.width/2 + 200,50, 40),score.ToString(), GUI.skin.GetStyle("number"));
+
+		//GUI.Label (new Rect (Screen.width - 80, 60, 100, 40), score.ToString());
 		GUI.matrix = matrixBackup;
-	}
+	}*/
 }

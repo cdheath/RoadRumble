@@ -10,6 +10,8 @@ public class GameMechanics : MonoBehaviour {
 	public float autoTimeout = -1;
 	float timeToTimeout = -1;
 	GameObject tvDisplay;
+	GameObject gamePadDisplay;
+
 	int scoreLimit = 1200;
 
 	int player1Score = 0;
@@ -25,6 +27,7 @@ public class GameMechanics : MonoBehaviour {
 		pressedButton = Input.anyKeyDown;
 
 		tvDisplay = GameObject.Find ("TV Camera");
+		gamePadDisplay = GameObject.Find ("Gamepad Camera");
 
 		goalZones = GameObject.FindGameObjectsWithTag ("ScoreZone");
 		Debug.Log (goalZones.Length);
@@ -104,6 +107,8 @@ public class GameMechanics : MonoBehaviour {
 			}
 
 			tvDisplay.SendMessage("updateGameTime", gameTimeLeft);
+			gamePadDisplay.SendMessage("updateGameTime", gameTimeLeft);
+
 			Debug.Log(gameTimeLeft);
 		}
 		else
@@ -150,11 +155,15 @@ public class GameMechanics : MonoBehaviour {
 		}
 
 		tvDisplay.SendMessage ("updateScore", receivedVal);
+		gamePadDisplay.SendMessage ("updateScore", receivedVal);
+
 	}
 
 	void victoryScreen()
 	{
 		tvDisplay.SendMessage ("triggerVictory");
+		gamePadDisplay.SendMessage ("triggerVictory");
+
 		if(pressedButton)
 		{
 			Application.LoadLevel("MainMenu");

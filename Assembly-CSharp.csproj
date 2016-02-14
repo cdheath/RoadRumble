@@ -64,14 +64,15 @@
      <Compile Include="Assets\Draw Call Minimizer\Scripts\OLD\Runtime\TextureCombineUtility.cs" />
      <Compile Include="Assets\Scripts\AI.cs" />
      <Compile Include="Assets\Scripts\GameMechanics.cs" />
+     <Compile Include="Assets\Scripts\Gamepad_HUD.cs" />
      <Compile Include="Assets\Scripts\GyroCapture.cs" />
-     <Compile Include="Assets\Scripts\HUD.cs" />
      <Compile Include="Assets\Scripts\Menus.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Player1.cs" />
      <Compile Include="Assets\Scripts\Player2.cs" />
      <Compile Include="Assets\Scripts\ScoreZone.cs" />
      <Compile Include="Assets\Scripts\ScoreZoneParticleEmitter.cs" />
+     <Compile Include="Assets\Scripts\TV_HUD.cs" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
   </ItemGroup>
   <ItemGroup>
