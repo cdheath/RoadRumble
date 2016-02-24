@@ -18,6 +18,7 @@ public class AI : MonoBehaviour {
 	Quaternion startRot;
 	Vector3 prevPos;
 	int counter;
+	bool allowStopMoving;
 	public GameObject explosionAnimation;
 
 	bool checkAICarMoving = true;
@@ -381,12 +382,14 @@ public class AI : MonoBehaviour {
 
 	public void StopAIVehicle()
 	{
+		checkAICarMoving = false;
 		moveSpeed = 0;
 	}
 
 	public void DestroyIfNotMoving()
 	{
-		if (this.transform.position == prevPos) {
+		if (this.transform.position == prevPos) 
+		{
 			counter++;
 			if(counter > 25)
 			{
@@ -397,9 +400,10 @@ public class AI : MonoBehaviour {
 			{
 				counter++;
 			}
-				}
+		}
 
 		prevPos = this.transform.position;
+		checkAICarMoving = true;
 //		return null;
 	}
 

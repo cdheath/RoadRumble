@@ -1,18 +1,17 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\HUD.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GyroCapture.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameMechanics.cs" Line="152" Column="3" />
+      <File FileName="Assets\Scripts\Player.cs" Line="113" Column="6" />
+      <File FileName="Assets\Scripts\GameMechanics.cs" Line="200" Column="4" />
       <File FileName="Assets\Scripts\ScoreZone.cs" Line="34" Column="25" />
-      <File FileName="Assets\Scripts\HUD.cs" Line="41" Column="5" />
+      <File FileName="Assets\Scripts\GyroCapture.cs" Line="105" Column="3" />
+      <File FileName="Assets\Scripts\AI.cs" Line="385" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="D:\Corey\Documents\RoadRumble_latest\Assets\Scripts\GyroCapture.cs" line="307" />
-      <Breakpoint file="D:\Corey\Documents\RoadRumble_latest\Assets\Scripts\GameMechanics.cs" line="112" />
-      <Breakpoint file="D:\Corey\Documents\RoadRumble_latest\Assets\Scripts\GameMechanics.cs" line="158" />
-      <Breakpoint file="D:\Corey\Documents\RoadRumble_latest\Assets\Scripts\GameMechanics.cs" line="195" />
+      <Breakpoint file="D:\Corey\Documents\RoadRumble_latest\Assets\Scripts\Player.cs" line="114" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

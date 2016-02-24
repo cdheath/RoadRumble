@@ -12,7 +12,7 @@ public class GyroCapture : MonoBehaviour {
 	public string testLevelChoice;
 	private float speed = 0.5f;
 	private string levelName;
-	private GameObject frozenLake;
+
 
 	public GUISkin skin;
 	private string tickerMessage = "";
@@ -41,6 +41,12 @@ public class GyroCapture : MonoBehaviour {
 	
 	#region FigwoodVariables
 	GameObject crazyAI;
+	#endregion
+
+	#region HorrorLakeVariables
+	private GameObject frozenLake;
+	private GameObject lake;
+	private bool lakeFrozen = false;
 	#endregion
 
 	// Use this for initialization
@@ -172,13 +178,13 @@ public class GyroCapture : MonoBehaviour {
 		switch (levelName) 
 		{
 		case "REGULARSVILLE": StopAllNonPlayerCars();
-			tickerMessage = "Regularsville residents declare sun racist as solar flare stalls all white cars!";
+			tickerMessage = "Robots begin world take over by stopping Regularsville's self driving cars. Still worlds most boring town.";
 			break;
 		case "TEMPE": CreateHaboob();
 			tickerMessage = "Massive haboob strikes Hayden's Ferry!";
 			break;
-		case "HORRORLAKE": FreezeLake();
-			tickerMessage = "Lake freezes over amidst severe cold snap!";
+		case "HORRORLAKE": 
+			tickerMessage = LakeEvent();
 			break;
 		case "LOSPRADOS": ImplodeRandomCasino();
 			tickerMessage = "Los Prados casino torn down to make way for a store that sells designer mousepads! Residents create line for grand opening.";
@@ -241,15 +247,40 @@ public class GyroCapture : MonoBehaviour {
 		}
 
 	}
+	string LakeEvent()
+	{
+		string message = "";
+		if (!lakeFrozen) 
+		{
+			FreezeLake();
+			message = "Lake freezes over amidst severe cold snap!";
+			lakeFrozen = true;
+		} 
+		else 
+		{
+			ThawLake();
+			message = "Sudden heat wave causes lake to thaw!";
+			lakeFrozen = false;
+		}
+		return message;
+	}
 
 	void FreezeLake()
 	{
-		var lake = GameObject.FindGameObjectWithTag ("Lake");
+		lake = GameObject.FindGameObjectWithTag ("Lake");
 
 		if (lake != null && lake.activeSelf == true) {
 				lake.SetActive (false);
 				}
 			frozenLake.SetActive(true);
+	}
+
+	void ThawLake()
+	{	
+		if (frozenLake != null && frozenLake.activeSelf == true) {
+			frozenLake.SetActive (false);
+		}
+		lake.SetActive(true);
 	}
 
 	string GetLevelName()
