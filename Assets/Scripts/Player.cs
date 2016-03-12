@@ -97,7 +97,7 @@ public abstract class Player : MonoBehaviour {
 		Debug.Log ("Collision Detected");
 		Debug.Log(collision.gameObject.tag);
 		if(collision.gameObject.tag != "Road" && collision.gameObject.tag != "Intersection" && collision.gameObject.tag != "DrivableArea" && collision.gameObject.tag != "ScoreZone" && 
-		   collision.gameObject.tag != "GameBoundary" && collision.gameObject.tag != "ScoreZone" && collision.gameObject.tag != "FrozenLake")
+		   collision.gameObject.tag != "GameBoundary" && collision.gameObject.tag != "ScoreZone" && collision.gameObject.tag != "FrozenLake" && collision.gameObject.tag != "terrain" )
 		{
 			Debug.Log ("Entered Damage Clause");
 			Debug.Log (string.Format("Invisibility Timer = {0}", invincibilityTimer));

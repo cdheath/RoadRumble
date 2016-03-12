@@ -12,7 +12,8 @@ public class GyroCapture : MonoBehaviour {
 	public string testLevelChoice;
 	private float speed = 0.5f;
 	private string levelName;
-
+	private bool allowEvent = true;
+	private float delayInterval = 1.0f;
 
 	public GUISkin skin;
 	private string tickerMessage = "";
@@ -52,7 +53,7 @@ public class GyroCapture : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		bufferPtr = 0;
-		LoadBuffer ();
+		LoadBuffer();
 
 		levelName = GetLevelName ();
 		if (levelName.Equals ("HORRORLAKE")) {
@@ -104,17 +105,34 @@ public class GyroCapture : MonoBehaviour {
 		float sum = UpdateBuffer (gyro);
 		
 		//Debug.Log (gyro);
-		if (sum > (bufferSize * 1.0f) ) 
+		if (sum > (bufferSize * 1.0f) &&  allowEvent) 
 		{
 			Debug.Log ("Gyroevent Triggered");
 			GyroEvent();
 		//	Debug.Log(sum);
+			allowEvent = false;
+			LoadBuffer();
 		}
 
-		if (test && Input.GetKey (KeyCode.M)) 
+		if (test && Input.GetKey (KeyCode.M) && allowEvent) 
 		{
 			Debug.Log ("Gyroevent Triggered by Test Key");
 			GyroEvent();
+			allowEvent = false;
+			LoadBuffer();
+		}
+//add delay
+		if (!allowEvent) 
+		{
+			if(delayInterval > 0)
+			{
+				delayInterval -= Time.deltaTime;
+			}
+			else
+			{
+				allowEvent = true;
+				delayInterval = 1;
+			}
 		}
 	}
 
