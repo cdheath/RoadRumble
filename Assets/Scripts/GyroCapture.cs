@@ -10,6 +10,7 @@ public class GyroCapture : MonoBehaviour {
 	private int bufferPtr;
 	public bool test;
 	public string testLevelChoice;
+	public float timeForEventReset = 30.0f;
 	private float speed = 0.5f;
 	private string levelName;
 	private bool allowEvent = true;
@@ -212,9 +213,11 @@ public class GyroCapture : MonoBehaviour {
 			break;
 		case "FLORETVILLAGE" : flowers.SetActive(true);
 			tickerMessage = "Village blocked to new traffic as Flower Festival begins.";
+			StartCoroutine(ResetObjectBasedEvents(flowers));
 			break;
 		case "FIGWOODSTUDIOS" : crazyAI.SetActive(true);
 			tickerMessage = "Crazed celeb begins vehicular rampage after craft services runs out of danishes. Stay tuned to find out who!";
+			StartCoroutine(ResetObjectBasedEvents(crazyAI));
 			break;
 		case "MARIUSMESA": SwitchScoreZones();
 			tickerMessage = "Something Something Dark Side Something Something The Force.";
@@ -244,12 +247,14 @@ public class GyroCapture : MonoBehaviour {
 
 	void CreateHaboob()
 	{
-		if (!RenderSettings.fog) {
-						var gamepadCamera = GameObject.FindGameObjectWithTag ("GamePadCamera");
-						gamepadCamera.particleSystem.Play ();
-						RenderSettings.fog = true;
-						StartCoroutine ("RollInFog");
-				}
+		float timeCounter = 0;
+		GameObject gamepadCamera = gamepadCamera = GameObject.FindGameObjectWithTag ("GamePadCamera");;
+		if (!RenderSettings.fog) 
+		{						
+			gamepadCamera.particleSystem.Play ();
+			RenderSettings.fog = true;
+			StartCoroutine ("RollInFog");
+		}		
 	}
 
 	IEnumerator RollInFog()
@@ -264,7 +269,28 @@ public class GyroCapture : MonoBehaviour {
 			yield return new WaitForSeconds (speed);
 		}
 
+		yield return new WaitForSeconds(timeForEventReset);
+		
+		StartCoroutine ("RollOutFog");
 	}
+
+	IEnumerator RollOutFog()
+	{
+		float zeroDensity = 0.00f;
+		float current = RenderSettings.fogDensity;
+		
+		while (current > zeroDensity) 
+		{
+			current = current - 0.005f;
+			RenderSettings.fogDensity = current;
+			yield return new WaitForSeconds (speed);
+		}
+
+		GameObject gamepadCamera = gamepadCamera = GameObject.FindGameObjectWithTag ("GamePadCamera");;
+		gamepadCamera.particleSystem.Stop ();
+		RenderSettings.fog = false;
+	}
+
 	string LakeEvent()
 	{
 		string message = "";
@@ -412,5 +438,11 @@ public class GyroCapture : MonoBehaviour {
 			catch(System.Exception e)
 			{}
 		}
+	}
+
+	IEnumerator ResetObjectBasedEvents(GameObject gameObj)
+	{
+		yield return new WaitForSeconds (2); 
+		gameObj.SetActive (false);
 	}
 }
