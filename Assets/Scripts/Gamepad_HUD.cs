@@ -13,6 +13,8 @@ public class Gamepad_HUD : MonoBehaviour {
 	string tickerMsg;
 	bool victory = false;
 	bool tickerRunning = false;
+	bool paused = false;
+	protected Vector2 touchPosition = new Vector2(-1f,-1f);	// x,y coords on gamePad for touch
 
 	// Use this for initialization
 	void Start () 
@@ -22,6 +24,13 @@ public class Gamepad_HUD : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		touchPosition = (Input.touchCount > 0) ? Input.touches[0].position : new Vector2(-1f,-1f);
+
+		Debug.LogWarning("touch is: " + touchPosition.ToString());
+		if(victory && touchPosition.x > -1)
+		{
+			Application.LoadLevel("MainMenu");
+		}
 	
 	}
 	[GuiTarget(GuiTarget.Target.GamePad)]
@@ -60,7 +69,23 @@ public class Gamepad_HUD : MonoBehaviour {
 				GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),player2Score.ToString(), GUI.skin.GetStyle("number"));
 			}
 			
-			GUI.Label(new Rect(0,300, Screen.width, 50),"Press A to continue...");
+			GUI.Label(new Rect(0,300, Screen.width, 50),"Tap to continue...");
+		}
+		else if(paused)
+		{
+			
+			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
+			
+			if(GUI.Button(new Rect(Screen.width/2 - 500, Screen.height/2-200, 500, 50),"Resume"))
+			{
+				paused = false;
+			}
+			
+			if (GUI.Button(new Rect(Screen.width/2 - 500 ,Screen.height/2+200, 500, 50),"Return to level select"))
+			{
+				Application.LoadLevel("MainMenu");
+			}
+
 		}
 		else
 		{
@@ -77,13 +102,13 @@ public class Gamepad_HUD : MonoBehaviour {
 				GUIUtility.RotateAroundPivot(90, new Vector2(Screen.width/2,Screen.height/2));
 				//Note: Parameters below represent the screen while rotated
 				GUI.Label (new Rect (Screen.height/2 - 60, Screen.width - 250, 100, 40),"Player 1", GUI.skin.GetStyle("label"));
-				GUI.Label (new Rect (Screen.height/2 - 35, Screen.width - 225, 50, 40),player1Score.ToString(), GUI.skin.GetStyle("number"));
+				GUI.Label (new Rect (Screen.height/2 - 35, Screen.width - 225, 65, 40),player1Score.ToString(), GUI.skin.GetStyle("number"));
 				GUI.matrix = matrixBackup;
 
 				GUIUtility.RotateAroundPivot(-90, new Vector2(Screen.width/2,Screen.height/2));
 				//Note: Parameters below represent the screen while rotated
 				GUI.Label (new Rect ( Screen.width/2 - 245, Screen.width/2 + 175,100, 40),"Player 2", GUI.skin.GetStyle("label"));
-				GUI.Label (new Rect ( Screen.width/2 - 220, Screen.width/2 + 200,50, 40),player2Score.ToString(), GUI.skin.GetStyle("number"));
+				GUI.Label (new Rect ( Screen.width/2 - 220, Screen.width/2 + 200,65, 40),player2Score.ToString(), GUI.skin.GetStyle("number"));
 				
 				GUI.matrix = matrixBackup;
 			}
@@ -112,7 +137,6 @@ public class Gamepad_HUD : MonoBehaviour {
 	void updateGameTime(float newTime)
 	{
 		gameTimeLeft = newTime;
-		Debug.Log(newTime);
 	}
 
 	void updateScore(string[] receivedVal)
@@ -167,6 +191,18 @@ public class Gamepad_HUD : MonoBehaviour {
 		else
 		{
 			GUI.Box(new Rect(tickerPosition, Screen.height-50, tickerWidth, 35), tickerMsg, skin.box);
+		}
+	}
+
+	void pauseGame()
+	{
+		if(paused)
+		{
+			paused = false;
+		}
+		else
+		{
+			paused = true;
 		}
 	}
 

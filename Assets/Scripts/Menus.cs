@@ -16,13 +16,19 @@ public class Menus : MonoBehaviour {
 	public GUISkin skin;
 	GameObject toChange;
 
-	enum menu {gameModes,twoPlayer,main,options,highScores, title, levels, credits, victory, instructions};
+	enum menu {gameModes,twoPlayer,main,options,highScores, title, levels, credits, victory, instructions, loading, intro, limits};
 	menu currentMenu = menu.title;
+
+	int[] maxMins = {1,2,3,4,5,6};
+	int[] maxScores = {500,1000,1500,2000,2500,3000};
 
 	string gameMode = "Timed";
 	int numPlayers = 1;
+	int maxScore = 500;
+	int maxTime = 1;
 	string levelChoice ="1";
 	bool nightOn = false;
+	Texture levelLoad;
 
 	private bool pressedButtonB = false;
 
@@ -80,7 +86,7 @@ public class Menus : MonoBehaviour {
 				{
 					numPlayers = 1;
 					gameMode="Timed";
-					currentMenu = menu.levels;
+					currentMenu = menu.limits;
 				}
 			if (GUI.Button(new Rect(0, page.height * 2/5 - 50, page.width, page.height * 1/5), "2 Player")) 
 				{
@@ -107,21 +113,20 @@ public class Menus : MonoBehaviour {
 				if (GUI.Button(new Rect(0,100, page.width, 100), "Score")) 
 				{
 					gameMode="Score";
-					currentMenu = menu.levels;
+					currentMenu = menu.limits;
 				}
 				if (GUI.Button(new Rect(0,300, page.width, 100), "Timed")) 
 				{
 					gameMode="Timed";
-					currentMenu = menu.levels;
+					currentMenu = menu.limits;
 				}
 				if (GUI.Button(new Rect(5,5, 50, 50), back) || pressedButtonB) 
 				{
 					currentMenu = menu.main;
 				}
-				//toggleGameMode(true);
 				break;
-			case menu.levels:
-				toggleLevels();
+			case menu.limits:
+				toggleVictoryConditions();
 				if (GUI.Button(new Rect(5,5, 50, 50), back) || pressedButtonB) 
 				{
 					if(numPlayers == 2)
@@ -133,6 +138,17 @@ public class Menus : MonoBehaviour {
 						currentMenu=menu.main;
 					}
 				}
+				break;
+			case menu.levels:
+				toggleLevels();
+				if (GUI.Button(new Rect(5,5, 50, 50), back) || pressedButtonB) 
+				{
+					currentMenu = menu.limits;
+				}
+				break;
+			case menu.loading:
+				GUI.DrawTexture(new Rect(page.width/2-375, 100, 750,400),levelLoad);
+				GUI.Label(new Rect(100,50, 200, 50), "Loading...");
 				break;
 			case menu.instructions:
 				toggleInstructions();
@@ -177,6 +193,52 @@ public class Menus : MonoBehaviour {
 		yield return new WaitForSeconds(1);
 	}
 
+	void toggleVictoryConditions()
+	{
+		int[] limits;
+		string units;
+
+		if(gameMode == "Timed")
+		{
+			limits = maxMins;
+			units = "Minutes";
+		}
+		else
+		{
+			limits = maxScores;
+			units = "Points";
+		}
+		
+		GUI.Label(new Rect(page.width/2 - 250,25, 500, 125), "Select Limit", skin.GetStyle("Button"));
+
+		int y = (int)(page.height/limits.Length)/2 + 75;
+		int x = 100;
+		foreach(int opt in limits)
+		{
+			if (GUI.Button(new Rect(x,y, page.width/2 - 100, 175), opt.ToString() + " " + units)) 
+			{
+				if(gameMode == "Timed")
+				{
+					maxTime = opt;
+				}
+				else
+				{
+					maxScore = opt;
+				}
+				currentMenu = menu.levels;
+			}
+			if(x == 100)
+			{
+				x = (int)page.width/2 + 50;
+			}
+			else
+			{
+				y+=(int)(page.height/limits.Length)/2 + 100;
+				x = 100;
+			}
+		}
+	}
+
 	void toggleLevels()
 	{
 		currentMenu = menu.levels;
@@ -199,6 +261,8 @@ public class Menus : MonoBehaviour {
 			if (GUI.Button(new Rect(x,y, 175, 175), level)) 
 			{
 				levelChoice = level.name;
+				levelLoad = level;
+				currentMenu = menu.loading;
 				loadGame();
 			}
 			GUI.Label(new Rect(x,y+125, 175, 125), level.name, skin.GetStyle("Label"));
@@ -247,7 +311,7 @@ public class Menus : MonoBehaviour {
 		GUI.Label(new Rect(25,250, page.width-25, 50),"Now you're on the trolley!");*/
 
 		//GUI.DrawTexture(new Rect(page.width/2 - 275, 200, 550,275),Instructional_Diagram);
-		GUI.DrawTexture(new Rect(page.width/2 - 275, 100, 550,275),Instructional_Diagram);
+		GUI.DrawTexture(new Rect(page.width/2-475, 100, 950,475),Instructional_Diagram);
 		GUI.Label(new Rect(25,50, page.width-25, 50),"Drive your car to the green marker to score points.");
 	}
 
@@ -257,6 +321,8 @@ public class Menus : MonoBehaviour {
 		//input scene load here
 		PlayerPrefs.SetString ("Mode", gameMode);
 		PlayerPrefs.SetInt ("Players", numPlayers);
+		PlayerPrefs.SetInt ("TimeLimit", maxTime);
+		PlayerPrefs.SetInt ("ScoreLimit", maxScore);
 		PlayerPrefs.SetString("Night", nightOn.ToString());
 		Application.LoadLevel(levelChoice);
 	}

@@ -17,7 +17,7 @@ public class GameMechanics : MonoBehaviour {
 	int players;
 	int player1Score = 0;
 	int player2Score = 0;
-	private bool pressedButton = false;
+	bool victory = false;
 
 	public GameObject pickupSound;
 
@@ -25,7 +25,6 @@ public class GameMechanics : MonoBehaviour {
 	void Start () 
 	{
 		playMusicOnTVAndGamePad ();
-		pressedButton = Input.anyKeyDown;
 
 		tvDisplay = GameObject.Find ("TV Camera");
 		gamePadDisplay = GameObject.Find ("Gamepad Camera");
@@ -46,8 +45,12 @@ public class GameMechanics : MonoBehaviour {
 		string gameMode = PlayerPrefs.GetString ("Mode");
 		if(gameMode.CompareTo("Timed") == 0)
 		{
-			gameTimeLimit = 30;
+			gameTimeLimit = PlayerPrefs.GetInt("TimeLimit") * 60;
 			gameTimeLeft = gameTimeLimit;
+		}
+		else
+		{
+			scoreLimit = PlayerPrefs.GetInt("ScoreLimit");
 		}
 
 		players = PlayerPrefs.GetInt ("Players");
@@ -90,14 +93,15 @@ public class GameMechanics : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-			if(timeToTimeout != -1)
+
+		if(timeToTimeout != -1)
+		{
+			timeToTimeout -= Time.deltaTime;
+			if(timeToTimeout <= 0)
 			{
-				timeToTimeout -= Time.deltaTime;
-				if(timeToTimeout <= 0)
-				{
-					setNewGoal();
-				}
+				setNewGoal();
 			}
+		}
 
 		if(gameTimeLimit != -1)
 		{
@@ -109,8 +113,6 @@ public class GameMechanics : MonoBehaviour {
 
 			tvDisplay.SendMessage("updateGameTime", gameTimeLeft);
 			gamePadDisplay.SendMessage("updateGameTime", gameTimeLeft);
-
-			Debug.Log(gameTimeLeft);
 		}
 		else
 		{
@@ -122,7 +124,6 @@ public class GameMechanics : MonoBehaviour {
 			else if(player2Score >= scoreLimit)
 			{
 				victoryScreen();
-
 			}
 		}
 	}
@@ -162,6 +163,7 @@ public class GameMechanics : MonoBehaviour {
 
 	void victoryScreen()
 	{
+		victory = true;
 		if (players == 1) 
 		{
 			tvDisplay.SendMessage ("triggerSinglePlayerVictory", UpdateHighScores(player1Score, levelName));
@@ -173,10 +175,6 @@ public class GameMechanics : MonoBehaviour {
 			tvDisplay.SendMessage ("triggerMultiPlayerVictory");
 			gamePadDisplay.SendMessage ("triggerVictory");
 
-		}
-		if(pressedButton)
-		{
-			Application.LoadLevel("MainMenu");
 		}
 	}
 

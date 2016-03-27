@@ -135,7 +135,6 @@ public class AI : MonoBehaviour {
 					}
 					else
 					{
-						Debug.Log("dead end hit");
 						turnDir = turnOption.UTurn;
 					}
 				}
