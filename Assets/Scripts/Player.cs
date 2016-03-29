@@ -89,12 +89,6 @@ public abstract class Player : MonoBehaviour {
 			invincibilityTimer -= Time.deltaTime;
 		}
 
-		if(pressedButtonPlus || Input.GetKeyDown(KeyCode.P))
-		{
-			Time.timeScale = 0;
-			GameObject.Find ("Gamepad Camera").SendMessage ("pauseGame");
-		}
-
 	}
 
 	//Collision handler
