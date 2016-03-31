@@ -5,16 +5,15 @@ using System.Linq;
 public class GyroCapture : MonoBehaviour {
 	private WiiUGamePad gamePad;
 	private float gyro;
-	public int bufferSize = 50;
+	public int bufferSize = 20;
 	private float[] gyroBuffer;
 	private int bufferPtr;
 	public bool test;
-	public string testLevelChoice;
+	public string levelName;
 	public float timeForEventReset = 30.0f;
 	private float speed = 0.5f;
-	private string levelName;
 	private bool allowEvent = true;
-	private float delayInterval = 1.0f;
+	private float delayInterval = 10.0f;
 
 	public GUISkin skin;
 	private string tickerMessage = "";
@@ -55,8 +54,7 @@ public class GyroCapture : MonoBehaviour {
 	void Start () {
 		bufferPtr = 0;
 		LoadBuffer();
-
-		levelName = GetLevelName ();
+		
 		if (levelName.Equals ("HORRORLAKE")) {
 						frozenLake = GameObject.FindGameObjectWithTag ("FrozenLake");
 						frozenLake.SetActive (false);
@@ -105,12 +103,13 @@ public class GyroCapture : MonoBehaviour {
 		
 		float sum = UpdateBuffer (gyro);
 		
-		//Debug.Log (gyro);
-		if (sum > (bufferSize * 1.0f) &&  allowEvent) 
+//		Debug.Log ("gyro: " + gyro);
+		Debug.Log ("sum: " + sum);
+		Debug.Log ("event allowed" + allowEvent.ToString ());
+		if (sum > (float)bufferSize  &&  allowEvent) 
 		{
-			Debug.Log ("Gyroevent Triggered");
+
 			GyroEvent();
-		//	Debug.Log(sum);
 			allowEvent = false;
 			LoadBuffer();
 		}
@@ -193,7 +192,8 @@ public class GyroCapture : MonoBehaviour {
 		//eventHappening = true;
 		//tickPosition = Screen.width;
 //		AudioSource.PlayClipAtPoint(newsSound, Camera.main.transform.position);
-
+		Debug.Log ("Gyroevent Triggered");
+		Debug.Log ("levelName: " + levelName);
 		switch (levelName) 
 		{
 		case "REGULARSVILLE": StopAllNonPlayerCars();
@@ -220,7 +220,7 @@ public class GyroCapture : MonoBehaviour {
 			StartCoroutine(ResetObjectBasedEvents(crazyAI));
 			break;
 		case "MARIUSMESA": SwitchScoreZones();
-			tickerMessage = "Something Something Dark Side Something Something The Force.";
+			tickerMessage = "After ignoring mortals for serveral millennia, the Roman patheon reemerges to interfere in driving contest.  Avoid the red zones!";
 			break;
 		}
 		//Each character is ~11 pixels, so multiply length by 11 to get necessary ticker size
@@ -329,7 +329,7 @@ public class GyroCapture : MonoBehaviour {
 
 	string GetLevelName()
 	{		
-		if (test) { return testLevelChoice.ToUpper();}
+		if (test) { return levelName.ToUpper();}
 
 		Debug.Log (string.Format("Triggered event for level: {0}", PlayerPrefs.GetString("LevelChoice")));
 		return PlayerPrefs.GetString("LevelChoice").ToUpper();
@@ -388,7 +388,9 @@ public class GyroCapture : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (seconds);
 		var gbCasino = GameObject.Find (casinoName);
-		implosionCloud.audio.Play();
+		//implosionCloud.audio.Play();
+		WiiUAudio.EnableOutputForAudioSource(implosionCloud.audio, WiiUAudioOutputDevice.TV);
+		WiiUAudio.EnableOutputForAudioSource(implosionCloud.audio, WiiUAudioOutputDevice.GamePad);
 		Destroy (gbCasino);
 		debrisPlanes.Where(t => t.name.Equals(prefix +" Debris")).Single().SetActive(true);
 	}
@@ -428,6 +430,7 @@ public class GyroCapture : MonoBehaviour {
 
 	void SwitchScoreZones()
 	{
+		Debug.Log ("Switch Score Zones");
 		var scoreZones = GameObject.FindGameObjectsWithTag ("ScoreZone");
 		foreach (var zone in scoreZones) 
 		{

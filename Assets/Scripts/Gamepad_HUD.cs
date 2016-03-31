@@ -26,7 +26,7 @@ public class Gamepad_HUD : MonoBehaviour {
 	void Update () {
 		touchPosition = (Input.touchCount > 0) ? Input.touches[0].position : new Vector2(-1f,-1f);
 
-		Debug.LogWarning("touch is: " + touchPosition.ToString());
+//		Debug.LogWarning("touch is: " + touchPosition.ToString());
 		if(victory && touchPosition.x > -1)
 		{
 			Application.LoadLevel("MainMenu");

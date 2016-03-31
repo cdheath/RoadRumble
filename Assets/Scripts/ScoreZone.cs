@@ -28,6 +28,8 @@ public class ScoreZone : MonoBehaviour {
 			if(collider.gameObject.tag == "Player")
 			{
 				audio.Play ();
+				WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.TV);
+				WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.GamePad);
 				yield return new WaitForSeconds(1);
 				//add to score
 				//trigger reset
