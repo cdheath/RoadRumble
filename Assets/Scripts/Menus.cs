@@ -274,7 +274,7 @@ public class Menus : MonoBehaviour {
 	void toggleCredits()
 	{
 		float half = page.width/2;
-		float third = page.width/3; 
+//		float third = page.width/3; 
 
 		skin.label.fontSize = 35;
 		GUI.Label(new Rect(0,50, page.width, 50), "Created by:");

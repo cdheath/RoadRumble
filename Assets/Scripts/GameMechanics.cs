@@ -17,7 +17,7 @@ public class GameMechanics : MonoBehaviour {
 	int players;
 	int player1Score = 0;
 	int player2Score = 0;
-	bool victory = false;
+	bool victory;
 
 	public GameObject pickupSound;
 

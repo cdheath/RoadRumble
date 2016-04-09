@@ -161,7 +161,7 @@ public class TV_HUD : MonoBehaviour {
 	string GetTopScoreString()
 	{
 		string highScoreString = "";
-		if (this.highScores[0] != null) 
+		if (this.highScores[0] > 0) 
 		{
 			highScoreString = highScores[0].ToString();
 		}

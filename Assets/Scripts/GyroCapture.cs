@@ -247,8 +247,7 @@ public class GyroCapture : MonoBehaviour {
 
 	void CreateHaboob()
 	{
-		float timeCounter = 0;
-		GameObject gamepadCamera = gamepadCamera = GameObject.FindGameObjectWithTag ("GamePadCamera");;
+		GameObject gamepadCamera = GameObject.FindGameObjectWithTag ("GamePadCamera");;
 		if (!RenderSettings.fog) 
 		{						
 			gamepadCamera.particleSystem.Play ();
@@ -286,7 +285,7 @@ public class GyroCapture : MonoBehaviour {
 			yield return new WaitForSeconds (speed);
 		}
 
-		GameObject gamepadCamera = gamepadCamera = GameObject.FindGameObjectWithTag ("GamePadCamera");;
+		GameObject gamepadCamera = GameObject.FindGameObjectWithTag ("GamePadCamera");;
 		gamepadCamera.particleSystem.Stop ();
 		RenderSettings.fog = false;
 	}
@@ -439,7 +438,7 @@ public class GyroCapture : MonoBehaviour {
 				zone.GetComponent<ScoreZone>().SetNegativeZonesTrue();
 			}
 			catch(System.Exception e)
-			{}
+			{Debug.Log (e);}
 		}
 	}
 
