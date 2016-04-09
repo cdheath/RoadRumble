@@ -39,16 +39,19 @@ public class TV_HUD : MonoBehaviour {
 		if(victory)
 		{
 			string winnerMsg;
-
+			string rightSideMsg;
+			string rightSideScore;
 			if(singlePlayer)
 			{
 				winnerMsg = "Level High Scores";
 				GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
 				GUI.Label(new Rect(0,100, Screen.width, 50),winnerMsg);
 
-
+				rightSideMsg = "Top Score";
+				rightSideScore = GetTopScoreString();
 			}
-			else{
+			else
+			{
 				if(player1Score > player2Score)
 				{
 					winnerMsg = "Player 1 Wins!";
@@ -61,17 +64,9 @@ public class TV_HUD : MonoBehaviour {
 				{
 					winnerMsg = "Tie!";
 				}
-				
-				GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
-				GUI.Label(new Rect(0,100, Screen.width, 50),winnerMsg);
-				
-				GUI.Label(new Rect(0,150, Screen.width/2, 50),"Player 1");
-				GUI.Label(new Rect(0,200, Screen.width/2, 50),player1Score.ToString(), GUI.skin.GetStyle("number"));
-				
-				GUI.Label(new Rect(Screen.width/2,150, Screen.width/2, 50),"Player 2");
-				GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),player2Score.ToString(), GUI.skin.GetStyle("number"));
-				
-				GUI.Label(new Rect(0,300, Screen.width, 50),"Press A to continue...");
+
+				rightSideMsg = "Player 2";
+				rightSideScore = player2Score.ToString();
 			}
 			
 			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
@@ -79,14 +74,11 @@ public class TV_HUD : MonoBehaviour {
 			
 			GUI.Label(new Rect(0,150, Screen.width/2, 50),"Player 1");
 			GUI.Label(new Rect(0,200, Screen.width/2, 50),player1Score.ToString(), GUI.skin.GetStyle("number"));
+	
+			GUI.Label(new Rect(Screen.width/2,150, Screen.width/2, 50),rightSideMsg);
+			GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),rightSideScore, GUI.skin.GetStyle("number"));
 
-			if(PlayerPrefs.GetInt("Players") == 2)
-			{
-				GUI.Label(new Rect(Screen.width/2,150, Screen.width/2, 50),"Player 2");
-				GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),player2Score.ToString(), GUI.skin.GetStyle("number"));
-			}
-			
-			GUI.Label(new Rect(0,300, Screen.width, 50),"Press A to continue...");
+			GUI.Label(new Rect(0,300, Screen.width, 50),"Tap to continue...");
 		}
 		else
 		{
@@ -164,6 +156,16 @@ public class TV_HUD : MonoBehaviour {
 	void newsTicker()
 	{
 		GUI.Box(new Rect(tickerPosition, Screen.height-50, tickerWidth, 35), tickerMsg, skin.box);
+	}
+
+	string GetTopScoreString()
+	{
+		string highScoreString = "";
+		if (this.highScores[0] != null) 
+		{
+			highScoreString = highScores[0].ToString();
+		}
+		return highScoreString;
 	}
 
 }

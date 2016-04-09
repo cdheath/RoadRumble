@@ -166,14 +166,13 @@ public class GameMechanics : MonoBehaviour {
 		victory = true;
 		if (players == 1) 
 		{
-			tvDisplay.SendMessage ("triggerSinglePlayerVictory", UpdateHighScores(player1Score, levelName));
-			gamePadDisplay.SendMessage ("triggerVictory");
-
+			tvDisplay.SendMessage ("triggerSinglePlayerVictory", UpdateHighScores(player1Score, levelName, PlayerPrefs.GetInt("TimeLimit").ToString()));
+			gamePadDisplay.SendMessage ("triggerSinglePlayerVictory", UpdateHighScores(player1Score, levelName, PlayerPrefs.GetInt("TimeLimit").ToString()));
 		} 
 		else 
 		{
 			tvDisplay.SendMessage ("triggerMultiPlayerVictory");
-			gamePadDisplay.SendMessage ("triggerVictory");
+			gamePadDisplay.SendMessage ("triggerMultiPlayerVictory");
 
 		}
 	}
@@ -199,7 +198,7 @@ public class GameMechanics : MonoBehaviour {
 		return highScores;
 	}
 
-	int[] UpdateHighScores(int newScore, string levelName)
+	int[] UpdateHighScores(int newScore, string levelName, string timeLimit)
 	{
 		int[] highScores = GetHighScores (levelName);
 		int scoreToCheck = newScore;
@@ -209,7 +208,7 @@ public class GameMechanics : MonoBehaviour {
 			{
 				int temp = highScores[index];
 				highScores[index] = scoreToCheck;
-				PlayerPrefs.SetInt(string.Format("{0}{1}",levelName, index), scoreToCheck);
+				PlayerPrefs.SetInt(string.Format("{0}{1}",levelName + timeLimit, index), scoreToCheck);
 				scoreToCheck = temp;
 			}
 		}

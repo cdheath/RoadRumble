@@ -14,6 +14,8 @@ public class Gamepad_HUD : MonoBehaviour {
 	bool victory = false;
 	bool tickerRunning = false;
 	bool paused = false;
+	int[] highScores;
+	bool singlePlayer = false;
 	protected Vector2 touchPosition = new Vector2(-1f,-1f);	// x,y coords on gamePad for touch
 
 	// Use this for initialization
@@ -44,17 +46,34 @@ public class Gamepad_HUD : MonoBehaviour {
 		if(victory)
 		{
 			string winnerMsg;
-			if(player1Score > player2Score)
+			string rightSideMsg;
+			string rightSideScore;
+			if(singlePlayer)
 			{
-				winnerMsg = "Player 1 Wins!";
+				winnerMsg = "Level High Scores";
+				GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
+				GUI.Label(new Rect(0,100, Screen.width, 50),winnerMsg);
+
+				rightSideMsg = "Top Score";
+				rightSideScore = GetTopScoreString();
 			}
-			else if(player1Score < player2Score)
+			else 
 			{
-				winnerMsg = "Player 2 Wins!";
-			}
-			else
-			{
-				winnerMsg = "Tie!";
+				if(player1Score > player2Score)
+				{
+					winnerMsg = "Player 1 Wins!";
+				}
+				else if(player1Score < player2Score)
+				{
+					winnerMsg = "Player 2 Wins!";
+				}
+				else
+				{
+					winnerMsg = "Tie!";
+				}
+
+				rightSideMsg = "Player 2";
+				rightSideScore = player2Score.ToString();
 			}
 			
 			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
@@ -63,11 +82,8 @@ public class Gamepad_HUD : MonoBehaviour {
 			GUI.Label(new Rect(0,150, Screen.width/2, 50),"Player 1");
 			GUI.Label(new Rect(0,200, Screen.width/2, 50),player1Score.ToString(), GUI.skin.GetStyle("number"));
 
-			if(PlayerPrefs.GetInt("Players") == 2)
-			{
-				GUI.Label(new Rect(Screen.width/2,150, Screen.width/2, 50),"Player 2");
-				GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),player2Score.ToString(), GUI.skin.GetStyle("number"));
-			}
+			GUI.Label(new Rect(Screen.width/2,150, Screen.width/2, 50),rightSideMsg);
+			GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),rightSideScore, GUI.skin.GetStyle("number"));
 			
 			GUI.Label(new Rect(0,300, Screen.width, 50),"Tap to continue...");
 		}
@@ -155,6 +171,18 @@ public class Gamepad_HUD : MonoBehaviour {
 	{
 		victory = true;
 	}
+
+	void triggerMultiPlayerVictory()
+	{
+		victory = true;
+	}
+	
+	void triggerSinglePlayerVictory(int[] highScores)
+	{
+		this.highScores = highScores;
+		victory = true;
+		singlePlayer = true;
+	}
 	
 	void runTicker(string[] args)
 	{
@@ -204,6 +232,16 @@ public class Gamepad_HUD : MonoBehaviour {
 		{
 			paused = true;
 		}
+	}
+
+	string GetTopScoreString()
+	{
+		string highScoreString = "";
+		if (this.highScores[0] != null) 
+		{
+			highScoreString = highScores[0].ToString();
+		}
+		return highScoreString;
 	}
 
 }
