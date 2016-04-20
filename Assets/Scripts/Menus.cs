@@ -16,7 +16,7 @@ public class Menus : MonoBehaviour {
 	public GUISkin skin;
 	GameObject toChange;
 
-	enum menu {gameModes,twoPlayer,main,options,highScores, title, levels, credits, victory, instructions, loading, intro, limits};
+//	enum menu {gameModes,twoPlayer,main,options,highScores, title, levels, credits, victory, instructions, loading, intro, limits};
 	menu currentMenu = menu.title;
 
 	int[] maxMins = {1,2,3,4,5,6};
@@ -29,6 +29,7 @@ public class Menus : MonoBehaviour {
 	string levelChoice ="1";
 	bool nightOn = false;
 	Texture levelLoad;
+	Menus_TV tvMenu;
 
 	private bool pressedButtonB = false;
 
@@ -41,6 +42,7 @@ public class Menus : MonoBehaviour {
 
 		carPos = 0;
 
+		tvMenu = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Menus_TV> ();
 	}
 	
 	// Update is called once per frame
@@ -49,6 +51,7 @@ public class Menus : MonoBehaviour {
 	}
 
 	//constantly being called
+	[GuiTarget(GuiTarget.Target.GamePad)]
 	void OnGUI()
 	{ 
 		//GUI.DrawTexture (page, screenToShow);
@@ -71,6 +74,7 @@ public class Menus : MonoBehaviour {
 				{
 					skin.button.fontSize = 65;
 					currentMenu = menu.main;
+					tvMenu.ChangeMenu(menu.main);
 					break;
 				}
 				skin.button.fontSize = 50;
@@ -78,6 +82,7 @@ public class Menus : MonoBehaviour {
 				{
 					skin.button.fontSize = 65;
 					currentMenu = menu.main;
+					tvMenu.ChangeMenu(menu.main);
 				}
 			break;
 			case menu.main:
@@ -87,23 +92,28 @@ public class Menus : MonoBehaviour {
 					numPlayers = 1;
 					gameMode="Timed";
 					currentMenu = menu.limits;
+					tvMenu.ChangeMenu(menu.limits);
 				}
 			if (GUI.Button(new Rect(0, page.height * 2/5 - 50, page.width, page.height * 1/5), "2 Player")) 
 				{
 					numPlayers = 2;
 					currentMenu = menu.gameModes;
+					tvMenu.ChangeMenu(menu.gameModes);
 				}
 			if (GUI.Button(new Rect(0, page.height * 3/5 - 50, page.width, page.height * 1/5), "Instructions")) 
 				{
 					currentMenu = menu.instructions;
+					tvMenu.ChangeMenu(menu.instructions);
 				}
 			if (GUI.Button(new Rect(0, page.height * 4/5 - 50, page.width, page.height * 1/5), "Credits")) 
 				{
 					currentMenu = menu.credits;
+					tvMenu.ChangeMenu(menu.credits);
 				}
 				if (GUI.Button(new Rect(5,5, 50, 50), back) || pressedButtonB) 
 				{
 					currentMenu = menu.title;
+					tvMenu.ChangeMenu(menu.title);
 					toggleTitle(true);
 				}
 				break;
@@ -114,15 +124,18 @@ public class Menus : MonoBehaviour {
 				{
 					gameMode="Score";
 					currentMenu = menu.limits;
+					tvMenu.ChangeMenu(menu.limits);
 				}
 				if (GUI.Button(new Rect(0,300, page.width, 100), "Timed")) 
 				{
 					gameMode="Timed";
 					currentMenu = menu.limits;
+					tvMenu.ChangeMenu(menu.limits);
 				}
 				if (GUI.Button(new Rect(5,5, 50, 50), back) || pressedButtonB) 
 				{
 					currentMenu = menu.main;
+					tvMenu.ChangeMenu(menu.main);
 				}
 				break;
 			case menu.limits:
@@ -132,10 +145,12 @@ public class Menus : MonoBehaviour {
 					if(numPlayers == 2)
 					{
 						currentMenu = menu.gameModes;
+						tvMenu.ChangeMenu(menu.gameModes);
 					}
 					else
 					{
 						currentMenu=menu.main;
+						tvMenu.ChangeMenu(menu.main);
 					}
 				}
 				break;
@@ -144,6 +159,7 @@ public class Menus : MonoBehaviour {
 				if (GUI.Button(new Rect(5,5, 50, 50), back) || pressedButtonB) 
 				{
 					currentMenu = menu.limits;
+					tvMenu.ChangeMenu(menu.limits);
 				}
 				break;
 			case menu.loading:
@@ -155,6 +171,7 @@ public class Menus : MonoBehaviour {
 				if (GUI.Button(new Rect(5,5, 50, 50), back) || pressedButtonB) 
 				{
 					currentMenu = menu.main;
+					tvMenu.ChangeMenu(menu.main);
 				}
 				break;
 			case menu.credits:
@@ -162,6 +179,7 @@ public class Menus : MonoBehaviour {
 				if (GUI.Button(new Rect(5,5, 50, 50), back) || pressedButtonB) 
 				{
 					currentMenu = menu.main;
+					tvMenu.ChangeMenu(menu.main);
 				}
 				break;
 			default:
@@ -186,6 +204,7 @@ public class Menus : MonoBehaviour {
 
 	IEnumerator toggleTitle(bool visible)
 	{
+		tvMenu.toggleTitle (visible);
 		toChange = GameObject.Find("Title");
 		toChange.GetComponent<GUIText>().enabled = visible;
 		toChange = GameObject.Find("Continue");
@@ -208,7 +227,10 @@ public class Menus : MonoBehaviour {
 			limits = maxScores;
 			units = "Points";
 		}
-		
+
+		tvMenu.sendVictoryConditions (gameMode, maxMins, maxScores);
+		tvMenu.ChangeMenu(menu.limits);
+
 		GUI.Label(new Rect(page.width/2 - 250,25, 500, 125), "Select Limit", skin.GetStyle("Button"));
 
 		int y = (int)(page.height/limits.Length)/2 + 75;
@@ -242,6 +264,9 @@ public class Menus : MonoBehaviour {
 	void toggleLevels()
 	{
 		currentMenu = menu.levels;
+		tvMenu.ChangeMenu(menu.levels);
+		//tvMenu.toggleLevels();
+
 		int x = -150;
 		int y = 75;
 		nightOn = GUI.Toggle(new Rect(page.width-100,20, 40, 50),nightOn, "Night", skin.GetStyle("Toggle"));
@@ -263,6 +288,7 @@ public class Menus : MonoBehaviour {
 				levelChoice = level.name;
 				levelLoad = level;
 				currentMenu = menu.loading;
+				tvMenu.ChangeMenu(menu.loading, levelLoad);
 				loadGame();
 			}
 			GUI.Label(new Rect(x,y+125, 175, 125), level.name, skin.GetStyle("Label"));
@@ -273,6 +299,8 @@ public class Menus : MonoBehaviour {
 
 	void toggleCredits()
 	{
+		//tvMenu.toggleCredits();
+
 		float half = page.width/2;
 //		float third = page.width/3; 
 
@@ -302,6 +330,7 @@ public class Menus : MonoBehaviour {
 
 	void toggleInstructions()
 	{
+		//tvMenu.toggleInstructions();
 		/*GUI.Label(new Rect(25,50, page.width-25, 125), "Get your jalopy to the green drop off point, on the double." + 
 		          "You see anyone else on the make, be sure they don't get there before you." +
 		          "Mind you don't conk into anything or your car won't be worth a plugged nickel before long.");
