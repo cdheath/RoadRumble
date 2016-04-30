@@ -9,6 +9,7 @@ public abstract class Player : MonoBehaviour {
 	public bool compTesting;
 	public GUISkin skin;
 	public GameObject explosionAnimation;
+	public GameObject smokeOnlyEffect;
 
 	private Quaternion startRot;
 	private Vector3 startPos;
@@ -108,11 +109,20 @@ public abstract class Player : MonoBehaviour {
 				currentState++;
 				Debug.Log (string.Format("Damage State = {0}", currentState));
 				invincibilityTimer = invincibleLimit;
-
-				if(collision.gameObject.tag == "GameBoundary" || currentState >= respawnState)
+				if(currentState == car_state.Battered)
+				{
+					this.gameObject.GetComponentInChildren<ParticleSystem>().startColor = new Color(200, 200, 200, .5f);
+					this.gameObject.GetComponentInChildren<ParticleSystem>().Play();
+				}
+				else if(currentState == car_state.Battered)
+				{
+					this.gameObject.GetComponentInChildren<ParticleSystem>().startColor = new Color(101, 101, 101, .5f);
+					this.gameObject.GetComponentInChildren<ParticleSystem>().Play();
+				}
+				else if(collision.gameObject.tag == "GameBoundary" || currentState >= respawnState)
 				{
 					exploding = true;
-					
+					this.gameObject.GetComponentInChildren<ParticleSystem>().Stop();
 					var explosionObject = Instantiate(explosionAnimation, this.transform.position, this.transform.rotation);
 					//audio.Play();
 					WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.GamePad);
