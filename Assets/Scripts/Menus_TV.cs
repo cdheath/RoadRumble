@@ -53,7 +53,7 @@ public class Menus_TV : MonoBehaviour {
 		{
 		case menu.title:
 			skin.button.fontSize = 125;
-			if (GUI.Button(new Rect(0,0, page.width, page.height*3/4), "Retro Road\nRumble"))
+			if (GUI.Button(new Rect(page.width * 1/4,0, page.width, page.height*1/2), "Retro Road\nRumble"))
 			{
 				skin.button.fontSize = 65;
 				currentMenu = menu.main;

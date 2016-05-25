@@ -17,6 +17,13 @@ public class TV_HUD : MonoBehaviour {
 
 	int[] highScores;
 	bool singlePlayer = false;
+	bool paused = false;
+
+	GameObject[] aiCars = null;
+	[HideInInspector]
+	public GameObject player1 = null;
+	[HideInInspector]
+	public GameObject player2 = null;
 
 	// Use this for initialization
 	void Start () 
@@ -80,6 +87,23 @@ public class TV_HUD : MonoBehaviour {
 
 			GUI.Label(new Rect(0,300, Screen.width, 50),"Tap to continue...");
 		}
+		else if(paused)
+		{
+			skin.button.fontSize = 40;
+			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
+
+			if(GUI.Button(new Rect(Screen.width/4 - 100, Screen.height/4, 500, 50),"Resume"))
+			{
+				GameObject.FindGameObjectWithTag("GamePadCamera").GetComponent<Gamepad_HUD>().pauseGame();
+				pauseGame();
+			}
+			
+			if (GUI.Button(new Rect(Screen.width/4 - 100 ,Screen.height/4 + 100, 500, 50),"Return to Main Menu"))
+			{
+				Application.LoadLevel("MainMenu");
+			}
+			
+		}
 		else
 		{
 			if(gameTimeLeft != -1)
@@ -88,11 +112,12 @@ public class TV_HUD : MonoBehaviour {
 			}
 			
 			GUI.Label (new Rect (30, 30, 120, 40), "Player 1");
-			GUI.Label (new Rect (Screen.width - 130, 30, 120, 40), "Player 2");
+
 			
 			GUI.Label (new Rect (40, 60, 100, 40), player1Score.ToString(), GUI.skin.GetStyle("number"));
 			if(PlayerPrefs.GetInt("Players") == 2)
 			{
+				GUI.Label (new Rect (Screen.width - 130, 30, 120, 40), "Player 2");
 				GUI.Label (new Rect (Screen.width - 80, 60, 100, 40), player2Score.ToString(), GUI.skin.GetStyle("number"));
 			}
 			
@@ -168,4 +193,60 @@ public class TV_HUD : MonoBehaviour {
 		return highScoreString;
 	}
 
+	public void pauseGame()
+	{
+		if(paused)
+		{
+			if(player1 != null)
+			{
+				player1.GetComponent<Player1>().ToggleControlLock();
+			}
+			
+			if(player2 != null)
+			{
+				player2.GetComponent<Player2>().ToggleControlLock();
+			}
+
+			foreach(GameObject car in aiCars)
+			{
+				car.GetComponent<AI>().StartAIVehicle();
+			}
+			Time.timeScale = 1;
+			paused = false;
+		}
+		else
+		{
+			if(player1 == null)
+			{
+				player1 = GameObject.Find("Player 1");
+			}
+
+			if(player2 == null && !singlePlayer)
+			{
+				player2 = GameObject.Find("Player 2");
+			}
+
+			if(player1 != null)
+			{
+				player1.GetComponent<Player1>().ToggleControlLock();
+			}
+
+			if(player2 != null)
+			{
+				player2.GetComponent<Player2>().ToggleControlLock();
+			}
+
+			if(aiCars == null)
+			{
+				aiCars = GameObject.FindGameObjectsWithTag("aiCar");
+			}
+
+			foreach(GameObject car in aiCars)
+			{
+				car.GetComponent<AI>().StopAIVehicle();
+			}
+			Time.timeScale = 0;
+			paused = true;
+		}
+	}
 }

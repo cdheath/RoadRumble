@@ -42,6 +42,7 @@ public abstract class Player : MonoBehaviour {
 	protected Vector2 rStickVector = new Vector2();			// right joystick direction vector
 	protected Vector2 touchPosition = new Vector2(-1f,-1f);	// x,y coords on gamePad for touch
 	protected Vector3 gyro = new Vector3();
+	protected bool showPauseMenu = false;
 
 	void Start () 
 	{
@@ -73,6 +74,7 @@ public abstract class Player : MonoBehaviour {
 		pressedButtonMinus = gamePad.GetButton(WiiUGamePadButton.ButtonMinus);
 		pressedButtonStickL = gamePad.GetButton(WiiUGamePadButton.ButtonStickL);
 		pressedButtonStickR = gamePad.GetButton(WiiUGamePadButton.ButtonStickR);
+		pressedButtonPlus = gamePad.GetButton(WiiUGamePadButton.ButtonPlus);
 		lStickVector = gamePad.leftStick;
 		rStickVector = gamePad.rightStick;
 		touchPosition = (Input.touchCount > 0) ? Input.touches[0].position : new Vector2(-1f,-1f);
@@ -88,8 +90,7 @@ public abstract class Player : MonoBehaviour {
 		if(invincibilityTimer != 0)
 		{
 			invincibilityTimer -= Time.deltaTime;
-		}
-
+		}		
 	}
 
 	//Collision handler
@@ -197,5 +198,4 @@ public abstract class Player : MonoBehaviour {
 
 	//method to return the car's current velocity
 	public abstract float getVelocity();
-
 }

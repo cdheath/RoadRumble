@@ -69,8 +69,8 @@ public class Menus : MonoBehaviour {
 		switch(currentMenu)
 		{
 			case menu.title:
-				skin.button.fontSize = 125;
-				if (GUI.Button(new Rect(0,0, page.width, page.height*3/4), "Retro Road\nRumble"))
+				skin.button.fontSize = 120;
+			if (GUI.Button(new Rect((-page.width*1/6),0, page.width, page.height*1/2), "Retro Road\nRumble"))
 				{
 					skin.button.fontSize = 65;
 					currentMenu = menu.main;
@@ -78,7 +78,7 @@ public class Menus : MonoBehaviour {
 					break;
 				}
 				skin.button.fontSize = 50;
-				if (GUI.Button(new Rect(0,page.height*3/4, page.width, page.height*1/4), "Tap to Continue")) 
+			if (GUI.Button(new Rect((-page.width*1/6),(page.height*1/2), page.width, page.height*3/8), "Tap to Continue")) 
 				{
 					skin.button.fontSize = 65;
 					currentMenu = menu.main;

@@ -385,6 +385,12 @@ public class AI : MonoBehaviour {
 		moveSpeed = 0;
 	}
 
+	public void StartAIVehicle()
+	{
+		checkAICarMoving = true;
+		moveSpeed = Random.Range(.1f, maxSpeedRange);
+	}
+
 	public void DestroyIfNotMoving()
 	{
 		if (this.transform.position == prevPos) 
