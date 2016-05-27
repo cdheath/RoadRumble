@@ -14,6 +14,7 @@ public abstract class Player : MonoBehaviour {
 	private Quaternion startRot;
 	private Vector3 startPos;
 	private bool exploding = false;
+	private bool paused = false;
 	protected int score = 0;
 	private float invincibilityTimer;
 	private int invincibleLimit = 2;
@@ -83,7 +84,7 @@ public abstract class Player : MonoBehaviour {
 		//Debug.Log ("x = " + gyro.x + " y = " + gyro.y + " z = " + gyro.z);
 
 		//running the individual player controls
-		if(!exploding)
+		if(!exploding && !paused)
 		{
 			processControls();
 		}
@@ -198,4 +199,14 @@ public abstract class Player : MonoBehaviour {
 
 	//method to return the car's current velocity
 	public abstract float getVelocity();
+
+	public void PauseControls()
+	{
+		paused = true;
+	}
+
+	public void UnpauseControls()
+	{
+		paused = false;
+	}
 }

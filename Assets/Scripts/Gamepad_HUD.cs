@@ -239,12 +239,12 @@ public class Gamepad_HUD : MonoBehaviour {
 		{
 			if(player1 != null)
 			{
-				player1.GetComponent<Player1>().ToggleControlLock();
+				player1.GetComponent<Player1>().UnlockControls();
 			}
 			
 			if(player2 != null)
 			{
-				player2.GetComponent<Player2>().ToggleControlLock();
+				player2.GetComponent<Player2>().UnlockControls();
 			}
 			
 			foreach(GameObject car in aiCars)
@@ -268,12 +268,12 @@ public class Gamepad_HUD : MonoBehaviour {
 			
 			if(player1 != null)
 			{
-				player1.GetComponent<Player1>().ToggleControlLock();
+				player1.GetComponent<Player1>().LockControls();
 			}
 			
 			if(player2 != null)
 			{
-				player2.GetComponent<Player2>().ToggleControlLock();
+				player2.GetComponent<Player2>().LockControls();
 			}
 			
 			if(aiCars == null)

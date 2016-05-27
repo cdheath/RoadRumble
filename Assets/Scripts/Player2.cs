@@ -5,7 +5,6 @@ public class Player2 : Player {
 
 	float absLeftRight;
 	float absUpDown;
-	bool lockControls = false;
 
 	//method to process the car's control inputs
 	public override void processControls()
@@ -19,7 +18,7 @@ public class Player2 : Player {
 
 		//Controls for on PC testing
 		////////////TO BE DELETED?////////////////
-		if(compTesting && !lockControls)
+		if(compTesting)
 		{
 			if (Input.GetKey(KeyCode.L)) 
 			{
@@ -43,7 +42,7 @@ public class Player2 : Player {
 			}
 
 		}
-		else if(!lockControls)
+		else
 		{
 			absUpDown = Mathf.Abs(upDown);
 			absLeftRight = Mathf.Abs(leftRight);
@@ -80,9 +79,14 @@ public class Player2 : Player {
 		}
 	}
 
-	public void ToggleControlLock()
+	public void LockControls()
 	{
-		lockControls = !lockControls;
+		PauseControls();
+	}
+	
+	public void UnlockControls()
+	{
+		UnpauseControls();
 	}
 
 	/*[GuiTarget(GuiTarget.Target.GamePad)]
