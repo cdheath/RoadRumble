@@ -11,8 +11,8 @@ public class Menus_TV : MonoBehaviour {
 	public GUISkin skin;
 
 	string gameMode;
-	int[] maxMins;
-	int[] maxScore;
+	int[] maxMins = {1,2,3,4,5,6};
+	int[] maxScores = {500,1000,1500,2000,2500,3000};
 	Texture loadingScene;
 
 	menu currentMenu = menu.title;
@@ -60,7 +60,7 @@ public class Menus_TV : MonoBehaviour {
 				break;
 			}
 			skin.button.fontSize = 50;
-			if (GUI.Button(new Rect(0,page.height*3/4, page.width, page.height*1/4), "Tap to Continue")) 
+			if (GUI.Button(new Rect(page.width * 1/4,page.height*3/4, page.width, page.height*1/4), "Tap to Continue")) 
 			{
 				skin.button.fontSize = 65;
 				currentMenu = menu.main;
@@ -68,52 +68,54 @@ public class Menus_TV : MonoBehaviour {
 			break;
 		case menu.main:
 			//toggleMain(true);
-			if (GUI.Button(new Rect(0, page.height * 1/5 - 50, page.width, page.height * 1/5), "1 Player")) 
+			if (GUI.Button(new Rect(page.width * 1/4, page.height * 1/5 - 50, page.width, page.height * 1/5), "1 Player")) 
 			{
 //				numPlayers = 1;
 //				gameMode="Timed";
 //				currentMenu = menu.limits;
 			}
-			if (GUI.Button(new Rect(0, page.height * 2/5 - 50, page.width, page.height * 1/5), "2 Player")) 
+			if (GUI.Button(new Rect(page.width * 1/4, page.height * 2/5 - 50, page.width, page.height * 1/5), "2 Player")) 
 			{
 //				numPlayers = 2;
 //				currentMenu = menu.gameModes;
 			}
-			if (GUI.Button(new Rect(0, page.height * 3/5 - 50, page.width, page.height * 1/5), "Instructions")) 
+			if (GUI.Button(new Rect(page.width * 1/4, page.height * 3/5 - 50, page.width, page.height * 1/5), "Instructions")) 
 			{
 //				currentMenu = menu.instructions;
 			}
-			if (GUI.Button(new Rect(0, page.height * 4/5 - 50, page.width, page.height * 1/5), "Credits")) 
+			if (GUI.Button(new Rect(page.width * 1/4, page.height * 4/5 - 50, page.width, page.height * 1/5), "Credits")) 
 			{
 //				currentMenu = menu.credits;
 			}
-			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
+/*			if (GUI.Button(new Rect(page.width * 1/6,page.height * 1/5 - 50, 50, 50), back)) 
 			{
 //				currentMenu = menu.title;
 				toggleTitle(true);
 			}
+*/
 			break;
 		case menu.highScores:
 			break;
 		case menu.gameModes:
-			if (GUI.Button(new Rect(0,100, page.width, 100), "Score")) 
+			if (GUI.Button(new Rect(page.width * 1/4,page.height * 1/3, page.width, 100), "Score")) 
 			{
 //				gameMode="Score";
 //				currentMenu = menu.limits;
 			}
-			if (GUI.Button(new Rect(0,300, page.width, 100), "Timed")) 
+			if (GUI.Button(new Rect(page.width * 1/4,page.height * 2/3, page.width, 100), "Timed")) 
 			{
 //				gameMode="Timed";
 //				currentMenu = menu.limits;
 			}
-			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
+/*			if (GUI.Button(new Rect(page.width * 1/6,page.height * 1/5 - 50, 50, 50), back)) 
 			{
 //				currentMenu = menu.main;
 			}
+*/
 			break;
 		case menu.limits:
 			toggleVictoryConditions();
-			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
+/*			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
 			{
 //				if(numPlayers == 2)
 //				{
@@ -124,13 +126,15 @@ public class Menus_TV : MonoBehaviour {
 //					currentMenu=menu.main;
 //				}
 			}
+*/
 			break;
 		case menu.levels:
 			toggleLevels();
-			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
+/*			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
 			{
 //				currentMenu = menu.limits;
 			}
+*/
 			break;
 		case menu.loading:
 			GUI.DrawTexture(new Rect(page.width/2-375, 100, 750,400),loadingScene);
@@ -138,17 +142,19 @@ public class Menus_TV : MonoBehaviour {
 			break;
 		case menu.instructions:
 			toggleInstructions();
-			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
+/*			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
 			{
 //				currentMenu = menu.main;
 			}
+*/
 			break;
 		case menu.credits:
 			toggleCredits();
-			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
+/*			if (GUI.Button(new Rect(5,5, 50, 50), back)) 
 			{
 //				currentMenu = menu.main;
 			}
+*/
 			break;
 		default:
 			break;
@@ -193,7 +199,7 @@ public class Menus_TV : MonoBehaviour {
 	{
 		gameMode = mode;
 		maxMins = mins;
-		maxScore = scores;
+		maxScores = scores;
 	}
 	
 	public void toggleVictoryConditions()
@@ -208,17 +214,17 @@ public class Menus_TV : MonoBehaviour {
 		}
 		else
 		{
-			limits = maxScore;
+			limits = maxScores;
 			units = "Points";
 		}
 		
 		GUI.Label(new Rect(page.width/2 - 250,25, 500, 125), "Select Limit", skin.GetStyle("Button"));
-		
+
 		int y = (int)(page.height/limits.Length)/2 + 75;
 		int x = 100;
 		foreach(int opt in limits)
 		{
-			if (GUI.Button(new Rect(x,y, page.width/2 - 100, 175), opt.ToString() + " " + units)) 
+			if (GUI.Button(new Rect(x,y, page.width/2, 175), opt.ToString() + " " + units)) 
 			{
 //				if(gameMode == "Timed")
 //				{
@@ -255,13 +261,14 @@ public class Menus_TV : MonoBehaviour {
 		foreach(Texture level in levels)
 		{
 			x+=200;
-			if(x > (Screen.width - 150))
+			if(x > (Screen.width - 500))
 			{
 				x = 50;
 				y += 175;
 			}
+
 			//GUI.DrawTexture (new Rect (x, y, 100, 100), level);
-			if (GUI.Button(new Rect(x,y, 175, 175), level)) 
+			if (GUI.Button(new Rect(x,y, 300, 300), level)) 
 			{
 //				levelChoice = level.name;
 				levelLoad = level;
@@ -269,7 +276,7 @@ public class Menus_TV : MonoBehaviour {
 //				tvMenus.ChangeMenu(menu.loading);
 //				loadGame();
 			}
-			GUI.Label(new Rect(x,y+125, 175, 125), level.name, skin.GetStyle("Label"));
+			GUI.Label(new Rect(x,y+300, 175, 125), level.name, skin.GetStyle("Label"));
 		}
 		skin.label.fontSize = 20;
 		

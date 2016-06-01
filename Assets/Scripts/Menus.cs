@@ -69,7 +69,8 @@ public class Menus : MonoBehaviour {
 		switch(currentMenu)
 		{
 			case menu.title:
-				skin.button.fontSize = 120;
+				//skin.button.fontSize = 120;
+				skin.button.fontSize = 60;
 			if (GUI.Button(new Rect((-page.width*1/6),0, page.width, page.height*1/2), "Retro Road\nRumble"))
 				{
 					skin.button.fontSize = 65;
@@ -78,7 +79,7 @@ public class Menus : MonoBehaviour {
 					break;
 				}
 				skin.button.fontSize = 50;
-			if (GUI.Button(new Rect((-page.width*1/6),(page.height*1/2), page.width, page.height*3/8), "Tap to Continue")) 
+			if (GUI.Button(new Rect((-page.width*1/6),(page.height*1/3), page.width, page.height*3/8), "Tap to Continue")) 
 				{
 					skin.button.fontSize = 65;
 					currentMenu = menu.main;
@@ -87,25 +88,25 @@ public class Menus : MonoBehaviour {
 			break;
 			case menu.main:
 				//toggleMain(true);
-			if (GUI.Button(new Rect(0, page.height * 1/5 - 50, page.width, page.height * 1/5), "1 Player")) 
+			if (GUI.Button(new Rect((-page.width*1/6), 0, page.width, page.height * 1/5), "1 Player")) 
 				{
 					numPlayers = 1;
 					gameMode="Timed";
 					currentMenu = menu.limits;
 					tvMenu.ChangeMenu(menu.limits);
 				}
-			if (GUI.Button(new Rect(0, page.height * 2/5 - 50, page.width, page.height * 1/5), "2 Player")) 
+			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 - 50, page.width, page.height * 1/5), "2 Player")) 
 				{
 					numPlayers = 2;
 					currentMenu = menu.gameModes;
 					tvMenu.ChangeMenu(menu.gameModes);
 				}
-			if (GUI.Button(new Rect(0, page.height * 3/5 - 50, page.width, page.height * 1/5), "Instructions")) 
+			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 + 25, page.width, page.height * 1/5), "Instructions")) 
 				{
 					currentMenu = menu.instructions;
 					tvMenu.ChangeMenu(menu.instructions);
 				}
-			if (GUI.Button(new Rect(0, page.height * 4/5 - 50, page.width, page.height * 1/5), "Credits")) 
+			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 + 100, page.width, page.height * 1/5), "Credits")) 
 				{
 					currentMenu = menu.credits;
 					tvMenu.ChangeMenu(menu.credits);
@@ -120,13 +121,13 @@ public class Menus : MonoBehaviour {
 			case menu.highScores:
 				break;
 			case menu.gameModes:
-				if (GUI.Button(new Rect(0,100, page.width, 100), "Score")) 
+			if (GUI.Button(new Rect((-page.width*1/6),0, page.width, 100), "Score")) 
 				{
 					gameMode="Score";
 					currentMenu = menu.limits;
 					tvMenu.ChangeMenu(menu.limits);
 				}
-				if (GUI.Button(new Rect(0,300, page.width, 100), "Timed")) 
+			if (GUI.Button(new Rect((-page.width*1/6),page.height * 1/5 - 50, page.width, 100), "Timed")) 
 				{
 					gameMode="Timed";
 					currentMenu = menu.limits;
@@ -186,19 +187,18 @@ public class Menus : MonoBehaviour {
 				break;
 		}
 
-		if(carPos > page.width + 250)
+		if (currentMenu != menu.levels) 
 		{
-			carPos = -250;
+			if (carPos > page.width + 250) {
+					carPos = -250;
+			}
+			if (carPos % 10 == 0) {
+					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 102, 100, 50), carImg);
+			} else {
+					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 100, 100, 50), carImg);
+			}
+			carPos += 2;
 		}
-		if(carPos % 10 == 0)
-		{
-			GUI.DrawTexture(new Rect(carPos,page.height - 52, 100, 50), carImg);
-		}
-		else
-		{
-			GUI.DrawTexture(new Rect(carPos,page.height - 50, 100, 50), carImg);
-		}
-		carPos+=2;
 	}
 
 
@@ -231,14 +231,18 @@ public class Menus : MonoBehaviour {
 		tvMenu.sendVictoryConditions (gameMode, maxMins, maxScores);
 		tvMenu.ChangeMenu(menu.limits);
 
-		GUI.Label(new Rect(page.width/2 - 250,25, 500, 125), "Select Limit", skin.GetStyle("Button"));
+		GUI.Label(new Rect(page.width * 1/7,25, 500, 125), "Select Limit", skin.GetStyle("Button"));
 
-		int y = (int)(page.height/limits.Length)/2 + 75;
-		int x = 100;
+		int y = (int)(page.height/limits.Length)/2 + 50;
+		int x = -50;
+		GUIStyle limitButtonStyle = new GUIStyle ("button");
+		limitButtonStyle.fontSize = 40;
+
 		foreach(int opt in limits)
 		{
-			if (GUI.Button(new Rect(x,y, page.width/2 - 100, 175), opt.ToString() + " " + units)) 
+			if (GUI.Button(new Rect(x,y, page.width/2 - 100, 175), opt.ToString() + " " + units, limitButtonStyle)) 
 			{
+				skin.button.fontSize = 30;
 				if(gameMode == "Timed")
 				{
 					maxTime = opt;
@@ -249,14 +253,14 @@ public class Menus : MonoBehaviour {
 				}
 				currentMenu = menu.levels;
 			}
-			if(x == 100)
+			if(x == -50)
 			{
-				x = (int)page.width/2 + 50;
+				x = (int)(page.width * 1/3 + x);
 			}
 			else
 			{
-				y+=(int)(page.height/limits.Length)/2 + 100;
-				x = 100;
+				y+=(int)(page.height/limits.Length)/2;
+				x = -50;
 			}
 		}
 	}
@@ -269,8 +273,8 @@ public class Menus : MonoBehaviour {
 
 		int x = -150;
 		int y = 75;
-		nightOn = GUI.Toggle(new Rect(page.width-100,20, 40, 50),nightOn, "Night", skin.GetStyle("Toggle"));
-		GUI.Label(new Rect(page.width-170,30, 75, 75), "Time:", skin.GetStyle("Label"));
+		nightOn = GUI.Toggle(new Rect(page.width * 1/2 + 100,20, 40, 50),nightOn, "Night", skin.GetStyle("Toggle"));
+		GUI.Label(new Rect(page.width * 1/2,30, 75, 75), "Time:", skin.GetStyle("Label"));
 
 		skin.label.fontSize = 18;
 
