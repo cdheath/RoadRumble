@@ -30,7 +30,7 @@ public class GameMechanics : MonoBehaviour {
 		gamePadDisplay = GameObject.Find ("Gamepad Camera");
 
 		goalZones = GameObject.FindGameObjectsWithTag ("ScoreZone");
-		Debug.Log (goalZones.Length);
+		//Debug.Log (goalZones.Length);
 		activeZoneIndex = Random.Range (0, goalZones.Length);
 		foreach(GameObject zone in goalZones)
 		{
@@ -56,7 +56,7 @@ public class GameMechanics : MonoBehaviour {
 		players = PlayerPrefs.GetInt ("Players");
 		if(players == 1)
 		{
-			Debug.Log("looking for p2");
+			//Debug.Log("looking for p2");
 			GameObject player2 = GameObject.Find("Player 2");
 			player2.SetActive(false);
 		}
@@ -130,7 +130,7 @@ public class GameMechanics : MonoBehaviour {
 
 	void setNewGoal()
 	{
-		Debug.Log("setting new goal");
+		//Debug.Log("setting new goal");
 		goalZones [activeZoneIndex].particleSystem.Stop ();
 		goalZones [activeZoneIndex].SetActive (false);
 		int newValue = Random.Range (0, goalZones.Length);

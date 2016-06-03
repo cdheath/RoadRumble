@@ -102,7 +102,7 @@ public class AI : MonoBehaviour {
 					}
 				}catch(System.Exception ex)
 				{
-					Debug.Log(string.Format("Exception Occurred: {0}", ex.Message));
+					//Debug.Log(string.Format("Exception Occurred: {0}", ex.Message));
 				}
 			}
 			
@@ -201,7 +201,7 @@ public class AI : MonoBehaviour {
 		catch(System.Exception ex)
 		{
 			Respawn();
-			Debug.Log(string.Format("Exception Occurred: {0}", ex.Message));
+			//Debug.Log(string.Format("Exception Occurred: {0}", ex.Message));
 		}
 	}
 
@@ -424,7 +424,7 @@ public class AI : MonoBehaviour {
 
 	void Respawn()
 	{
-		Debug.Log ("Respawning AI Car");
+		//Debug.Log ("Respawning AI Car");
 		StartCoroutine(Explosion());
 		this.transform.position = startPos;
 		this.transform.rotation = startRot;

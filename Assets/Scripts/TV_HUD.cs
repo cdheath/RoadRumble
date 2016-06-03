@@ -75,7 +75,11 @@ public class TV_HUD : MonoBehaviour {
 				rightSideMsg = "Player 2";
 				rightSideScore = player2Score.ToString();
 			}
-			
+
+			GUISkin newSkin = skin;
+			newSkin.label.fontSize = 80;
+			newSkin.GetStyle("number").fontSize = 80;
+			GUI.skin = newSkin;
 			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
 			GUI.Label(new Rect(0,100, Screen.width, 50),winnerMsg);
 			
@@ -90,15 +94,16 @@ public class TV_HUD : MonoBehaviour {
 		else if(paused)
 		{
 			skin.button.fontSize = 40;
-			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
+			Rect menuRect = new Rect(Screen.width/4,Screen.height/4,Screen.width/2-20,Screen.height/2-100);
+			GUI.DrawTexture(menuRect, popup_background);
 
-			if(GUI.Button(new Rect(Screen.width/4 - 100, Screen.height/4, 500, 50),"Resume"))
+			if(GUI.Button(new Rect(menuRect.xMin + menuRect.width/4, menuRect.yMin + menuRect.height/5, 500, 50),"Resume"))
 			{
 //				GameObject.FindGameObjectWithTag("GamePadCamera").GetComponent<Gamepad_HUD>().pauseGame();
 //				pauseGame();
 			}
 			
-			if (GUI.Button(new Rect(Screen.width/4 - 100 ,Screen.height/4 + 100, 500, 50),"Return to Main Menu"))
+			if (GUI.Button(new Rect(menuRect.xMin + menuRect.width/4, menuRect.yMin + menuRect.height * 2/5, 500, 50),"Return to Main Menu"))
 			{
 //				Application.LoadLevel("MainMenu");
 			}
@@ -137,7 +142,7 @@ public class TV_HUD : MonoBehaviour {
 	void updateGameTime(float newTime)
 	{
 		gameTimeLeft = newTime;
-	//	Debug.Log(newTime);
+	//	//Debug.Log(newTime);
 	}
 
 	void updateScore(string[] receivedVal)
@@ -168,7 +173,7 @@ public class TV_HUD : MonoBehaviour {
 	{
 		if(args.Length < 2)
 		{
-			Debug.LogError("Received ticker message with incorrect args, ignoring.");
+			//Debug.LogError("Received ticker message with incorrect args, ignoring.");
 			return;
 		}
 		tickerRunning = true;

@@ -318,7 +318,7 @@ public class Menus_temp : MonoBehaviour {
 	
 	void loadGame()
 	{
-		Debug.Log ("level is: " + levelChoice + " mode is: " + gameMode + " players = " + numPlayers);
+		//Debug.Log ("level is: " + levelChoice + " mode is: " + gameMode + " players = " + numPlayers);
 		//input scene load here
 		PlayerPrefs.SetString ("Mode", gameMode);
 		PlayerPrefs.SetInt ("Players", numPlayers);

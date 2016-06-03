@@ -103,9 +103,9 @@ public class GyroCapture : MonoBehaviour {
 		
 		float sum = UpdateBuffer (gyro);
 		
-//		Debug.Log ("gyro: " + gyro);
-		Debug.Log ("sum: " + sum);
-		Debug.Log ("event allowed" + allowEvent.ToString ());
+//		//Debug.Log ("gyro: " + gyro);
+		//Debug.Log ("sum: " + sum);
+		//Debug.Log ("event allowed" + allowEvent.ToString ());
 		if (sum > (float)bufferSize  &&  allowEvent) 
 		{
 
@@ -116,7 +116,7 @@ public class GyroCapture : MonoBehaviour {
 
 		if (test && Input.GetKey (KeyCode.M) && allowEvent) 
 		{
-			Debug.Log ("Gyroevent Triggered by Test Key");
+			//Debug.Log ("Gyroevent Triggered by Test Key");
 			GyroEvent();
 			allowEvent = false;
 			LoadBuffer();
@@ -192,8 +192,8 @@ public class GyroCapture : MonoBehaviour {
 		//eventHappening = true;
 		//tickPosition = Screen.width;
 //		AudioSource.PlayClipAtPoint(newsSound, Camera.main.transform.position);
-		Debug.Log ("Gyroevent Triggered");
-		Debug.Log ("levelName: " + levelName);
+		//Debug.Log ("Gyroevent Triggered");
+		//Debug.Log ("levelName: " + levelName);
 		switch (levelName) 
 		{
 		case "REGULARSVILLE": StopAllNonPlayerCars();
@@ -330,7 +330,7 @@ public class GyroCapture : MonoBehaviour {
 	{		
 		if (test) { return levelName.ToUpper();}
 
-		Debug.Log (string.Format("Triggered event for level: {0}", PlayerPrefs.GetString("LevelChoice")));
+		//Debug.Log (string.Format("Triggered event for level: {0}", PlayerPrefs.GetString("LevelChoice")));
 		return PlayerPrefs.GetString("LevelChoice").ToUpper();
 	}
 
@@ -429,7 +429,7 @@ public class GyroCapture : MonoBehaviour {
 
 	void SwitchScoreZones()
 	{
-		Debug.Log ("Switch Score Zones");
+		//Debug.Log ("Switch Score Zones");
 		var scoreZones = GameObject.FindGameObjectsWithTag ("ScoreZone");
 		foreach (var zone in scoreZones) 
 		{
@@ -438,7 +438,8 @@ public class GyroCapture : MonoBehaviour {
 				zone.GetComponent<ScoreZone>().SetNegativeZonesTrue();
 			}
 			catch(System.Exception e)
-			{Debug.Log (e);}
+			{//Debug.Log (e);
+			}
 		}
 	}
 

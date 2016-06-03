@@ -88,25 +88,25 @@ public class Menus : MonoBehaviour {
 			break;
 			case menu.main:
 				//toggleMain(true);
-			if (GUI.Button(new Rect((-page.width*1/6), 0, page.width, page.height * 1/5), "1 Player")) 
+			if (GUI.Button(new Rect((-page.width*1/6), 10, page.width, 80), "1 Player")) 
 				{
 					numPlayers = 1;
 					gameMode="Timed";
 					currentMenu = menu.limits;
 					tvMenu.ChangeMenu(menu.limits);
 				}
-			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 - 50, page.width, page.height * 1/5), "2 Player")) 
+			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 - 50, page.width, 80), "2 Player")) 
 				{
 					numPlayers = 2;
 					currentMenu = menu.gameModes;
 					tvMenu.ChangeMenu(menu.gameModes);
 				}
-			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 + 25, page.width, page.height * 1/5), "Instructions")) 
+			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 + 25, page.width, 80), "Instructions")) 
 				{
 					currentMenu = menu.instructions;
 					tvMenu.ChangeMenu(menu.instructions);
 				}
-			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 + 100, page.width, page.height * 1/5), "Credits")) 
+			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 + 100, page.width, 80), "Credits")) 
 				{
 					currentMenu = menu.credits;
 					tvMenu.ChangeMenu(menu.credits);
@@ -121,13 +121,13 @@ public class Menus : MonoBehaviour {
 			case menu.highScores:
 				break;
 			case menu.gameModes:
-			if (GUI.Button(new Rect((-page.width*1/6),0, page.width, 100), "Score")) 
+			if (GUI.Button(new Rect((-page.width*1/6),75, page.width, 100), "Score")) 
 				{
 					gameMode="Score";
 					currentMenu = menu.limits;
 					tvMenu.ChangeMenu(menu.limits);
 				}
-			if (GUI.Button(new Rect((-page.width*1/6),page.height * 1/5 - 50, page.width, 100), "Timed")) 
+			if (GUI.Button(new Rect((-page.width*1/6),page.height * 1/5 + 25, page.width, 100), "Timed")) 
 				{
 					gameMode="Timed";
 					currentMenu = menu.limits;
@@ -164,7 +164,7 @@ public class Menus : MonoBehaviour {
 				}
 				break;
 			case menu.loading:
-				GUI.DrawTexture(new Rect(page.width/2-375, 100, 750,400),levelLoad);
+				GUI.DrawTexture(new Rect(page.width/7, 100, 550,300),levelLoad);
 				GUI.Label(new Rect(100,50, 200, 50), "Loading...");
 				break;
 			case menu.instructions:
@@ -187,15 +187,15 @@ public class Menus : MonoBehaviour {
 				break;
 		}
 
-		if (currentMenu != menu.levels) 
+		if (currentMenu != menu.levels && currentMenu != menu.instructions) 
 		{
 			if (carPos > page.width + 250) {
 					carPos = -250;
 			}
 			if (carPos % 10 == 0) {
-					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 102, 100, 50), carImg);
+					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 177, 100, 50), carImg);
 			} else {
-					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 100, 100, 50), carImg);
+					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 175, 100, 50), carImg);
 			}
 			carPos += 2;
 		}
@@ -274,6 +274,7 @@ public class Menus : MonoBehaviour {
 		int x = -150;
 		int y = 75;
 		nightOn = GUI.Toggle(new Rect(page.width * 1/2 + 100,20, 40, 50),nightOn, "Night", skin.GetStyle("Toggle"));
+		tvMenu.nightOn = nightOn;
 		GUI.Label(new Rect(page.width * 1/2,30, 75, 75), "Time:", skin.GetStyle("Label"));
 
 		skin.label.fontSize = 18;
@@ -309,27 +310,27 @@ public class Menus : MonoBehaviour {
 //		float third = page.width/3; 
 
 		skin.label.fontSize = 35;
-		GUI.Label(new Rect(0,50, page.width, 50), "Created by:");
+		GUI.Label(new Rect(-200,50, page.width, 50), "Created by:");
 		//GUI.Label(new Rect(0,150, page.width, 50), "Models by:");
-		GUI.Label(new Rect(0,150, page.width, 50), "Music:");
+		GUI.Label(new Rect(-200,150, page.width, 50), "Music:");
 
 		skin.label.fontSize = 20;
 	
-		GUI.Label(new Rect(0,100, half, 50), "Corey Heath");
-		GUI.Label(new Rect(half,100, half, 50), "Tracey Heath");
+		GUI.Label(new Rect(-150,100, half, 50), "Corey Heath");
+		GUI.Label(new Rect(half-300,100, half, 50), "Tracey Heath");
 
 		//GUI.Label(new Rect(0,200, third, 50), "dude 1");
 		//GUI.Label(new Rect(third,200, third, 50), "dude 2");
 		//GUI.Label(new Rect(third*2,200, third, 50), "Tracey Heath");
 
-		GUI.Label(new Rect(0,200, half, 75), "A Breeze From Alabama - Scott Joplin (1902)");
-		GUI.Label(new Rect(half,200, half, 75), "Chicken Reel - Joseph M Daly (1910)");
-		GUI.Label(new Rect(0,250, half, 75), "Fig Leaf Rag - Scott Joplin (1908)");
-		GUI.Label(new Rect(half,250, half, 75), "Hallowe'en - Arthur Manlowe (1911)");
-		GUI.Label(new Rect(0,300, half, 75), "Heliotrope Bouquet - Scott Joplin & Louis Chauvin (1907)");
-		GUI.Label(new Rect(half,300, half, 75), "Maple Leaf Rag - Scott Joplin (1899)");
-		GUI.Label(new Rect(0,350, half, 75), "The St. Louis Rag - Thoms Million Turpin (1903)");
-		GUI.Label(new Rect(half,350, half, 75), "Whistling Rufus - Frederick Allen Mills (1899)");
+		GUI.Label(new Rect(80,200, half + 100, 75), "A Breeze From Alabama - Scott Joplin (1902)".PadRight(56));
+		GUI.Label(new Rect(80,225, half + 100, 75), "Chicken Reel - Joseph M Daly (1910)".PadRight(56));
+		GUI.Label(new Rect(80,250, half + 100, 75), "Fig Leaf Rag - Scott Joplin (1908)".PadRight(56));
+		GUI.Label(new Rect(80,275, half + 100, 75), "Hallowe'en - Arthur Manlowe (1911)".PadRight(56));
+		GUI.Label(new Rect(80,300, half + 100, 75), "Heliotrope Bouquet - Scott Joplin & Louis Chauvin (1907)".PadRight(56));
+		GUI.Label(new Rect(80,325, half + 100, 75), "Maple Leaf Rag - Scott Joplin (1899)".PadRight(56));
+		GUI.Label(new Rect(80,350, half + 100, 75), "The St. Louis Rag - Thoms Million Turpin (1903)".PadRight(56));
+		GUI.Label(new Rect(80,375, half + 100, 75), "Whistling Rufus - Frederick Allen Mills (1899)".PadRight(56));
 	}
 
 	void toggleInstructions()
@@ -344,13 +345,13 @@ public class Menus : MonoBehaviour {
 		GUI.Label(new Rect(25,250, page.width-25, 50),"Now you're on the trolley!");*/
 
 		//GUI.DrawTexture(new Rect(page.width/2 - 275, 200, 550,275),Instructional_Diagram);
-		GUI.DrawTexture(new Rect(page.width/2-475, 100, 950,475),Instructional_Diagram);
-		GUI.Label(new Rect(25,50, page.width-25, 50),"Drive your car to the green marker to score points.");
+		GUI.DrawTexture(new Rect(5, 100, 840,350),Instructional_Diagram);
+		GUI.Label(new Rect(-200,50, page.width-25, 50),"Drive your car to the green marker to score points.");
 	}
 
 	void loadGame()
 	{
-		Debug.Log ("level is: " + levelChoice + " mode is: " + gameMode + " players = " + numPlayers);
+		//Debug.Log ("level is: " + levelChoice + " mode is: " + gameMode + " players = " + numPlayers);
 		//input scene load here
 		PlayerPrefs.SetString ("Mode", gameMode);
 		PlayerPrefs.SetInt ("Players", numPlayers);

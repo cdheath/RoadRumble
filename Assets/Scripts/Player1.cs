@@ -118,7 +118,7 @@ public class Player1 : Player {
 	/*[GuiTarget(GuiTarget.Target.GamePad)]
 	void OnGUI()
 	{
-		Debug.Log("running");
+		//Debug.Log("running");
 
 		if(skin != null)
 		{

@@ -33,7 +33,7 @@ public class Gamepad_HUD : MonoBehaviour {
 	void Update () {
 		touchPosition = (Input.touchCount > 0) ? Input.touches[0].position : new Vector2(-1f,-1f);
 
-//		Debug.LogWarning("touch is: " + touchPosition.ToString());
+//		//Debug.LogWarning("touch is: " + touchPosition.ToString());
 		if(victory && touchPosition.x > -1)
 		{
 			Application.LoadLevel("MainMenu");
@@ -92,7 +92,7 @@ public class Gamepad_HUD : MonoBehaviour {
 			
 			GUI.Label(new Rect(0,300, Screen.width, 50),"Tap to continue...");
 
-			if (GUI.Button(new Rect(0,0,Screen.width, Screen.height),""))
+			if (GUI.Button(new Rect(10,50,Screen.width-20,Screen.height-100), ""))
 			{
 				Application.LoadLevel("MainMenu");
 			}
@@ -102,13 +102,13 @@ public class Gamepad_HUD : MonoBehaviour {
 			skin.button.fontSize = 40;
 			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
 			
-			if(GUI.Button(new Rect(Screen.width/4 - 100, Screen.height/4, 500, 50),"Resume"))
+			if(GUI.Button(new Rect(Screen.width/3 - 100, Screen.height/4, 500, 50),"Resume"))
 			{
 				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().pauseGame();
 				pauseGame();
 			}
 			
-			if (GUI.Button(new Rect(Screen.width/4 - 100 ,Screen.height/4 + 100, 500, 50),"Return to Main Menu"))
+			if (GUI.Button(new Rect(Screen.width/3 - 100 ,Screen.height/4 + 100, 500, 50),"Return to Main Menu"))
 			{
 				Application.LoadLevel("MainMenu");
 			}
@@ -199,7 +199,7 @@ public class Gamepad_HUD : MonoBehaviour {
 	{
 		if(args.Length < 2)
 		{
-			Debug.LogError("Received ticker message with incorrect args, ignoring.");
+			//Debug.LogError("Received ticker message with incorrect args, ignoring.");
 			return;
 		}
 		tickerRunning = true;

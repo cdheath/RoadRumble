@@ -81,7 +81,7 @@ public abstract class Player : MonoBehaviour {
 		touchPosition = (Input.touchCount > 0) ? Input.touches[0].position : new Vector2(-1f,-1f);
 		gyro = gamePad.gyro;
 
-		//Debug.Log ("x = " + gyro.x + " y = " + gyro.y + " z = " + gyro.z);
+		////Debug.Log ("x = " + gyro.x + " y = " + gyro.y + " z = " + gyro.z);
 
 		//running the individual player controls
 		if(!exploding && !paused)
@@ -97,19 +97,19 @@ public abstract class Player : MonoBehaviour {
 	//Collision handler
 	IEnumerator OnCollisionEnter(Collision collision)
 	{
-		Debug.Log ("Collision Detected");
-		Debug.Log(collision.gameObject.tag);
+		//Debug.Log ("Collision Detected");
+		//Debug.Log(collision.gameObject.tag);
 		if(collision.gameObject.tag != "Road" && collision.gameObject.tag != "Intersection" && collision.gameObject.tag != "DrivableArea" && collision.gameObject.tag != "ScoreZone" && 
 		   collision.gameObject.tag != "GameBoundary" && collision.gameObject.tag != "ScoreZone" && collision.gameObject.tag != "FrozenLake" && collision.gameObject.tag != "terrain" )
 		{
-			Debug.Log ("Entered Damage Clause");
-			Debug.Log (string.Format("Invisibility Timer = {0}", invincibilityTimer));
-			Debug.Log (string.Format("velocity = {0}", getVelocity()));
+			//Debug.Log ("Entered Damage Clause");
+			//Debug.Log (string.Format("Invisibility Timer = {0}", invincibilityTimer));
+			//Debug.Log (string.Format("velocity = {0}", getVelocity()));
 			if(getVelocity() >= terminalVelocity && invincibilityTimer <= 0)
 			{	
 
 				currentState++;
-				Debug.Log (string.Format("Damage State = {0}", currentState));
+				//Debug.Log (string.Format("Damage State = {0}", currentState));
 				invincibilityTimer = invincibleLimit;
 				if(currentState == car_state.Battered)
 				{
@@ -146,7 +146,7 @@ public abstract class Player : MonoBehaviour {
 	//Boundary Exit Destroy
 	IEnumerator OnTriggerExit(Collider collider)
 	{
-		Debug.Log ("Boundary Exit Occurred");
+		//Debug.Log ("Boundary Exit Occurred");
 		if (collider.gameObject.tag == "GameBoundary") {
 			exploding = true;
 			
@@ -184,7 +184,7 @@ public abstract class Player : MonoBehaviour {
 		toSend [1] = this.score.ToString ();
 		GameObject.Find ("GameMechanics").SendMessage ("updateScore", toSend);
 
-		Debug.Log (gameObject.name + "'s score is now " + score);
+		//Debug.Log (gameObject.name + "'s score is now " + score);
 	}
 
 	public int getPoints()
