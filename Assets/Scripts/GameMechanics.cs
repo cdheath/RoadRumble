@@ -18,7 +18,7 @@ public class GameMechanics : MonoBehaviour {
 	int player1Score = 0;
 	int player2Score = 0;
 	bool victory;
-
+	int[] highScores = null;
 	public GameObject pickupSound;
 
 	// Use this for initialization
@@ -200,19 +200,22 @@ public class GameMechanics : MonoBehaviour {
 
 	int[] UpdateHighScores(int newScore, string levelName, string timeLimit)
 	{
-		int[] highScores = GetHighScores (levelName);
-		int scoreToCheck = newScore;
-		for (int index = 0; index < highScores.Length - 1; index++) 
+		if (highScores == null) 
 		{
-			if(highScores[index] < scoreToCheck)
+			highScores = GetHighScores (levelName);
+			int scoreToCheck = newScore;
+			for (int index = 0; index < highScores.Length - 1; index++) 
 			{
-				int temp = highScores[index];
-				highScores[index] = scoreToCheck;
-				PlayerPrefs.SetInt(string.Format("{0}{1}",levelName + timeLimit, index), scoreToCheck);
-				scoreToCheck = temp;
+				if (highScores [index] < scoreToCheck) 
+				{
+						int temp = highScores [index];
+						highScores [index] = scoreToCheck;
+						PlayerPrefs.SetInt (string.Format ("{0}{1}", levelName + timeLimit, index), scoreToCheck);
+						scoreToCheck = temp;
+				}
 			}
+			PlayerPrefs.Save ();
 		}
-		PlayerPrefs.Save ();
 		return highScores;
 	}
 }
