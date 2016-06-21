@@ -8,8 +8,8 @@ public class TV_HUD : MonoBehaviour {
 	float gameTimeLeft = -1;
 	int player1Score = 0;
 	int player2Score = 0;
-
-	int tickerPosition;
+	Rect page;
+	float tickerPosition;
 	int tickerWidth;
 	string tickerMsg;
 	bool victory = false;
@@ -28,7 +28,10 @@ public class TV_HUD : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-
+		page.width = 1920;
+		page.height = 1080;
+		page.x = 0;
+		page.y = 0;
 	}
 	
 	// Update is called once per frame
@@ -51,8 +54,8 @@ public class TV_HUD : MonoBehaviour {
 			if(singlePlayer)
 			{
 				winnerMsg = "Level High Scores";
-				GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
-				GUI.Label(new Rect(0,100, Screen.width, 50),winnerMsg);
+			//	GUI.DrawTexture(new Rect(10,50,page.width-20,page.height-100), popup_background);
+			//	GUI.Label(new Rect(0,100, page.width, 50),winnerMsg);
 
 				rightSideMsg = "Top Score";
 				rightSideScore = GetTopScoreString();
@@ -76,25 +79,22 @@ public class TV_HUD : MonoBehaviour {
 				rightSideScore = player2Score.ToString();
 			}
 
-			GUISkin newSkin = skin;
-			newSkin.label.fontSize = 80;
-			newSkin.GetStyle("number").fontSize = 80;
-			GUI.skin = newSkin;
-			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
-			GUI.Label(new Rect(0,100, Screen.width, 50),winnerMsg);
+			Rect menuRect = new Rect(page.width * 1/6,page.height * 1/6,page.width * 0.7f,page.height * 0.7f);
+			GUI.DrawTexture(menuRect, popup_background);
+			GUI.Label(new Rect(menuRect.xMin,menuRect.yMin + menuRect.height/6, menuRect.width, 50),winnerMsg, GUI.skin.GetStyle("ScoreLabels_TV"));
 			
-			GUI.Label(new Rect(0,150, Screen.width/2, 50),"Player 1");
-			GUI.Label(new Rect(0,200, Screen.width/2, 50),player1Score.ToString(), GUI.skin.GetStyle("number"));
+			GUI.Label(new Rect(menuRect.xMin,menuRect.yMin + menuRect.height/4, menuRect.width/2, 50),"Player 1", GUI.skin.GetStyle("ScoreLabels_TV"));
+			GUI.Label(new Rect(menuRect.xMin,menuRect.yMin + menuRect.height* 1/3, menuRect.width/2, 50),player1Score.ToString(), GUI.skin.GetStyle("number_TV"));
 	
-			GUI.Label(new Rect(Screen.width/2,150, Screen.width/2, 50),rightSideMsg);
-			GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),rightSideScore, GUI.skin.GetStyle("number"));
+			GUI.Label(new Rect(menuRect.xMin + menuRect.width/2,menuRect.yMin + menuRect.height/4, menuRect.width/2, 50),rightSideMsg, GUI.skin.GetStyle("ScoreLabels_TV"));
+			GUI.Label(new Rect(menuRect.xMin + menuRect.width/2,menuRect.yMin + menuRect.height* 1/3, menuRect.width/2, 50),rightSideScore, GUI.skin.GetStyle("number_TV"));
 
-			GUI.Label(new Rect(0,300, Screen.width, 50),"Tap to continue...");
+			GUI.Label(new Rect(menuRect.xMin,menuRect.height* 3/4, menuRect.width, 50),"Tap to continue...", GUI.skin.GetStyle("ScoreLabels_TV"));
 		}
 		else if(paused)
 		{
 			skin.button.fontSize = 40;
-			Rect menuRect = new Rect(Screen.width/4,Screen.height/4,Screen.width/2-20,Screen.height/2-100);
+			Rect menuRect = new Rect(page.width/4,page.height/4,page.width/2-20,page.height/2-100);
 			GUI.DrawTexture(menuRect, popup_background);
 
 			if(GUI.Button(new Rect(menuRect.xMin + menuRect.width/4, menuRect.yMin + menuRect.height/5, 500, 50),"Resume"))
@@ -113,7 +113,7 @@ public class TV_HUD : MonoBehaviour {
 		{
 			if(gameTimeLeft != -1)
 			{
-				GUI.Label (new Rect (Screen.width/2, 30, 50, 40), ((int)gameTimeLeft).ToString(), GUI.skin.GetStyle("number"));
+				GUI.Label (new Rect (page.width/2, 30, 50, 40), ((int)gameTimeLeft).ToString(), GUI.skin.GetStyle("number"));
 			}
 			
 			GUI.Label (new Rect (30, 30, 120, 40), "Player 1");
@@ -122,13 +122,13 @@ public class TV_HUD : MonoBehaviour {
 			GUI.Label (new Rect (40, 60, 100, 40), player1Score.ToString(), GUI.skin.GetStyle("number"));
 			if(PlayerPrefs.GetInt("Players") == 2)
 			{
-				GUI.Label (new Rect (Screen.width - 130, 30, 120, 40), "Player 2");
-				GUI.Label (new Rect (Screen.width - 80, 60, 100, 40), player2Score.ToString(), GUI.skin.GetStyle("number"));
+				GUI.Label (new Rect (page.width - page.width/6, 30, 120, 40), "Player 2");
+				GUI.Label (new Rect (page.width - page.width/5, 60, 100, 40), player2Score.ToString(), GUI.skin.GetStyle("number"));
 			}
 			
 			if(tickerRunning)
 			{
-				tickerPosition -= 1;
+				tickerPosition -= 2;
 				newsTicker();
 				if(tickerPosition < (0 - tickerWidth))
 				{
@@ -178,14 +178,14 @@ public class TV_HUD : MonoBehaviour {
 		}
 		tickerRunning = true;
 		
-		tickerPosition = Screen.width;//int.Parse(args[0]);
+		tickerPosition = page.width - 20;//int.Parse(args[0]);
 		tickerWidth = int.Parse(args[0]);
 		tickerMsg = args[1];
 	}
 	
 	void newsTicker()
 	{
-		GUI.Box(new Rect(tickerPosition, Screen.height-50, tickerWidth, 35), tickerMsg, skin.box);
+		GUI.Box(new Rect(tickerPosition, page.height-50, tickerWidth, page.height * 1/6), tickerMsg, skin.box);
 	}
 
 	string GetTopScoreString()

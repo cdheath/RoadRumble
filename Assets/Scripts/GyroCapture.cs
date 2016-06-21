@@ -106,7 +106,7 @@ public class GyroCapture : MonoBehaviour {
 //		//Debug.Log ("gyro: " + gyro);
 		//Debug.Log ("sum: " + sum);
 		//Debug.Log ("event allowed" + allowEvent.ToString ());
-		if (sum > (float)bufferSize  &&  allowEvent) 
+		if (sum > (float)bufferSize/2  &&  allowEvent) 
 		{
 
 			GyroEvent();
@@ -135,22 +135,6 @@ public class GyroCapture : MonoBehaviour {
 			}
 		}
 	}
-
-	/*void OnGUI()
-	{
-		//if(eventHappening)
-		//{
-			//if(tickPosition%2 == 0)
-			//{
-				//tickPosition -= 1;
-			string[] tickArgs = {tickerWidth.ToString(), tickerMessage};
-			
-			tvDisplay.SendMessage("newsTicker", tickArgs);
-			gamepadDisplay.SendMessage("newsTicker", tickArgs);
-			//}
-			//newsTicker(tickPosition);
-		//}
-	}*/
 	
 	float UpdateBuffer(float gyroMag)
 	{
@@ -190,7 +174,7 @@ public class GyroCapture : MonoBehaviour {
 	void GyroEvent()
 	{
 		//eventHappening = true;
-		//tickPosition = Screen.width;
+		//tickPosition = Screen.currentResolution.width;
 //		AudioSource.PlayClipAtPoint(newsSound, Camera.main.transform.position);
 		//Debug.Log ("Gyroevent Triggered");
 		//Debug.Log ("levelName: " + levelName);

@@ -35,13 +35,14 @@ public class Menus : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		page.width = Screen.width;
-		page.height = Screen.height;
+		//hard coded to gamepad res
+		page.width = 854;
+		page.height = 480;
 		page.x = 0;
 		page.y = 0;
 
 		carPos = 0;
-
+		//Debug.Log ("GamePad Page Width: " + Screen.currentResolution.width + " Page Height: " + Screen.currentResolution.height);
 		tvMenu = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Menus_TV> ();
 	}
 	
@@ -70,43 +71,43 @@ public class Menus : MonoBehaviour {
 		{
 			case menu.title:
 				//skin.button.fontSize = 120;
-				skin.button.fontSize = 60;
-			if (GUI.Button(new Rect((-page.width*1/6),0, page.width, page.height*1/2), "Retro Road\nRumble"))
+				//skin.button.fontSize = 60;
+			if (GUI.Button(new Rect(0,0, page.width, page.height*1/2), "Retro Road\nRumble", GUI.skin.GetStyle("Title_GamePad")))
 				{
-					skin.button.fontSize = 65;
+				//	skin.button.fontSize = 65;
 					currentMenu = menu.main;
 					tvMenu.ChangeMenu(menu.main);
 					break;
 				}
-				skin.button.fontSize = 50;
-			if (GUI.Button(new Rect((-page.width*1/6),(page.height*1/3), page.width, page.height*3/8), "Tap to Continue")) 
+				//skin.button.fontSize = 50;
+			if (GUI.Button(new Rect(0,(float)(page.height * 2/5), page.width, page.height*3/8), "Tap to Continue", GUI.skin.GetStyle("TapContinue_GamePad"))) 
 				{
-					skin.button.fontSize = 65;
+				//	skin.button.fontSize = 65;
 					currentMenu = menu.main;
 					tvMenu.ChangeMenu(menu.main);
 				}
 			break;
 			case menu.main:
 				//toggleMain(true);
-			if (GUI.Button(new Rect((-page.width*1/6), 10, page.width, 80), "1 Player")) 
+			if (GUI.Button(new Rect(0, page.height * 1/8, page.width, page.height * 1/6), "1 Player")) 
 				{
 					numPlayers = 1;
 					gameMode="Timed";
 					currentMenu = menu.limits;
 					tvMenu.ChangeMenu(menu.limits);
 				}
-			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 - 50, page.width, 80), "2 Player")) 
+			if (GUI.Button(new Rect(0, page.height * 2/8, page.width, page.height * 1/6), "2 Player")) 
 				{
 					numPlayers = 2;
 					currentMenu = menu.gameModes;
 					tvMenu.ChangeMenu(menu.gameModes);
 				}
-			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 + 25, page.width, 80), "Instructions")) 
+			if (GUI.Button(new Rect(0, page.height * 3/8, page.width, page.height * 1/6), "Instructions")) 
 				{
 					currentMenu = menu.instructions;
 					tvMenu.ChangeMenu(menu.instructions);
 				}
-			if (GUI.Button(new Rect((-page.width*1/6), page.height * 1/5 + 100, page.width, 80), "Credits")) 
+			if (GUI.Button(new Rect(0, page.height * 4/8, page.width, page.height * 1/6), "Credits")) 
 				{
 					currentMenu = menu.credits;
 					tvMenu.ChangeMenu(menu.credits);
@@ -121,13 +122,13 @@ public class Menus : MonoBehaviour {
 			case menu.highScores:
 				break;
 			case menu.gameModes:
-			if (GUI.Button(new Rect((-page.width*1/6),75, page.width, 100), "Score")) 
+			if (GUI.Button(new Rect(0, page.height * 1/8, page.width, page.height * 1/6), "Score")) 
 				{
 					gameMode="Score";
 					currentMenu = menu.limits;
 					tvMenu.ChangeMenu(menu.limits);
 				}
-			if (GUI.Button(new Rect((-page.width*1/6),page.height * 1/5 + 25, page.width, 100), "Timed")) 
+			if (GUI.Button(new Rect(0, page.height * 2/8, page.width, page.height * 1/6), "Timed")) 
 				{
 					gameMode="Timed";
 					currentMenu = menu.limits;
@@ -187,7 +188,7 @@ public class Menus : MonoBehaviour {
 				break;
 		}
 
-		if (currentMenu != menu.levels && currentMenu != menu.instructions) 
+		if (currentMenu != menu.levels && currentMenu != menu.instructions && currentMenu != menu.credits && currentMenu != menu.loading) 
 		{
 			if (carPos > page.width + 250) {
 					carPos = -250;
@@ -231,18 +232,20 @@ public class Menus : MonoBehaviour {
 		tvMenu.sendVictoryConditions (gameMode, maxMins, maxScores);
 		tvMenu.ChangeMenu(menu.limits);
 
-		GUI.Label(new Rect(page.width * 1/7,25, 500, 125), "Select Limit", skin.GetStyle("Button"));
+		GUI.Label(new Rect(0, page.height * 1/8, page.width, 125), "Select Limit", skin.GetStyle("Button"));
 
-		int y = (int)(page.height/limits.Length)/2 + 50;
-		int x = -50;
-		GUIStyle limitButtonStyle = new GUIStyle ("button");
-		limitButtonStyle.fontSize = 40;
-
+		int y = (int)((page.height/limits.Length)/2 + (page.height * 1/8));
+		int x = 0;
+		//GUIStyle limitButtonStyle = new GUIStyle ("button");
+		//limitButtonStyle.fontSize = 40;
+		bool leftSide = true;
 		foreach(int opt in limits)
 		{
-			if (GUI.Button(new Rect(x,y, page.width/2 - 100, 175), opt.ToString() + " " + units, limitButtonStyle)) 
+
+			string styleType = leftSide ? "LimitButtons_GamePad" : "LimitButtons_GamePad_Right";
+			if (GUI.Button(new Rect(x,y, (page.width * 0.4f), page.height * 1/6), opt.ToString() + " " + units, skin.GetStyle(styleType))) 
 			{
-				skin.button.fontSize = 30;
+				//skin.button.fontSize = 30;
 				if(gameMode == "Timed")
 				{
 					maxTime = opt;
@@ -253,14 +256,16 @@ public class Menus : MonoBehaviour {
 				}
 				currentMenu = menu.levels;
 			}
-			if(x == -50)
+			if(x == 0)
 			{
-				x = (int)(page.width * 1/3 + x);
+				x = (int)(page.width * 0.6f);
+				leftSide = false;
 			}
 			else
 			{
 				y+=(int)(page.height/limits.Length)/2;
-				x = -50;
+				x = 0;
+				leftSide = true;
 			}
 		}
 	}
@@ -273,16 +278,16 @@ public class Menus : MonoBehaviour {
 
 		int x = -150;
 		int y = 75;
-		nightOn = GUI.Toggle(new Rect(page.width * 1/2 + 100,20, 40, 50),nightOn, "Night", skin.GetStyle("Toggle"));
+		nightOn = GUI.Toggle(new Rect(page.width * 1/2 + 300,20, 40, 50),nightOn, "Night", skin.GetStyle("Toggle"));
 		tvMenu.nightOn = nightOn;
-		GUI.Label(new Rect(page.width * 1/2,30, 75, 75), "Time:", skin.GetStyle("Label"));
+		GUI.Label(new Rect(page.width * 1/2 + 200,30, 75, 75), "Time:", skin.GetStyle("Label"));
 
-		skin.label.fontSize = 18;
+		//skin.label.fontSize = 18;
 
 		foreach(Texture level in levels)
 		{
 			x+=200;
-			if(x > (Screen.width - 150))
+			if(x > (page.width - 150))
 			{
 				x = 50;
 				y += 175;
@@ -296,9 +301,9 @@ public class Menus : MonoBehaviour {
 				tvMenu.ChangeMenu(menu.loading, levelLoad);
 				loadGame();
 			}
-			GUI.Label(new Rect(x,y+125, 175, 125), level.name, skin.GetStyle("Label"));
+			GUI.Label(new Rect(x,y+125, 175, 125), level.name, skin.GetStyle("LevelLabels_GamePad"));
 		}
-		skin.label.fontSize = 20;
+		//skin.label.fontSize = 20;
 
 	}
 
@@ -309,28 +314,28 @@ public class Menus : MonoBehaviour {
 		float half = page.width/2;
 //		float third = page.width/3; 
 
-		skin.label.fontSize = 35;
-		GUI.Label(new Rect(-200,50, page.width, 50), "Created by:");
+		//skin.label.fontSize = 35;
+		GUI.Label(new Rect(0,50, page.width, page.width * 1/6), "Created by:",skin.GetStyle("CreditHeaders"));
 		//GUI.Label(new Rect(0,150, page.width, 50), "Models by:");
-		GUI.Label(new Rect(-200,150, page.width, 50), "Music:");
+		GUI.Label(new Rect(0,page.width * 0.17f, page.width, page.width * 1/6), "Music:",skin.GetStyle("CreditHeaders"));
 
-		skin.label.fontSize = 20;
+		//skin.label.fontSize = 20;
 	
-		GUI.Label(new Rect(-150,100, half, 50), "Corey Heath");
-		GUI.Label(new Rect(half-300,100, half, 50), "Tracey Heath");
+		GUI.Label(new Rect(0,page.width * 1/8, half, 50), "Corey Heath", skin.GetStyle("CreditLabels"));
+		GUI.Label(new Rect((int)(page.width * 0.5f),page.width * 1/8, half, 50), "Tracey Heath", skin.GetStyle("CreditLabels"));
 
 		//GUI.Label(new Rect(0,200, third, 50), "dude 1");
 		//GUI.Label(new Rect(third,200, third, 50), "dude 2");
 		//GUI.Label(new Rect(third*2,200, third, 50), "Tracey Heath");
 
-		GUI.Label(new Rect(80,200, half + 100, 75), "A Breeze From Alabama - Scott Joplin (1902)".PadRight(56));
-		GUI.Label(new Rect(80,225, half + 100, 75), "Chicken Reel - Joseph M Daly (1910)".PadRight(56));
-		GUI.Label(new Rect(80,250, half + 100, 75), "Fig Leaf Rag - Scott Joplin (1908)".PadRight(56));
-		GUI.Label(new Rect(80,275, half + 100, 75), "Hallowe'en - Arthur Manlowe (1911)".PadRight(56));
-		GUI.Label(new Rect(80,300, half + 100, 75), "Heliotrope Bouquet - Scott Joplin & Louis Chauvin (1907)".PadRight(56));
-		GUI.Label(new Rect(80,325, half + 100, 75), "Maple Leaf Rag - Scott Joplin (1899)".PadRight(56));
-		GUI.Label(new Rect(80,350, half + 100, 75), "The St. Louis Rag - Thoms Million Turpin (1903)".PadRight(56));
-		GUI.Label(new Rect(80,375, half + 100, 75), "Whistling Rufus - Frederick Allen Mills (1899)".PadRight(56));
+		GUI.Label(new Rect(0,200, page.width, 75), "A Breeze From Alabama - Scott Joplin (1902)".PadRight(56), skin.GetStyle("CreditLabels"));
+		GUI.Label(new Rect(0,225, page.width, 75), "Chicken Reel - Joseph M Daly (1910)".PadRight(56), skin.GetStyle("CreditLabels"));
+		GUI.Label(new Rect(0,250, page.width, 75), "Fig Leaf Rag - Scott Joplin (1908)".PadRight(56), skin.GetStyle("CreditLabels"));
+		GUI.Label(new Rect(0,275, page.width, 75), "Hallowe'en - Arthur Manlowe (1911)".PadRight(56), skin.GetStyle("CreditLabels"));
+		GUI.Label(new Rect(0,300, page.width, 75), "Heliotrope Bouquet - Scott Joplin & Louis Chauvin (1907)".PadRight(56), skin.GetStyle("CreditLabels"));
+		GUI.Label(new Rect(0,325, page.width, 75), "Maple Leaf Rag - Scott Joplin (1899)".PadRight(56), skin.GetStyle("CreditLabels"));
+		GUI.Label(new Rect(0,350, page.width, 75), "The St. Louis Rag - Thoms Million Turpin (1903)".PadRight(56), skin.GetStyle("CreditLabels"));
+		GUI.Label(new Rect(0,375, page.width, 75), "Whistling Rufus - Frederick Allen Mills (1899)".PadRight(56), skin.GetStyle("CreditLabels"));
 	}
 
 	void toggleInstructions()
@@ -345,8 +350,8 @@ public class Menus : MonoBehaviour {
 		GUI.Label(new Rect(25,250, page.width-25, 50),"Now you're on the trolley!");*/
 
 		//GUI.DrawTexture(new Rect(page.width/2 - 275, 200, 550,275),Instructional_Diagram);
-		GUI.DrawTexture(new Rect(5, 100, 840,350),Instructional_Diagram);
-		GUI.Label(new Rect(-200,50, page.width-25, 50),"Drive your car to the green marker to score points.");
+		GUI.DrawTexture(new Rect(40, 65, page.width - 80, page.height - 75),Instructional_Diagram);
+		GUI.Label(new Rect(0,25, page.width, 50),"Drive your car to the green marker to score points.");
 	}
 
 	void loadGame()

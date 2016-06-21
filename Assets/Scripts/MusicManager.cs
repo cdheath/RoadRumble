@@ -4,7 +4,7 @@ using System.Collections;
 public class MusicManager : MonoBehaviour {
 	public AudioClip[] musicFiles;
 	private int lastSongPlayed = -1;
-	private static MusicManager _musicManagerInstance = null;
+	private static MusicManager _musicManagerInstance;
 
 	public static MusicManager Instance 
 	{
@@ -32,13 +32,14 @@ public class MusicManager : MonoBehaviour {
 
 	void Awake()
 	{
-		if (_musicManagerInstance != null && _musicManagerInstance != this) 
+		if (_musicManagerInstance) 
 		{
-			Destroy (this.gameObject);
+			DestroyImmediate(this.gameObject);
 		} 
 		else
 		{
 			DontDestroyOnLoad(this.gameObject);
+			_musicManagerInstance = this;
 		}
 	}
 

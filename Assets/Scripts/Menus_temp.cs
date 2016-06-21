@@ -34,8 +34,8 @@ public class Menus_temp : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		page.width = Screen.width;
-		page.height = Screen.height;
+		page.width = Screen.currentResolution.width;
+		page.height = Screen.currentResolution.height;
 		page.x = 0;
 		page.y = 0;
 		
@@ -253,7 +253,7 @@ public class Menus_temp : MonoBehaviour {
 		foreach(Texture level in levels)
 		{
 			x+=200;
-			if(x > (Screen.width - 150))
+			if(x > (Screen.currentResolution.width - 150))
 			{
 				x = 50;
 				y += 175;

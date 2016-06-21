@@ -8,7 +8,7 @@ public class Gamepad_HUD : MonoBehaviour {
 	float gameTimeLeft = -1;
 	int player1Score = 0;
 	int player2Score = 0;
-	int tickerPosition;
+	float tickerPosition;
 	int tickerWidth;
 	string tickerMsg;
 	bool victory = false;
@@ -22,11 +22,14 @@ public class Gamepad_HUD : MonoBehaviour {
 	public GameObject player1 = null;
 	[HideInInspector]
 	public GameObject player2 = null;
-
+	Rect page;
 	// Use this for initialization
 	void Start () 
 	{
-
+		page.width = 854;
+		page.height = 480;
+		page.x = 0;
+		page.y = 0;
 	}
 	
 	// Update is called once per frame
@@ -56,8 +59,8 @@ public class Gamepad_HUD : MonoBehaviour {
 			if(singlePlayer)
 			{
 				winnerMsg = "Level High Scores";
-				GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
-				GUI.Label(new Rect(0,100, Screen.width, 50),winnerMsg);
+				GUI.DrawTexture(new Rect(10,50,page.width-20,page.height-100), popup_background);
+				GUI.Label(new Rect(0,100, page.width, 50),winnerMsg);
 
 				rightSideMsg = "Top Score";
 				rightSideScore = GetTopScoreString();
@@ -81,18 +84,18 @@ public class Gamepad_HUD : MonoBehaviour {
 				rightSideScore = player2Score.ToString();
 			}
 			
-			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
-			GUI.Label(new Rect(0,100, Screen.width, 50),winnerMsg);
+			GUI.DrawTexture(new Rect(10,50,page.width-20, page.height-100), popup_background);
+			GUI.Label(new Rect(0,100, page.width, 50),winnerMsg);
 			
-			GUI.Label(new Rect(0,150, Screen.width/2, 50),"Player 1");
-			GUI.Label(new Rect(0,200, Screen.width/2, 50),player1Score.ToString(), GUI.skin.GetStyle("number"));
+			GUI.Label(new Rect(0,150, page.width/2, 50),"Player 1");
+			GUI.Label(new Rect(0,200, page.width/2, 50),player1Score.ToString(), GUI.skin.GetStyle("number"));
 
-			GUI.Label(new Rect(Screen.width/2,150, Screen.width/2, 50),rightSideMsg);
-			GUI.Label(new Rect(Screen.width/2,200, Screen.width/2, 50),rightSideScore, GUI.skin.GetStyle("number"));
+			GUI.Label(new Rect(page.width/2,150, page.width/2, 50),rightSideMsg);
+			GUI.Label(new Rect(page.width/2,200, page.width/2, 50),rightSideScore, GUI.skin.GetStyle("number"));
 			
-			GUI.Label(new Rect(0,300, Screen.width, 50),"Tap to continue...");
+			GUI.Label(new Rect(0,300, page.width, 50),"Tap to continue...");
 
-			if (GUI.Button(new Rect(10,50,Screen.width-20,Screen.height-100), ""))
+			if (GUI.Button(new Rect(10,50,page.width-20,page.height-100), ""))
 			{
 				Application.LoadLevel("MainMenu");
 			}
@@ -100,25 +103,24 @@ public class Gamepad_HUD : MonoBehaviour {
 		else if(paused)
 		{
 			skin.button.fontSize = 40;
-			GUI.DrawTexture(new Rect(10,50,Screen.width-20,Screen.height-100), popup_background);
+			GUI.DrawTexture(new Rect(10,50,page.width-20, page.height-100), popup_background);
 			
-			if(GUI.Button(new Rect(Screen.width/3 - 100, Screen.height/4, 500, 50),"Resume"))
+			if(GUI.Button(new Rect(page.width/3 - 100, page.height/4, 500, 50),"Resume"))
 			{
 				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().pauseGame();
 				pauseGame();
 			}
 			
-			if (GUI.Button(new Rect(Screen.width/3 - 100 ,Screen.height/4 + 100, 500, 50),"Return to Main Menu"))
+			if (GUI.Button(new Rect(page.width/3 - 100 ,page.height/4 + 100, 500, 50),"Return to Main Menu"))
 			{
 				Application.LoadLevel("MainMenu");
 			}
-
 		}
 		else
 		{
 			if(gameTimeLeft != -1)
 			{
-				GUI.Label (new Rect (Screen.width/2, 30, 50, 40), ((int)gameTimeLeft).ToString(), GUI.skin.GetStyle("number"));
+				GUI.Label (new Rect (page.width/2, 30, 50, 40), ((int)gameTimeLeft).ToString(), GUI.skin.GetStyle("number"));
 			}
 
 			if(PlayerPrefs.GetInt("Players") == 2)
@@ -126,30 +128,30 @@ public class Gamepad_HUD : MonoBehaviour {
 				skin.label.fontSize = 15;
 
 				Matrix4x4 matrixBackup = GUI.matrix;
-				GUIUtility.RotateAroundPivot(90, new Vector2(Screen.width/2,Screen.height/2));
+				GUIUtility.RotateAroundPivot(90, new Vector2(page.width/2,page.height/2));
 				//Note: Parameters below represent the screen while rotated
-				GUI.Label (new Rect (Screen.height/2 - 60, Screen.width - 250, 100, 40),"Player 1", GUI.skin.GetStyle("label"));
-				GUI.Label (new Rect (Screen.height/2 - 35, Screen.width - 225, 65, 40),player1Score.ToString(), GUI.skin.GetStyle("number"));
+				GUI.Label (new Rect (page.height/2 - 60, page.width - 250, 100, 40),"Player 1", GUI.skin.GetStyle("Label"));
+				GUI.Label (new Rect (page.height/2 - 35, page.width - 225, 65, 40),player1Score.ToString(), GUI.skin.GetStyle("number"));
 				GUI.matrix = matrixBackup;
 
-				GUIUtility.RotateAroundPivot(-90, new Vector2(Screen.width/2,Screen.height/2));
+				GUIUtility.RotateAroundPivot(-90, new Vector2(page.width/2,page.height/2));
 				//Note: Parameters below represent the screen while rotated
-				GUI.Label (new Rect ( Screen.width/2 - 245, Screen.width/2 + 175,100, 40),"Player 2", GUI.skin.GetStyle("label"));
-				GUI.Label (new Rect ( Screen.width/2 - 220, Screen.width/2 + 200,65, 40),player2Score.ToString(), GUI.skin.GetStyle("number"));
+				GUI.Label (new Rect ( page.height/2 - 60, page.width/2 + 170,100, 40),"Player 2", GUI.skin.GetStyle("Label"));
+				GUI.Label (new Rect ( page.height/2 - 35, page.width/2 + 200,65, 40),player2Score.ToString(), GUI.skin.GetStyle("number"));
 				
 				GUI.matrix = matrixBackup;
 			}
 			else
 			{
 				GUI.Label (new Rect (30, 30, 120, 40), "Player 1");
-			//	GUI.Label (new Rect (Screen.width - 130, 30, 120, 40), "Player 2");
+			//	GUI.Label (new Rect (Screen.currentResolution.width - 130, 30, 120, 40), "Player 2");
 				
 				GUI.Label (new Rect (40, 60, 100, 40), player1Score.ToString(), GUI.skin.GetStyle("number"));
 			}
 
 			if(tickerRunning)
 			{
-				tickerPosition -= 1;
+				tickerPosition -= 2;
 				newsTicker();
 				if(tickerPosition < (0 - tickerWidth))
 				{
@@ -204,7 +206,7 @@ public class Gamepad_HUD : MonoBehaviour {
 		}
 		tickerRunning = true;
 
-		tickerPosition = Screen.width;
+		tickerPosition = page.width - 20;
 		tickerWidth = int.Parse(args[0]);
 		tickerMsg = args[1];
 	}
@@ -214,22 +216,22 @@ public class Gamepad_HUD : MonoBehaviour {
 		if(PlayerPrefs.GetInt("Players") == 2)
 		{
 			Matrix4x4 matrixBackup = GUI.matrix;
-			GUIUtility.RotateAroundPivot(90, new Vector2(Screen.width/2,Screen.height/2));
+			GUIUtility.RotateAroundPivot(90, new Vector2(page.width/2,page.height/2));
 			//Note: Parameters below represent the screen while rotated
-			GUI.Box(new Rect(tickerPosition, Screen.width-280, tickerWidth, 35), tickerMsg, skin.box);
+			GUI.Box(new Rect(tickerPosition, page.width-280, tickerWidth, 35), tickerMsg, skin.box);
 
 			GUI.matrix = matrixBackup;
 			
-			GUIUtility.RotateAroundPivot(-90, new Vector2(Screen.width/2,Screen.height/2));
+			GUIUtility.RotateAroundPivot(-90, new Vector2(page.width/2, page.height/2));
 			//Note: Parameters below represent the screen while rotated
-			GUI.Box(new Rect(tickerPosition, Screen.width-280, tickerWidth, 35), tickerMsg, skin.box);
+			GUI.Box(new Rect(tickerPosition, page.width-280, tickerWidth, 35), tickerMsg, skin.box);
 
 			
 			GUI.matrix = matrixBackup;
 		}
 		else
 		{
-			GUI.Box(new Rect(tickerPosition, Screen.height-50, tickerWidth, 35), tickerMsg, skin.box);
+			GUI.Box(new Rect(tickerPosition, page.height-50, tickerWidth, 35), tickerMsg, skin.box);
 		}
 	}
 
