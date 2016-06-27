@@ -126,7 +126,7 @@ public abstract class Player : MonoBehaviour {
 					exploding = true;
 					this.gameObject.GetComponentInChildren<ParticleSystem>().Stop();
 					var explosionObject = Instantiate(explosionAnimation, this.transform.position, this.transform.rotation);
-					//audio.Play();
+					audio.Play();
 					WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.GamePad);
 					WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.TV);
 					

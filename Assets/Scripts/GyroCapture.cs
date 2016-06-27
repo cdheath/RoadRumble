@@ -175,7 +175,9 @@ public class GyroCapture : MonoBehaviour {
 	{
 		//eventHappening = true;
 		//tickPosition = Screen.currentResolution.width;
-//		AudioSource.PlayClipAtPoint(newsSound, Camera.main.transform.position);
+		audio.Play ();
+		WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.TV);
+		WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.GamePad);
 		//Debug.Log ("Gyroevent Triggered");
 		//Debug.Log ("levelName: " + levelName);
 		switch (levelName) 
@@ -429,7 +431,7 @@ public class GyroCapture : MonoBehaviour {
 
 	IEnumerator ResetObjectBasedEvents(GameObject gameObj)
 	{
-		yield return new WaitForSeconds (2); 
+		yield return new WaitForSeconds (10); 
 		gameObj.SetActive (false);
 	}
 }

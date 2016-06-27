@@ -113,6 +113,7 @@ public class Gamepad_HUD : MonoBehaviour {
 			
 			if (GUI.Button(new Rect(page.width/3 - 100 ,page.height/4 + 100, 500, 50),"Return to Main Menu"))
 			{
+				pauseGame();
 				Application.LoadLevel("MainMenu");
 			}
 		}

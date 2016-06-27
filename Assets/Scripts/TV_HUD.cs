@@ -113,24 +113,24 @@ public class TV_HUD : MonoBehaviour {
 		{
 			if(gameTimeLeft != -1)
 			{
-				GUI.Label (new Rect (page.width/2, 30, 50, 40), ((int)gameTimeLeft).ToString(), GUI.skin.GetStyle("number"));
+				GUI.Label (new Rect (page.width/2 - 50, 30, 100, 40), ((int)gameTimeLeft).ToString(), GUI.skin.GetStyle("number_TV"));
 			}
 			
-			GUI.Label (new Rect (30, 30, 120, 40), "Player 1");
+			GUI.Label (new Rect (30, 30, 250, 40), "Player 1", GUI.skin.GetStyle("ScoreLabels_TV"));
 
 			
-			GUI.Label (new Rect (40, 60, 100, 40), player1Score.ToString(), GUI.skin.GetStyle("number"));
+			GUI.Label (new Rect (40, 100, 200, 40), player1Score.ToString(), GUI.skin.GetStyle("number_TV"));
 			if(PlayerPrefs.GetInt("Players") == 2)
 			{
-				GUI.Label (new Rect (page.width - page.width/6, 30, 120, 40), "Player 2");
-				GUI.Label (new Rect (page.width - page.width/5, 60, 100, 40), player2Score.ToString(), GUI.skin.GetStyle("number"));
+				GUI.Label (new Rect (page.width - page.width * 0.15f, 30, 250, 40), "Player 2", GUI.skin.GetStyle("ScoreLabels_TV"));
+				GUI.Label (new Rect (page.width - page.width/7, 100, 200, 40), player2Score.ToString(), GUI.skin.GetStyle("number_TV"));
 			}
 			
 			if(tickerRunning)
 			{
-				tickerPosition -= 2;
+				tickerPosition -= 4;
 				newsTicker();
-				if(tickerPosition < (0 - tickerWidth))
+				if(tickerPosition < (0 - (tickerWidth * 2.5f)))
 				{
 					tickerRunning = false;
 				}
@@ -185,7 +185,8 @@ public class TV_HUD : MonoBehaviour {
 	
 	void newsTicker()
 	{
-		GUI.Box(new Rect(tickerPosition, page.height-50, tickerWidth, page.height * 1/6), tickerMsg, skin.box);
+		//Debug.Log (tickerWidth);
+		GUI.Box(new Rect(tickerPosition, page.height - page.height/6, tickerWidth * 2.5f, 80), tickerMsg, GUI.skin.GetStyle("Ticker_TV"));
 	}
 
 	string GetTopScoreString()

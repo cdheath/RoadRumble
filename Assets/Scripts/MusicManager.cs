@@ -16,6 +16,7 @@ public class MusicManager : MonoBehaviour {
 		playMusicOnTVAndGamePad ();
 
 		audio.clip = musicFiles[GetSongIndex()];
+		Debug.Log ("Audio Clip Name " + audio.clip.name);
 		audio.Play();
 
 	}
