@@ -12,7 +12,7 @@ public class GameMechanics : MonoBehaviour {
 	float timeToTimeout = -1;
 	GameObject tvDisplay;
 	GameObject gamePadDisplay;
-
+	GameObject[] lights;
 	int scoreLimit = 1200;
 	int players;
 	int player1Score = 0;
@@ -62,27 +62,26 @@ public class GameMechanics : MonoBehaviour {
 		}
 
 
-		GameObject[] lights = GameObject.FindGameObjectsWithTag("LightSource");
+		lights = GameObject.FindGameObjectsWithTag("LightSource");
 
 		bool night = PlayerPrefs.GetString("Night") == "True";
 		int on_off;
-		foreach(GameObject light in lights)
-		{
-			//if night is true, only disable some lights
-			if(night)
-			{
-				on_off = Random.Range(0,100);
 
-				if(on_off%2 == 0)
-				{
-					light.SetActive(false);
+		if (!night) {
+						foreach (GameObject light in lights) {
+								//if night is true, only disable some lights
+//								if (night) {
+//				on_off = Random.Range(0,100);
+
+//				if(on_off%2 == 0)
+//				{
+//					light.SetActive(false);
+//				}
+//								} else {
+										light.SetActive (false);
+//								}
+						}
 				}
-			}
-			else
-			{
-				light.SetActive(false);
-			}
-		}
 		//turn the sun off
 		if(night)
 		{

@@ -39,6 +39,7 @@ public class Gamepad_HUD : MonoBehaviour {
 //		//Debug.LogWarning("touch is: " + touchPosition.ToString());
 		if(victory && touchPosition.x > -1)
 		{
+			pauseGame();
 			Application.LoadLevel("MainMenu");
 		}
 	
@@ -184,6 +185,7 @@ public class Gamepad_HUD : MonoBehaviour {
 	void triggerVictory()
 	{
 		victory = true;
+		pauseGame ();
 	}
 
 	void triggerMultiPlayerVictory()
