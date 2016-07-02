@@ -5,8 +5,6 @@ Project("{3421AF6C-5FD9-5ADE-923C-A8D19309EE50}") = "roadrumble", "Assembly-CSha
 EndProject
 Project("{3421AF6C-5FD9-5ADE-923C-A8D19309EE50}") = "roadrumble", "Assembly-CSharp.csproj", "{B7EFE40E-DBF9-8196-459F-DAF4A59BFCB2}"
 EndProject
-Project("{3421AF6C-5FD9-5ADE-923C-A8D19309EE50}") = "roadrumble", "Assembly-CSharp-Editor.csproj", "{D2102D45-A26A-8D90-1D8C-01935718EE54}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,15 +19,11 @@ Global
 		{B7EFE40E-DBF9-8196-459F-DAF4A59BFCB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7EFE40E-DBF9-8196-459F-DAF4A59BFCB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7EFE40E-DBF9-8196-459F-DAF4A59BFCB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2102D45-A26A-8D90-1D8C-01935718EE54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2102D45-A26A-8D90-1D8C-01935718EE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2102D45-A26A-8D90-1D8C-01935718EE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2102D45-A26A-8D90-1D8C-01935718EE54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																					GlobalSection(MonoDevelopProperties) = preSolution
+																						GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
