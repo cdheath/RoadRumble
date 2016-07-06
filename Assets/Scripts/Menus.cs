@@ -44,6 +44,7 @@ public class Menus : MonoBehaviour {
 		carPos = 0;
 		//Debug.Log ("GamePad Page Width: " + Screen.currentResolution.width + " Page Height: " + Screen.currentResolution.height);
 		tvMenu = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Menus_TV> ();
+
 	}
 	
 	// Update is called once per frame
@@ -188,7 +189,7 @@ public class Menus : MonoBehaviour {
 				break;
 		}
 
-		if (currentMenu != menu.levels && currentMenu != menu.instructions && currentMenu != menu.credits && currentMenu != menu.loading) 
+		if (currentMenu != menu.levels && currentMenu != menu.instructions && currentMenu != menu.credits && currentMenu != menu.loading && currentMenu != menu.none) 
 		{
 			if (carPos > page.width + 250) {
 					carPos = -250;

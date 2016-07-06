@@ -132,7 +132,7 @@ public class Menus_TV : MonoBehaviour {
 		default:
 			break;
 		}
-		if (currentMenu != menu.levels && currentMenu != menu.instructions && currentMenu != menu.loading) 
+		if (currentMenu != menu.levels && currentMenu != menu.instructions && currentMenu != menu.loading && currentMenu != menu.none) 
 		{
 			if (carPos > page.width + 250) {
 					carPos = -250;

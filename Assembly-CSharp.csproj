@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\GameMechanics.cs" />
      <Compile Include="Assets\Scripts\Gamepad_HUD.cs" />
      <Compile Include="Assets\Scripts\GyroCapture.cs" />
+     <Compile Include="Assets\Scripts\LogoScreenController.cs" />
      <Compile Include="Assets\Scripts\Menus.cs" />
      <Compile Include="Assets\Scripts\Menus_TV.cs" />
      <Compile Include="Assets\Scripts\Menus_temp.cs" />

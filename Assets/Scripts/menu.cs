@@ -14,5 +14,6 @@ public enum menu {
 	instructions,
 	loading,
 	intro,
-	limits
+	limits,
+	none
 };
