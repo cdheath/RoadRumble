@@ -24,7 +24,7 @@ public class LogoScreenController : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 
-		yield return new WaitForSeconds (1.0f);
+//		yield return new WaitForSeconds (1.0f);
 		Application.LoadLevel("MainMenu");
 	}
 }

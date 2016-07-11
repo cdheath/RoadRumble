@@ -39,7 +39,7 @@ public class Gamepad_HUD : MonoBehaviour {
 //		//Debug.LogWarning("touch is: " + touchPosition.ToString());
 		if(victory && touchPosition.x > -1)
 		{
-			pauseGame();
+			unpauseGame();
 			Application.LoadLevel("MainMenu");
 		}
 	
@@ -57,6 +57,7 @@ public class Gamepad_HUD : MonoBehaviour {
 			string winnerMsg;
 			string rightSideMsg;
 			string rightSideScore;
+			pauseGame();
 			if(singlePlayer)
 			{
 				winnerMsg = "Level High Scores";
@@ -98,7 +99,8 @@ public class Gamepad_HUD : MonoBehaviour {
 
 			if (GUI.Button(new Rect(10,50,page.width-20,page.height-100), ""))
 			{
-				Application.LoadLevel("MainMenu");
+//				unpauseGame();
+//				Application.LoadLevel("MainMenu");
 			}
 		}
 		else if(paused)
@@ -108,13 +110,12 @@ public class Gamepad_HUD : MonoBehaviour {
 			
 			if(GUI.Button(new Rect(page.width/3 - 100, page.height/4, 500, 50),"Resume"))
 			{
-				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().pauseGame();
-				pauseGame();
+				unpauseGame();
 			}
 			
 			if (GUI.Button(new Rect(page.width/3 - 100 ,page.height/4 + 100, 500, 50),"Return to Main Menu"))
 			{
-				pauseGame();
+				unpauseGame();
 				Application.LoadLevel("MainMenu");
 			}
 		}
@@ -240,59 +241,59 @@ public class Gamepad_HUD : MonoBehaviour {
 
 	public void pauseGame()
 	{
-		if(paused)
+		if(player1 == null)
 		{
-			if(player1 != null)
-			{
-				player1.GetComponent<Player1>().UnlockControls();
-			}
-			
-			if(player2 != null)
-			{
-				player2.GetComponent<Player2>().UnlockControls();
-			}
-			
-			foreach(GameObject car in aiCars)
-			{
-				car.GetComponent<AI>().StartAIVehicle();
-			}
-			Time.timeScale = 1;
-			paused = false;
+			player1 = GameObject.Find("Player 1");
 		}
-		else
+		
+		if(player2 == null && !singlePlayer)
 		{
-			if(player1 == null)
-			{
-				player1 = GameObject.Find("Player 1");
-			}
-			
-			if(player2 == null && !singlePlayer)
-			{
-				player2 = GameObject.Find("Player 2");
-			}
-			
-			if(player1 != null)
-			{
-				player1.GetComponent<Player1>().LockControls();
-			}
-			
-			if(player2 != null)
-			{
-				player2.GetComponent<Player2>().LockControls();
-			}
-			
-			if(aiCars == null)
-			{
-				aiCars = GameObject.FindGameObjectsWithTag("aiCar");
-			}
-			
-			foreach(GameObject car in aiCars)
-			{
-				car.GetComponent<AI>().StopAIVehicle();
-			}
-			Time.timeScale = 0;
-			paused = true;
+			player2 = GameObject.Find("Player 2");
 		}
+		
+		if(player1 != null)
+		{
+			player1.GetComponent<Player1>().LockControls();
+		}
+		
+		if(player2 != null)
+		{
+			player2.GetComponent<Player2>().LockControls();
+		}
+		
+		if(aiCars == null)
+		{
+			aiCars = GameObject.FindGameObjectsWithTag("aiCar");
+		}
+		
+		foreach(GameObject car in aiCars)
+		{
+			car.GetComponent<AI>().StopAIVehicle();
+		}
+		Time.timeScale = 0;
+		paused = true;
+		GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().pauseGame();
+	}
+
+	public void unpauseGame()
+	{
+		if(player1 != null)
+		{
+			player1.GetComponent<Player1>().UnlockControls();
+		}
+		
+		if(player2 != null)
+		{
+			player2.GetComponent<Player2>().UnlockControls();
+		}
+		
+		foreach(GameObject car in aiCars)
+		{
+			car.GetComponent<AI>().StartAIVehicle();
+		}
+		Time.timeScale = 1;
+		paused = false;
+		GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().unpauseGame();
 	}
 
 	string GetTopScoreString()

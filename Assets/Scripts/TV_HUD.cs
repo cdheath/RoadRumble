@@ -201,15 +201,13 @@ public class TV_HUD : MonoBehaviour {
 
 	public void pauseGame()
 	{
-		if(paused)
-		{
-			Time.timeScale = 1;
-			paused = false;
-		}
-		else
-		{
-			Time.timeScale = 0;
-			paused = true;
-		}
+		Time.timeScale = 0;
+		paused = true;
+	}
+
+	public void unpauseGame()
+	{
+		Time.timeScale = 1;
+		paused = false;
 	}
 }
