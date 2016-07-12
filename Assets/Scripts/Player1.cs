@@ -58,16 +58,14 @@ public class Player1 : Player {
 			}
 			if(Input.GetKey(KeyCode.Semicolon))
 			{
-				GameObject.FindGameObjectWithTag("GamePadCamera").GetComponent<Gamepad_HUD>().pauseGame();
-				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().pauseGame();
+				GameObject.FindGameObjectWithTag("GamePadCamera").GetComponent<Gamepad_HUD>().pauseGame(true);
 			}
 		}
 		else
 		{
 			if(pressedButtonPlus)
 			{
-				GameObject.FindGameObjectWithTag("GamePadCamera").GetComponent<Gamepad_HUD>().pauseGame();
-				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().pauseGame();
+				GameObject.FindGameObjectWithTag("GamePadCamera").GetComponent<Gamepad_HUD>().pauseGame(true);
 			}
 
 			absUpDown = Mathf.Abs(upDown);

@@ -37,12 +37,12 @@ public class Gamepad_HUD : MonoBehaviour {
 		touchPosition = (Input.touchCount > 0) ? Input.touches[0].position : new Vector2(-1f,-1f);
 
 //		//Debug.LogWarning("touch is: " + touchPosition.ToString());
-		if(victory && touchPosition.x > -1)
+/*		if(victory && touchPosition.x > -1)
 		{
 			unpauseGame();
 			Application.LoadLevel("MainMenu");
 		}
-	
+	*/
 	}
 	[GuiTarget(GuiTarget.Target.GamePad)]
 	void OnGUI()
@@ -57,7 +57,7 @@ public class Gamepad_HUD : MonoBehaviour {
 			string winnerMsg;
 			string rightSideMsg;
 			string rightSideScore;
-			pauseGame();
+			pauseGame(false);
 			if(singlePlayer)
 			{
 				winnerMsg = "Level High Scores";
@@ -99,8 +99,8 @@ public class Gamepad_HUD : MonoBehaviour {
 
 			if (GUI.Button(new Rect(10,50,page.width-20,page.height-100), ""))
 			{
-//				unpauseGame();
-//				Application.LoadLevel("MainMenu");
+				unpauseGame(false);
+				Application.LoadLevel("MainMenu");
 			}
 		}
 		else if(paused)
@@ -110,12 +110,12 @@ public class Gamepad_HUD : MonoBehaviour {
 			
 			if(GUI.Button(new Rect(page.width/3 - 100, page.height/4, 500, 50),"Resume"))
 			{
-				unpauseGame();
+				unpauseGame(true);
 			}
 			
 			if (GUI.Button(new Rect(page.width/3 - 100 ,page.height/4 + 100, 500, 50),"Return to Main Menu"))
 			{
-				unpauseGame();
+				unpauseGame(true);
 				Application.LoadLevel("MainMenu");
 			}
 		}
@@ -186,7 +186,6 @@ public class Gamepad_HUD : MonoBehaviour {
 	void triggerVictory()
 	{
 		victory = true;
-		pauseGame ();
 	}
 
 	void triggerMultiPlayerVictory()
@@ -239,7 +238,7 @@ public class Gamepad_HUD : MonoBehaviour {
 		}
 	}
 
-	public void pauseGame()
+	public void pauseGame(bool stopTime)
 	{
 		if(player1 == null)
 		{
@@ -270,12 +269,17 @@ public class Gamepad_HUD : MonoBehaviour {
 		{
 			car.GetComponent<AI>().StopAIVehicle();
 		}
-		Time.timeScale = 0;
+		if (stopTime) 
+		{
+			Time.timeScale = 0;
+			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().pauseGame();
+		}
+
 		paused = true;
-		GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().pauseGame();
+
 	}
 
-	public void unpauseGame()
+	public void unpauseGame(bool startTime)
 	{
 		if(player1 != null)
 		{
@@ -291,9 +295,14 @@ public class Gamepad_HUD : MonoBehaviour {
 		{
 			car.GetComponent<AI>().StartAIVehicle();
 		}
-		Time.timeScale = 1;
+
 		paused = false;
-		GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TV_HUD>().unpauseGame();
+
+		if (startTime) 
+		{
+			Time.timeScale = 1;
+			GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<TV_HUD> ().unpauseGame ();
+		}
 	}
 
 	string GetTopScoreString()
