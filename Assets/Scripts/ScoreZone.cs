@@ -9,7 +9,6 @@ public class ScoreZone : MonoBehaviour {
 	void Start () 
 	{
 		gameMechanics = GameObject.Find ("GameMechanics");
-		
 	}
 
 	void Update ()
@@ -30,7 +29,7 @@ public class ScoreZone : MonoBehaviour {
 				audio.Play ();
 				WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.TV);
 				WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.GamePad);
-				yield return new WaitForSeconds(1);
+				yield return new WaitForSeconds(0.5f);
 				//add to score
 				//trigger reset
 				if(SetNegativeZones)

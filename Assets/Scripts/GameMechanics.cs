@@ -39,7 +39,6 @@ public class GameMechanics : MonoBehaviour {
 
 		goalZones [activeZoneIndex].SetActive (true);
 		goalZones [activeZoneIndex].particleSystem.Play ();
-
 		timeToTimeout = autoTimeout;
 		gameTimeLeft = gameTimeLimit;
 		string gameMode = PlayerPrefs.GetString ("Mode");

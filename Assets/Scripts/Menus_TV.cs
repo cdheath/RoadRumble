@@ -138,9 +138,9 @@ public class Menus_TV : MonoBehaviour {
 					carPos = -250;
 			}
 			if (carPos % 10 == 0) {
-					GUI.DrawTexture (new Rect (carPos, page.height * 7/8, 100, 50), carImg);
+					GUI.DrawTexture (new Rect (carPos, page.height * 7/8, 300, 150), carImg);
 			} else {
-					GUI.DrawTexture (new Rect (carPos, page.height * 7/8, 100, 50), carImg);
+					GUI.DrawTexture (new Rect (carPos, page.height * 7/8, 300, 150), carImg);
 			}
 			carPos += 2;
 		}
