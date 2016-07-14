@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ScoreZone : MonoBehaviour {
 	public Material negativeZoneMat;
+	public Material negativeZoneParticleMat;
 	GameObject gameMechanics;
 	bool SetNegativeZones = false;
 	// Use this for initialization
@@ -16,7 +17,7 @@ public class ScoreZone : MonoBehaviour {
 		if (SetNegativeZones) 
 		{
 			gameObject.renderer.material = negativeZoneMat;
-			gameObject.GetComponent<ParticleSystemRenderer>().material = negativeZoneMat;
+			gameObject.GetComponent<ParticleSystemRenderer>().material = negativeZoneParticleMat;
 		}
 	}
 
