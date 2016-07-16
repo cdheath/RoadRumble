@@ -24,6 +24,7 @@ public class GameMechanics : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+
 		playMusicOnTVAndGamePad ();
 
 		tvDisplay = GameObject.Find ("TV Camera");
@@ -67,6 +68,7 @@ public class GameMechanics : MonoBehaviour {
 		int on_off;
 
 		if (!night) {
+			disableLightMap ();
 						foreach (GameObject light in lights) {
 								//if night is true, only disable some lights
 //								if (night) {
@@ -215,5 +217,10 @@ public class GameMechanics : MonoBehaviour {
 			PlayerPrefs.Save ();
 		}
 		return highScores;
+	}
+
+	void disableLightMap()
+	{
+		LightmapSettings.lightmaps = new LightmapData[]{};
 	}
 }
