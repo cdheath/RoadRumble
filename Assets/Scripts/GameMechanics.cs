@@ -221,6 +221,9 @@ public class GameMechanics : MonoBehaviour {
 
 	void disableLightMap()
 	{
-		LightmapSettings.lightmaps = new LightmapData[]{};
+		if (levelName != "LOSPRADOS") 
+		{
+			LightmapSettings.lightmaps = new LightmapData[]{};
+		}
 	}
 }

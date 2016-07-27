@@ -1,14 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameMechanics.cs">
     <Files>
+      <File FileName="Temp\Compiled-Normal-Diffuse.shader" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GyroCapture.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameMechanics.cs" Line="71" Column="23" />
       <File FileName="Assets\Scripts\Menus.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\menu.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TV_HUD.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Gamepad_HUD.cs" Line="18" Column="28" />
+      <File FileName="Assets\Scripts\Gamepad_HUD.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Menus_TV.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MusicManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ScoreZone.cs" Line="1" Column="1" />

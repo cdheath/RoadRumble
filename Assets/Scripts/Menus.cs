@@ -189,7 +189,7 @@ public class Menus : MonoBehaviour {
 				break;
 		}
 
-		if (currentMenu != menu.levels && currentMenu != menu.instructions && currentMenu != menu.credits && currentMenu != menu.loading && currentMenu != menu.none) 
+		if (currentMenu != menu.levels && currentMenu != menu.instructions && currentMenu != menu.credits && currentMenu != menu.none) 
 		{
 			if (carPos > page.width + 250) {
 					carPos = -250;
@@ -364,7 +364,8 @@ public class Menus : MonoBehaviour {
 		PlayerPrefs.SetInt ("TimeLimit", maxTime);
 		PlayerPrefs.SetInt ("ScoreLimit", maxScore);
 		PlayerPrefs.SetString("Night", nightOn.ToString());
-		Application.LoadLevel(levelChoice);
+		//Application.LoadLevel(levelChoice);
+		Application.LoadLevelAsync (levelChoice);
 	}
 
 }

@@ -5,6 +5,7 @@ public class LogoScreenController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Application.LoadLevelAsync ("MainMenu");
 		StartCoroutine(Fade (1.0f, 0.0f, 5.0f));
 	}
 	
@@ -25,6 +26,6 @@ public class LogoScreenController : MonoBehaviour {
 		}
 
 //		yield return new WaitForSeconds (1.0f);
-		Application.LoadLevel("MainMenu");
+//		Application.LoadLevel("MainMenu");
 	}
 }
