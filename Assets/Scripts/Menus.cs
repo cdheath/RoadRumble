@@ -189,7 +189,7 @@ public class Menus : MonoBehaviour {
 				break;
 		}
 
-		if (currentMenu != menu.levels && currentMenu != menu.instructions && currentMenu != menu.credits && currentMenu != menu.none) 
+		if (currentMenu != menu.levels && currentMenu != menu.instructions && currentMenu != menu.credits && currentMenu != menu.none && currentMenu != menu.loading) 
 		{
 			if (carPos > page.width + 250) {
 					carPos = -250;

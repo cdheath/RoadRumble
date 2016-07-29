@@ -1,27 +1,26 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameMechanics.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GyroCapture.cs">
     <Files>
-      <File FileName="Temp\Compiled-Normal-Diffuse.shader" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GyroCapture.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GyroCapture.cs" Line="52" Column="2" />
       <File FileName="Assets\Scripts\Player.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GameMechanics.cs" Line="71" Column="23" />
-      <File FileName="Assets\Scripts\Menus.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Menus.cs" Line="192" Column="159" />
       <File FileName="Assets\Scripts\menu.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\TV_HUD.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Gamepad_HUD.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Menus_TV.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Menus_TV.cs" Line="143" Column="58" />
       <File FileName="Assets\Scripts\MusicManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ScoreZone.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player1.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player2.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AI.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LogoScreenController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AI.cs" Line="33" Column="17" />
+      <File FileName="Assets\Scripts\LogoScreenController.cs" Line="14" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Users\COREY\Documents\RoadRumble_latest\Assets\Scripts\GyroCapture.cs" line="67" />
+      <Breakpoint file="C:\Users\COREY\Documents\RoadRumble_latest\Assets\Scripts\GyroCapture.cs" line="69" />
       <Breakpoint file="C:\Users\COREY\Documents\RoadRumble_latest\Assets\Scripts\GameMechanics.cs" line="143" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

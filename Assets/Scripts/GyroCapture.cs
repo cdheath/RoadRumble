@@ -14,7 +14,7 @@ public class GyroCapture : MonoBehaviour {
 	private float speed = 0.5f;
 	private bool allowEvent = true;
 	private float delayInterval = 10.0f;
-
+	public GameObject haboob;
 	public GUISkin skin;
 	private string tickerMessage = "";
 	private int tickerWidth;
@@ -49,6 +49,8 @@ public class GyroCapture : MonoBehaviour {
 	private GameObject lake;
 	private bool lakeFrozen = false;
 	#endregion
+
+	private bool disableHaboob = false;
 
 	// Use this for initialization
 	void Start () {
@@ -186,7 +188,7 @@ public class GyroCapture : MonoBehaviour {
 			tickerMessage = "Robots begin world take over by stopping Regularsville's self driving cars. Still worlds most boring town.";
 			break;
 		case "TEMPE": CreateHaboob();
-			tickerMessage = "Massive haboob strikes Hayden's Ferry!";
+			tickerMessage = "We've awakened the mummy's curse! No wait, it's just a dust storm.";
 			break;
 		case "HORRORLAKE": 
 			tickerMessage = LakeEvent();
@@ -206,7 +208,7 @@ public class GyroCapture : MonoBehaviour {
 			StartCoroutine(ResetObjectBasedEvents(crazyAI));
 			break;
 		case "MARIUSMESA": SwitchScoreZones();
-			tickerMessage = "After ignoring mortals for serveral millennia, the Roman patheon reemerges to interfere in driving contest.  Avoid the red zones!";
+			tickerMessage = "After ignoring mortals for millennia, the pantheon reemerges to interfere in driving contest.  Avoid the red zones!";
 			break;
 		}
 		//Each character is ~11 pixels, so multiply length by 11 to get necessary ticker size
@@ -234,24 +236,25 @@ public class GyroCapture : MonoBehaviour {
 	void CreateHaboob()
 	{
 		GameObject gamepadCamera = GameObject.FindGameObjectWithTag ("GamePadCamera");;
-		if (!RenderSettings.fog) 
+		if (!disableHaboob) 
 		{						
 			gamepadCamera.particleSystem.Play ();
-			RenderSettings.fog = true;
+			disableHaboob = true;
 			StartCoroutine ("RollInFog");
 		}		
 	}
 
 	IEnumerator RollInFog()
 	{
-		float targetDensity = 0.02f;
-		float currentDensity = 0.0f;
-
-		while (currentDensity < targetDensity) 
+		float startLevel = 0.0f;
+		float endLevel = 0.8f;
+		float speed = 1.0f / 3.0f;
+		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime*speed) 
 		{
-			currentDensity = currentDensity + 0.005f;
-			RenderSettings.fogDensity = currentDensity;
-			yield return new WaitForSeconds (speed);
+			Color color = haboob.renderer.material.color;
+			color.a =  Mathf.Lerp(startLevel, endLevel, t);
+			haboob.renderer.material.color = color;
+			yield return new WaitForEndOfFrame();
 		}
 
 		yield return new WaitForSeconds(timeForEventReset);
@@ -261,19 +264,21 @@ public class GyroCapture : MonoBehaviour {
 
 	IEnumerator RollOutFog()
 	{
-		float zeroDensity = 0.00f;
-		float current = RenderSettings.fogDensity;
-		
-		while (current > zeroDensity) 
+
+		float startLevel = 0.8f;
+		float endLevel = 0.0f;
+		float speed = 1.0f / 3.0f;
+		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime*speed) 
 		{
-			current = current - 0.005f;
-			RenderSettings.fogDensity = current;
-			yield return new WaitForSeconds (speed);
+			Color color = haboob.renderer.material.color;
+			color.a =  Mathf.Lerp(startLevel, endLevel, t);
+			haboob.renderer.material.color = color;
+			yield return new WaitForEndOfFrame();
 		}
 
 		GameObject gamepadCamera = GameObject.FindGameObjectWithTag ("GamePadCamera");;
 		gamepadCamera.particleSystem.Stop ();
-		RenderSettings.fog = false;
+		disableHaboob = false;
 	}
 
 	string LakeEvent()
