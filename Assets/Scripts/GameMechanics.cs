@@ -18,7 +18,7 @@ public class GameMechanics : MonoBehaviour {
 	int player1Score = 0;
 	int player2Score = 0;
 	bool victory;
-	int[] highScores = null;
+	int currentHighScore = -1;
 	public GameObject pickupSound;
 
 	// Use this for initialization
@@ -163,17 +163,17 @@ public class GameMechanics : MonoBehaviour {
 
 	void victoryScreen()
 	{
+		int highScore = UpdateHighScores (player1Score, levelName, PlayerPrefs.GetInt ("TimeLimit").ToString());
 		victory = true;
 		if (players == 1) 
 		{
-			tvDisplay.SendMessage ("triggerSinglePlayerVictory", UpdateHighScores(player1Score, levelName, PlayerPrefs.GetInt("TimeLimit").ToString()));
-			gamePadDisplay.SendMessage ("triggerSinglePlayerVictory", UpdateHighScores(player1Score, levelName, PlayerPrefs.GetInt("TimeLimit").ToString()));
+			tvDisplay.SendMessage ("triggerSinglePlayerVictory", highScore);
+			gamePadDisplay.SendMessage ("triggerSinglePlayerVictory", highScore);
 		} 
 		else 
 		{
 			tvDisplay.SendMessage ("triggerMultiPlayerVictory");
 			gamePadDisplay.SendMessage ("triggerMultiPlayerVictory");
-
 		}
 	}
 
@@ -183,42 +183,25 @@ public class GameMechanics : MonoBehaviour {
 		WiiUAudio.EnableOutputForAudioSource(this.audio, WiiUAudioOutputDevice.TV);
 	}
 
-	int[] GetHighScores(string levelName)
+	int UpdateHighScores(int newScore, string levelName, string timeLimit)
 	{
-		int[] highScores = new int[10];
-		for (int index = 0; index < 10; index++) 
+		if (currentHighScore == -1) 
 		{
-			int tempScore = PlayerPrefs.GetInt(string.Format("{0}{1}", levelName, index + 1));
-//			if(tempScore == null)
-//			{
-//				tempScore = 0;
-//			}
-			highScores[index] = tempScore;
+			currentHighScore = PlayerPrefs.GetInt (string.Format ("TopScore_{0}", levelName + timeLimit));
 		}
-		return highScores;
-	}
-
-	int[] UpdateHighScores(int newScore, string levelName, string timeLimit)
-	{
-		if (highScores == null) 
+		try 
 		{
-			highScores = GetHighScores (levelName);
-			int scoreToCheck = newScore;
-			for (int index = 0; index < highScores.Length - 1; index++) 
+			if (currentHighScore != null && currentHighScore >= newScore) 
 			{
-				if (highScores [index] < scoreToCheck) 
-				{
-						int temp = highScores [index];
-						highScores [index] = scoreToCheck;
-						PlayerPrefs.SetInt (string.Format ("{0}{1}", levelName + timeLimit, index), scoreToCheck);
-						scoreToCheck = temp;
-				}
+				return currentHighScore;
 			}
-			PlayerPrefs.Save ();
-		}
-		return highScores;
-	}
+		} 
+		catch (System.Exception e) {}	
 
+		PlayerPrefs.SetInt(string.Format("TopScore_{0}", levelName + timeLimit), newScore);
+		return newScore;
+	}
+	
 	void disableLightMap()
 	{
 		if (levelName != "LOSPRADOS") 

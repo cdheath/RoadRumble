@@ -14,7 +14,7 @@ public class Gamepad_HUD : MonoBehaviour {
 	bool victory = false;
 	bool tickerRunning = false;
 	bool paused = false;
-	int[] highScores;
+	int highScore;
 	bool singlePlayer = false;
 	protected Vector2 touchPosition = new Vector2(-1f,-1f);	// x,y coords on gamePad for touch
 	GameObject[] aiCars = null;
@@ -65,7 +65,7 @@ public class Gamepad_HUD : MonoBehaviour {
 				GUI.Label(new Rect(0,100, page.width, 50),winnerMsg);
 
 				rightSideMsg = "Top Score";
-				rightSideScore = GetTopScoreString();
+				rightSideScore = highScore.ToString();
 			}
 			else 
 			{
@@ -193,9 +193,9 @@ public class Gamepad_HUD : MonoBehaviour {
 		victory = true;
 	}
 	
-	void triggerSinglePlayerVictory(int[] highScores)
+	void triggerSinglePlayerVictory(int highScore)
 	{
-		this.highScores = highScores;
+		this.highScore = highScore;
 		victory = true;
 		singlePlayer = true;
 	}
@@ -304,15 +304,4 @@ public class Gamepad_HUD : MonoBehaviour {
 			GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<TV_HUD> ().unpauseGame ();
 		}
 	}
-
-	string GetTopScoreString()
-	{
-		string highScoreString = "";
-		if (this.highScores[0] > 0) 
-		{
-			highScoreString = highScores[0].ToString();
-		}
-		return highScoreString;
-	}
-
 }

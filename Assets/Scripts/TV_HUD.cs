@@ -15,7 +15,7 @@ public class TV_HUD : MonoBehaviour {
 	bool victory = false;
 	bool tickerRunning = false;
 
-	int[] highScores;
+	int highScore;
 	bool singlePlayer = false;
 	bool paused = false;
 
@@ -58,7 +58,7 @@ public class TV_HUD : MonoBehaviour {
 			//	GUI.Label(new Rect(0,100, page.width, 50),winnerMsg);
 
 				rightSideMsg = "Top Score";
-				rightSideScore = GetTopScoreString();
+				rightSideScore = highScore.ToString();
 			}
 			else
 			{
@@ -162,9 +162,9 @@ public class TV_HUD : MonoBehaviour {
 		victory = true;
 	}
 
-	void triggerSinglePlayerVictory(int[] highScores)
+	void triggerSinglePlayerVictory(int highScore)
 	{
-		this.highScores = highScores;
+		this.highScore = highScore;
 		victory = true;
 		singlePlayer = true;
 	}
@@ -187,16 +187,6 @@ public class TV_HUD : MonoBehaviour {
 	{
 		//Debug.Log (tickerWidth);
 		GUI.Box(new Rect(tickerPosition, page.height - page.height/6, tickerWidth * 2.5f, 80), tickerMsg, GUI.skin.GetStyle("Ticker_TV"));
-	}
-
-	string GetTopScoreString()
-	{
-		string highScoreString = "";
-		if (this.highScores[0] > 0) 
-		{
-			highScoreString = highScores[0].ToString();
-		}
-		return highScoreString;
 	}
 
 	public void pauseGame()
