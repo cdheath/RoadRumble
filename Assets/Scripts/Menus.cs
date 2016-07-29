@@ -195,9 +195,9 @@ public class Menus : MonoBehaviour {
 					carPos = -250;
 			}
 			if (carPos % 10 == 0) {
-					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 177, 100, 50), carImg);
+					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 227, 100, 50), carImg);
 			} else {
-					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 175, 100, 50), carImg);
+					GUI.DrawTexture (new Rect (carPos, page.height * 1 / 3 + 225, 100, 50), carImg);
 			}
 			carPos += 2;
 		}
