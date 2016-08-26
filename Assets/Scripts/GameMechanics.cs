@@ -191,7 +191,7 @@ public class GameMechanics : MonoBehaviour {
 		}
 		try 
 		{
-			if (currentHighScore != null && currentHighScore >= newScore) 
+			if (currentHighScore != -1 && currentHighScore >= newScore) 
 			{
 				return currentHighScore;
 			}

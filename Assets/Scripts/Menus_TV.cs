@@ -197,8 +197,18 @@ public class Menus_TV : MonoBehaviour {
 
 		foreach(int opt in limits)
 		{
+			if(units.Equals("Minute"))
+			{
+				units = "Minutes";
+			}
+			
+			if(opt == 1 && units.Equals("Minutes"))
+			{
+				units = "Minute";
+			}
+
 			string styleType = leftSide ? "LimitButtons_TV_Left" : "LimitButtons_TV_Right";
-			if (GUI.Button(new Rect(x,y, page.width * 0.42f, page.width * 1/6), opt.ToString() + " " + units, skin.GetStyle(styleType))) 
+			if (GUI.Button(new Rect(x,y, page.width * 0.42f, page.width * 1/6), opt.ToString() + " " + units.PadRight(6), skin.GetStyle(styleType))) 
 			{
 			}
 			if(x == 0)

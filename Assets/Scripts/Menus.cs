@@ -242,9 +242,18 @@ public class Menus : MonoBehaviour {
 		bool leftSide = true;
 		foreach(int opt in limits)
 		{
+			if(units.Equals("Minute"))
+			{
+				units = "Minutes";
+			}
+
+			if(opt == 1 && units.Equals("Minutes"))
+			{
+				units = "Minute";
+			}
 
 			string styleType = leftSide ? "LimitButtons_GamePad" : "LimitButtons_GamePad_Right";
-			if (GUI.Button(new Rect(x,y, (page.width * 0.4f), page.height * 1/6), opt.ToString() + " " + units, skin.GetStyle(styleType))) 
+			if (GUI.Button(new Rect(x,y, (page.width * 0.4f), page.height * 1/6), opt.ToString() + " " + units.PadRight(6), skin.GetStyle(styleType))) 
 			{
 				//skin.button.fontSize = 30;
 				if(gameMode == "Timed")
