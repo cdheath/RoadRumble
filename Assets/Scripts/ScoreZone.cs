@@ -49,10 +49,20 @@ public class ScoreZone : MonoBehaviour {
 	public void SetNegativeZonesTrue()
 	{
 		SetNegativeZones = true;
+		StartCoroutine (NegativeScoreZoneTimer());
 	}
 
 	public void SetNegativeZonesFalse()
 	{
 		SetNegativeZones = false;
+	}
+
+	IEnumerator NegativeScoreZoneTimer()
+	{
+		yield return new WaitForSeconds (10); 
+		if (SetNegativeZones) 
+		{
+			gameMechanics.SendMessage("setNewGoal");
+		}
 	}
 }

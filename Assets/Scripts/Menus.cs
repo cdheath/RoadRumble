@@ -358,9 +358,9 @@ public class Menus : MonoBehaviour {
 		GUI.Label(new Rect(25,175, page.width-25, 100),"Now here's a real humdinger." + 
 		          "Get a wiggle on that gamepad to really razz those rubes, but mind it doesn't grift you outta the running too.");
 		GUI.Label(new Rect(25,250, page.width-25, 50),"Now you're on the trolley!");*/
-
 		//GUI.DrawTexture(new Rect(page.width/2 - 275, 200, 550,275),Instructional_Diagram);
-		GUI.DrawTexture(new Rect(40, 65, page.width - 80, page.height - 75),Instructional_Diagram);
+		GUI.DrawTexture(new Rect(page.width * 1/8, page.height * 1/3, page.width - page.width * 2/8, page.height * 1/2),Instructional_Diagram);
+	//	GUI.DrawTexture(new Rect(40, 65, page.width - 80, page.height - 75),Instructional_Diagram);
 		GUI.Label(new Rect(0,25, page.width, 50),"Drive your car to the green marker to score points.");
 	}
 
