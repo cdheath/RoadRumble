@@ -191,7 +191,7 @@ public class GameMechanics : MonoBehaviour {
 		}
 		try 
 		{
-			if (currentHighScore != -1 && currentHighScore >= newScore) 
+			if (currentHighScore >= newScore) 
 			{
 				return currentHighScore;
 			}
@@ -199,6 +199,7 @@ public class GameMechanics : MonoBehaviour {
 		catch (System.Exception e) {}	
 
 		PlayerPrefs.SetInt(string.Format("TopScore_{0}", levelName + timeLimit), newScore);
+		PlayerPrefs.Save ();
 		return newScore;
 	}
 	

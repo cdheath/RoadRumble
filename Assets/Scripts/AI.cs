@@ -30,7 +30,7 @@ public class AI : MonoBehaviour {
 	void Start () {
 		startPos = this.transform.position;
 		startRot = this.transform.rotation;
-		moveSpeed = .2f;//Random.Range(.1f, maxSpeedRange);
+		moveSpeed = Random.Range(.2f, maxSpeedRange);
 		Vector3 down = new Vector3(0,-90,0);
 		RaycastHit leftHit;
 		Vector3 leftWheelRaySource = driverRay.transform.position;
