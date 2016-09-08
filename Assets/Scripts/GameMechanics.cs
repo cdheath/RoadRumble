@@ -198,9 +198,26 @@ public class GameMechanics : MonoBehaviour {
 		} 
 		catch (System.Exception e) {}	
 
+		currentHighScore = newScore;
 		PlayerPrefs.SetInt(string.Format("TopScore_{0}", levelName + timeLimit), newScore);
-		PlayerPrefs.Save ();
-		return newScore;
+
+		using (WiiUSAVECommand cmd = WiiUSave.SaveCommand(WiiUSave.accountNo)) 
+		{
+			long freespace = 0;
+			WiiUSave.FSStatus savestatus = cmd.GetFreeSpaceSize(out freespace, WiiUSave.FSRetFlag.All);
+			var needspace = Mathf.Max(1024 * 1024, WiiUPlayerPrefsHelper.rawData.Length);
+
+			if(savestatus == WiiUSave.FSStatus.OK)
+			{
+				PlayerPrefs.Save ();
+				savestatus = cmd.FlushQuota(WiiUSave.FSRetFlag.None);
+			}
+			else
+			{
+				Debug.Log("Save failed");
+			}
+		}
+			return newScore;
 	}
 	
 	void disableLightMap()
